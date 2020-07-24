@@ -19,7 +19,7 @@ public class TravelingSalesman {
       System.out.println("Please provide a more interesting graph");
     }
     else if (adjMatrix.length != adjMatrix[0].length) {
-      System.out.println(("Adjacency matrix is invalid"));
+      System.out.println("Adjacency matrix is invalid");
     }
     else {
       graph = adjMatrix;

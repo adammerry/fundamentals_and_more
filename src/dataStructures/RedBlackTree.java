@@ -256,7 +256,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (deleteNode != null) {
       // If node to delete has two data-storing children, replace it with it's inorder successor.
       if (deleteNode.getLeftChild().isDataNode() && deleteNode.getRightChild().isDataNode()) {
-        DataNode<E> successor = findInorderSuccessor((DataNode<E>) deleteNode.getRightChild());
+        DataNode<E> successor = findLeftMostNode((DataNode<E>) deleteNode.getRightChild());
         deleteNode.setData(successor.getData());
         deleteNode = successor;
       }
@@ -400,7 +400,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     return ((isLeftChild && rightSibChildBlack) || ((!isLeftChild) && leftSibChildBlack)) ? 5 : 6;
   }
 
-  private DataNode<E> findInorderSuccessor(DataNode<E> n) {
+  private DataNode<E> findLeftMostNode(DataNode<E> n) {
     DataNode<E> successor = n;
     while (n.getLeftChild().isDataNode()) {
       successor = (DataNode<E>) n.getLeftChild();
