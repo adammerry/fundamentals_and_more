@@ -1,11 +1,16 @@
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import dataStructures.BinarySearchTree;
 import dataStructures.BinaryTree;
+import dataStructures.GraphAdjacencyListBad;
+import dataStructures.GraphAdjacencyListBetter;
+import dataStructures.GraphAdjacencyMatrix;
 import dataStructures.MaxHeapCharacterRecursive;
 import dataStructures.MinHeapIntegerIterative;
 import dataStructures.RedBlackTree;
@@ -347,5 +352,66 @@ public class DataStructuresTests {
     assertArrayEquals(new Integer[] {40, 25, 70, 20, 30}, rbt.levelOrderTraversal());
     assertEquals(new Integer(70), rbt.getMax());
     assertEquals(new Integer(20), rbt.getMin());
+  }
+
+  @Test
+  public void testGraphAdjacencyListBad() {
+    GraphAdjacencyListBad g = new GraphAdjacencyListBad(5);
+    g.addEdge(0, 1);
+    g.addEdge(2, 7);
+    g.addEdge(-3, 4);
+    assertTrue(g.checkEdge(0, 1));
+    assertFalse(g.checkEdge(2, 3));
+    g.addNode();
+    assertTrue(g.checkEdge(0, 1));
+    g.removeEdge(0, 1);
+    assertFalse(g.checkEdge(0, 1));
+    g.addEdge(2, 4);
+    assertTrue(g.checkEdge(2, 4));
+    g.removeNode(2);
+    assertFalse(g.checkEdge(2, 4));
+  }
+
+  @Test
+  public void testGraphAdjacencyListBetter() {
+    GraphAdjacencyListBetter<String> g = new GraphAdjacencyListBetter<>();
+    GraphAdjacencyListBetter.Node<String> node1 = new GraphAdjacencyListBetter.Node<>("hello");
+    GraphAdjacencyListBetter.Node<String> node2 = new GraphAdjacencyListBetter.Node<>("hi");
+    GraphAdjacencyListBetter.Node<String> node3 = new GraphAdjacencyListBetter.Node<>("ok");
+    GraphAdjacencyListBetter.Node<String> node4 = new GraphAdjacencyListBetter.Node<>("bye");
+    g.addNode(node1);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addEdge(node1, node3);
+    assertTrue(g.checkEdge(node1, node3));
+    g.removeEdge(node1, node3);
+    assertFalse(g.checkEdge(node1, node3));
+    assertFalse(g.checkEdge(node2, node4));
+    g.addEdge(node2, node4);
+    assertTrue(g.checkEdge(node2, node4));
+    g.removeNode(node4);
+    assertFalse(g.checkEdge(node2, node4));
+  }
+
+  @Test
+  public void testGraphAdjacencyMatrix() {
+    GraphAdjacencyMatrix g = new GraphAdjacencyMatrix(5);
+    g.addEdge(0, 1);
+    g.addEdge(2, 7);
+    g.addEdge(-3, 4);
+    assertTrue(g.checkEdge(0, 1));
+    assertFalse(g.checkEdge(2, 3));
+    g.addNode();
+    assertTrue(g.checkEdge(0, 1));
+    g.removeEdge(0, 1);
+    assertFalse(g.checkEdge(0, 1));
+    g.addEdge(2, 4);
+    assertTrue(g.checkEdge(2, 4));
+    g.removeNode(2);
+    assertFalse(g.checkEdge(2, 4));
+    g.checkEdge(22, 3);
+    g.removeEdge(-2, 4);
+    g.removeNode(73);
   }
 }
