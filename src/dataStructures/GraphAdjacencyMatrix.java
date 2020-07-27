@@ -17,6 +17,8 @@ public class GraphAdjacencyMatrix<E> {
     adjMatrix[node2][node1] = true;
   }
 
+  public boolean[][] getGraph() { return adjMatrix; }
+
   public void addNode() {
     boolean[][] newMatrix = new boolean[adjMatrix.length + 1][adjMatrix.length + 1];
     for (int i = 0; i < adjMatrix.length; i++) {

@@ -19,6 +19,8 @@ public class GraphAdjacencyListBad {
       }
     }
 
+    public List<Integer>[] getGraph() { return adjList; }
+
     public void addEdge(int node1, int node2) {
       if (node1 < 0 || node2 < 0 || node1 >= adjList.length || node2 >= adjList.length) {
         System.out.println("Invalid node number given");
