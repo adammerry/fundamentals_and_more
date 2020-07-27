@@ -76,20 +76,35 @@ public class SearchingTests {
 
     BFS bfs = new BFS(graph, tree);
 
-    assertEquals(new Integer(15), bfs.bfsGraph(15).getData());
-    assertEquals(new Integer(75), bfs.bfsGraph(75).getData());
-    assertEquals(new Integer(12), bfs.bfsGraph(12).getData());
-    assertEquals(new Integer(22), bfs.bfsGraph(22).getData());
-    assertEquals(new Integer(19), bfs.bfsGraph(19).getData());
-    assertEquals(new Integer(74), bfs.bfsGraph(74).getData());
-    assertEquals(new Integer(11), bfs.bfsGraph(11).getData());
-    assertEquals(new Integer(29), bfs.bfsGraph(29).getData());
-    assertEquals(new Integer(88), bfs.bfsGraph(88).getData());
-    assertEquals(new Integer(3), bfs.bfsGraph(3).getData());
-    assertEquals(new Integer(4), bfs.bfsGraph(4).getData());
-    assertEquals(new Integer(1), bfs.bfsGraph(1).getData());
-    assertNull(bfs.bfsGraph(null));
-    assertNull(bfs.bfsGraph(17));
+    assertEquals(new Integer(15), bfs.bfsGraphWithSeenField(15).getData());
+    assertEquals(new Integer(75), bfs.bfsGraphWithSeenField(75).getData());
+    assertEquals(new Integer(12), bfs.bfsGraphWithSeenField(12).getData());
+    assertEquals(new Integer(22), bfs.bfsGraphWithSeenField(22).getData());
+    assertEquals(new Integer(19), bfs.bfsGraphWithSeenField(19).getData());
+    assertEquals(new Integer(74), bfs.bfsGraphWithSeenField(74).getData());
+    assertEquals(new Integer(11), bfs.bfsGraphWithSeenField(11).getData());
+    assertEquals(new Integer(29), bfs.bfsGraphWithSeenField(29).getData());
+    assertEquals(new Integer(88), bfs.bfsGraphWithSeenField(88).getData());
+    assertEquals(new Integer(3), bfs.bfsGraphWithSeenField(3).getData());
+    assertEquals(new Integer(4), bfs.bfsGraphWithSeenField(4).getData());
+    assertEquals(new Integer(1), bfs.bfsGraphWithSeenField(1).getData());
+    assertNull(bfs.bfsGraphWithSeenField(null));
+    assertNull(bfs.bfsGraphWithSeenField(17));
+
+    assertEquals(new Integer(15), bfs.bfsGraphWithSeenSet(15).getData());
+    assertEquals(new Integer(75), bfs.bfsGraphWithSeenSet(75).getData());
+    assertEquals(new Integer(12), bfs.bfsGraphWithSeenSet(12).getData());
+    assertEquals(new Integer(22), bfs.bfsGraphWithSeenSet(22).getData());
+    assertEquals(new Integer(19), bfs.bfsGraphWithSeenSet(19).getData());
+    assertEquals(new Integer(74), bfs.bfsGraphWithSeenSet(74).getData());
+    assertEquals(new Integer(11), bfs.bfsGraphWithSeenSet(11).getData());
+    assertEquals(new Integer(29), bfs.bfsGraphWithSeenSet(29).getData());
+    assertEquals(new Integer(88), bfs.bfsGraphWithSeenSet(88).getData());
+    assertEquals(new Integer(3), bfs.bfsGraphWithSeenSet(3).getData());
+    assertEquals(new Integer(4), bfs.bfsGraphWithSeenSet(4).getData());
+    assertEquals(new Integer(1), bfs.bfsGraphWithSeenSet(1).getData());
+    assertNull(bfs.bfsGraphWithSeenSet(null));
+    assertNull(bfs.bfsGraphWithSeenSet(17));
 
     assertEquals(new Integer(1), bfs.bfsTree(1).getData());
     assertEquals(new Integer(2), bfs.bfsTree(2).getData());
