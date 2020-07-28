@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-// Implementations of a breadth-first search on a graph and a tree. The graph version is
+// Implementations of breadth-first search on a graph and a tree. The graph version is
 // slightly more complex, as it must handle cycles as well as disconnected graphs. All BFS
 // implementations are optimized such that nodes are checked before they are added to the queue, as
 // opposed to after they are removed from the queue. This optimization will often reduce the
@@ -29,13 +29,10 @@ public class BFS {
   // reflect whether or not a particular node has been visited in the BFS.
   public GraphAdjacencyListBetter.Node<Integer> bfsGraphWithSeenField(Integer searchVal) {
     if (searchVal != null) {
-      Queue<GraphAdjacencyListBetter.Node<Integer>> q = new LinkedList<>();
       Map<GraphAdjacencyListBetter.Node<Integer>,
               List<GraphAdjacencyListBetter.Node<Integer>>> adjMap = graph.getGraph();
       // Initialize all nodes as not seen.
-      for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) {
-        node.setSeen(false);
-      }
+      for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) node.setSeen(false);
       for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) {
         if (!node.hasBeenSeen()) {
           if (node.getData().equals(searchVal)) return node;
@@ -74,7 +71,6 @@ public class BFS {
   // explicit Set must be used to maintain this information.
   public GraphAdjacencyListBetter.Node<Integer> bfsGraphWithSeenSet(Integer searchVal) {
     if (searchVal != null) {
-      Queue<GraphAdjacencyListBetter.Node<Integer>> q = new LinkedList<>();
       Map<GraphAdjacencyListBetter.Node<Integer>,
               List<GraphAdjacencyListBetter.Node<Integer>>> adjMap = graph.getGraph();
       Set<GraphAdjacencyListBetter.Node<Integer>> seenSet = new HashSet<>();
@@ -82,11 +78,8 @@ public class BFS {
         if (!seenSet.contains(node)) {
           if (node.getData().equals(searchVal)) return node;
           seenSet.add(node);
-          GraphAdjacencyListBetter.Node<Integer> result = startNewSearch(
-                  searchVal,
-                  node,
-                  adjMap,
-                  seenSet);
+          GraphAdjacencyListBetter.Node<Integer> result =
+                  startNewSearch(searchVal, node, adjMap, seenSet);
           if (result != null) return result;
         }
       }
@@ -115,7 +108,7 @@ public class BFS {
     return null;
   }
 
-  // BFS on a tree.
+  // BFS on a binary tree.
   public BinaryTree.Node<Integer> bfsTree(Integer searchVal) {
     if (searchVal != null) {
       Queue<BinaryTree.Node<Integer>> q = new LinkedList<>();
