@@ -13,6 +13,9 @@ import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphAdjacencyMatrix;
 import dataStructures.MaxHeapCharacterRecursive;
 import dataStructures.MinHeapIntegerIterative;
+import dataStructures.PriorityQueueArray;
+import dataStructures.PriorityQueueHeap;
+import dataStructures.PriorityQueueList;
 import dataStructures.RedBlackTree;
 import dataStructures.Trie;
 
@@ -413,5 +416,73 @@ public class DataStructuresTests {
     g.checkEdge(22, 3);
     g.removeEdge(-2, 4);
     g.removeNode(73);
+  }
+
+  @Test
+  public void testPriorityQueueArray() {
+    PriorityQueueArray<String> pq = new PriorityQueueArray<>(6);
+    assertNull(pq.getHighestPriority());
+    pq.insert("hello", 12);
+    pq.insert("hi", 4);
+    pq.insert("bye", 7);
+    pq.insert("goodbye", 0);
+    pq.insert("yes", -3);
+    pq.insert("no", 19);
+    pq.insert("ok", 35);
+    pq.changePriority("no", -41);
+    pq.changePriority("bye", 83);
+    assertEquals("no", pq.getHighestPriority());
+    assertEquals("no", pq.deleteHighestPriority());
+    assertEquals("yes", pq.deleteHighestPriority());
+    assertEquals("goodbye", pq.deleteHighestPriority());
+    assertEquals("hi", pq.deleteHighestPriority());
+    assertEquals("hello", pq.deleteHighestPriority());
+    assertEquals("bye", pq.deleteHighestPriority());
+    assertNull(pq.deleteHighestPriority());
+  }
+
+  @Test
+  public void testPriortyQueueList() {
+    PriorityQueueList<String> pq = new PriorityQueueList<>();
+    assertNull(pq.getHighestPriority());
+    pq.insert("hello", 12);
+    pq.insert("hi", 4);
+    pq.insert("bye", 7);
+    pq.insert("goodbye", 0);
+    pq.insert("yes", -3);
+    pq.insert("no", 19);
+    pq.changePriority("no", -41);
+    pq.changePriority("bye", 83);
+    assertEquals("no", pq.getHighestPriority());
+    assertEquals("no", pq.deleteHighestPriority());
+    assertEquals("yes", pq.deleteHighestPriority());
+    assertEquals("goodbye", pq.deleteHighestPriority());
+    assertEquals("hi", pq.deleteHighestPriority());
+    assertEquals("hello", pq.deleteHighestPriority());
+    assertEquals("bye", pq.deleteHighestPriority());
+    assertNull(pq.deleteHighestPriority());
+  }
+
+  @Test
+  public void testPriorityQueueHeap() {
+    PriorityQueueHeap<String> pq = new PriorityQueueHeap<>(6);
+    assertNull(pq.getHighestPriority());
+    pq.insert("hello", 12);
+    pq.insert("hi", 4);
+    pq.insert("bye", 7);
+    pq.insert("goodbye", 0);
+    pq.insert("yes", -3);
+    pq.insert("no", 19);
+    pq.insert("ok", 35);
+    pq.changePriority("no", -41);
+    pq.changePriority("bye", 83);
+    assertEquals("no", pq.getHighestPriority());
+    assertEquals("no", pq.deleteHighestPriority());
+    assertEquals("yes", pq.deleteHighestPriority());
+    assertEquals("goodbye", pq.deleteHighestPriority());
+    assertEquals("hi", pq.deleteHighestPriority());
+    assertEquals("hello", pq.deleteHighestPriority());
+    assertEquals("bye", pq.deleteHighestPriority());
+    assertNull(pq.deleteHighestPriority());
   }
 }
