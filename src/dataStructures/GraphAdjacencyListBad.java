@@ -3,8 +3,8 @@ package dataStructures;
 import java.util.List;
 import java.util.LinkedList;
 
-// A poor implementation of an undirected graph using an adjacency list representation. This
-// implementation uses an array as the container for the neighbor lists, which is not the best
+// A poor implementation of an undirected, unweighted graph using an adjacency list representation.
+// This implementation uses an array as the container for the neighbor lists, which is not the best
 // way to structure an adjacency list for the following reasons:
 // - It requires copying the entire graph to a new array when a new node is added.
 // - It does not allow nodes to be represented by custom classes. Each node must be represented

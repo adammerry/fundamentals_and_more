@@ -11,6 +11,8 @@ import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBad;
 import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphAdjacencyMatrix;
+import dataStructures.HashTableOpen;
+import dataStructures.HashTableClosed;
 import dataStructures.MaxHeapCharacterRecursive;
 import dataStructures.MinHeapIntegerIterative;
 import dataStructures.PriorityQueueArray;
@@ -484,5 +486,77 @@ public class DataStructuresTests {
     assertEquals("hello", pq.deleteHighestPriority());
     assertEquals("bye", pq.deleteHighestPriority());
     assertNull(pq.deleteHighestPriority());
+  }
+
+  @Test
+  public void testHashTableOpen() {
+    HashTableOpen h = new HashTableOpen();
+    assertNull(h.put(null, null));
+    assertNull(h.put(12, null));
+    assertNull(h.put(null, 5));
+    assertNull(h.put(15, 16));
+    assertNull(h.put("hello", "ok"));
+    assertNull(h.put(42.1, "goodbye"));
+    assertEquals(16, h.put(15, 17));
+    assertNull(h.put(22, false));
+    assertNull(h.put(99, 999));
+    assertNull(h.put('C', true));
+    assertNull(h.put("no", 'w'));
+    // The following put will cause a rehash.
+    assertNull(h.put("     ", 55.555));
+    assertNull(h.get(null));
+    assertNull(h.get(84));
+    assertEquals(17, h.get(15));
+    assertEquals("ok", h.get("hello"));
+    assertEquals("goodbye", h.get(42.1));
+    assertNull(h.delete(null));
+    assertNull(h.delete("what"));
+    assertEquals("ok", h.delete("hello"));
+    assertEquals("goodbye", h.delete(42.1));
+    assertFalse(h.containsKey(null));
+    assertFalse(h.containsKey("yes"));
+    assertFalse(h.containsKey("hello"));
+    assertTrue(h.containsKey(15));
+  }
+
+  @Test
+  public void testHashTableClosed() {
+    HashTableClosed h = new HashTableClosed();
+    assertNull(h.put(null, null));
+    assertNull(h.put(12, null));
+    assertNull(h.put(null, 5));
+    assertNull(h.put(15, 16));
+    assertNull(h.put("hello", "ok"));
+    assertNull(h.put(42.1, "goodbye"));
+    assertEquals(16, h.put(15, 17));
+    assertNull(h.put(22, false));
+    assertNull(h.put(99, 999));
+    assertNull(h.put('C', true));
+    assertNull(h.put("no", 'w'));
+    // The following put will cause a rehash.
+    assertNull(h.put("     ", 55.555));
+    assertNull(h.get(null));
+    assertNull(h.get(84));
+    assertEquals(17, h.get(15));
+    assertEquals("ok", h.get("hello"));
+    assertEquals("goodbye", h.get(42.1));
+    assertNull(h.delete(null));
+    assertNull(h.delete("what"));
+    assertEquals("ok", h.delete("hello"));
+    assertEquals("goodbye", h.delete(42.1));
+    assertFalse(h.containsKey(null));
+    assertFalse(h.containsKey("yes"));
+    assertFalse(h.containsKey("hello"));
+    assertTrue(h.containsKey(15));
+    assertTrue(h.containsKey("     "));
+    assertTrue(h.containsKey(99));
+    assertEquals(null, h.put(42.1, "why"));
+    assertEquals("why", h.delete(42.1));
+    assertEquals(17, h.delete(15));
+    assertEquals('w', h.delete("no"));
+    assertEquals(true, h.delete('C'));
+    assertEquals(999, h.delete(99));
+    assertEquals(false, h.delete(22));
+    assertEquals(null, h.put(642, -612));
   }
 }

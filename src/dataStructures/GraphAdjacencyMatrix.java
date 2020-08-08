@@ -1,6 +1,6 @@
 package dataStructures;
 
-// An implementation of an undirected graph using an adjacency matrix.
+// An implementation of an undirected, unweighted graph using an adjacency matrix.
 public class GraphAdjacencyMatrix<E> {
   private boolean[][] adjMatrix;
 

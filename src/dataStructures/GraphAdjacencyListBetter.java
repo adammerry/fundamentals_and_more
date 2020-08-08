@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-// A better implementation of an undirected graph using an adjacency list representation. This
-// implementation uses a Map as the container for the neighbor lists, which is an advantageous
-// way to structure an adjacency list for the following reasons:
+// A better implementation of an undirected, unweighted graph using an adjacency list
+// representation. This implementation uses a Map as the container for the neighbor lists, which
+// is an advantageous way to structure an adjacency list for the following reasons:
 // - Adding a new node to the graph is O(1).
 // - Nodes may be represented by any type of object.
 public class GraphAdjacencyListBetter<E> {
