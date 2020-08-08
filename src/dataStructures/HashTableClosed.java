@@ -154,9 +154,7 @@ public class HashTableClosed {
       // Check to see if we have searched through all slots in the table and returned to the home
       // slot. This corner case may come about if, through a series of insertions and deletions,
       // all slots that do not hold an existing record are still occupied by a tombstone.
-      if (slot == homeSlot) {
-        break;
-      }
+      if (slot == homeSlot) break;
     }
     return null;
   }
@@ -176,9 +174,7 @@ public class HashTableClosed {
       // Check to see if we have searched through all slots in the table and returned to the home
       // slot. This corner case may come about if, through a series of insertions and deletions,
       // all slots that do not hold an existing record are still occupied by a tombstone.
-      if (slot == homeSlot) {
-        break;
-      }
+      if (slot == homeSlot) break;
     }
     return false;
   }
