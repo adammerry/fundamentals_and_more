@@ -18,7 +18,9 @@ import dataStructures.MinHeapIntegerIterative;
 import dataStructures.PriorityQueueArray;
 import dataStructures.PriorityQueueHeap;
 import dataStructures.PriorityQueueList;
+import dataStructures.Queue;
 import dataStructures.RedBlackTree;
+import dataStructures.Stack;
 import dataStructures.Trie;
 
 public class DataStructuresTests {
@@ -558,5 +560,33 @@ public class DataStructuresTests {
     assertEquals(999, h.delete(99));
     assertEquals(false, h.delete(22));
     assertEquals(null, h.put(642, -612));
+  }
+
+  @Test
+  public void testStack() {
+    Stack<String> s = new Stack<>();
+    assertTrue(s.isEmpty());
+    s.push("hello");
+    assertFalse(s.isEmpty());
+    s.push("hi");
+    assertEquals("hi", s.peek());
+    assertEquals("hi", s.pop());
+    assertEquals("hello", s.pop());
+    assertNull(s.peek());
+    assertNull(s.pop());
+  }
+
+  @Test
+  public void testQueue() {
+    Queue<String> q = new Queue<>();
+    assertTrue(q.isEmpty());
+    q.add("hello");
+    assertFalse(q.isEmpty());
+    q.add("hi");
+    assertEquals("hello", q.peek());
+    assertEquals("hello", q.remove());
+    assertEquals("hi", q.remove());
+    assertNull(q.peek());
+    assertNull(q.remove());
   }
 }
