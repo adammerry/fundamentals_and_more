@@ -13,6 +13,7 @@ import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphAdjacencyMatrix;
 import dataStructures.HashTableOpen;
 import dataStructures.HashTableClosed;
+import dataStructures.LinkedList;
 import dataStructures.MaxHeapCharacterRecursive;
 import dataStructures.MinHeapIntegerIterative;
 import dataStructures.PriorityQueueArray;
@@ -588,5 +589,32 @@ public class DataStructuresTests {
     assertEquals("hi", q.remove());
     assertNull(q.peek());
     assertNull(q.remove());
+  }
+
+  @Test
+  public void testLinkedList() {
+    LinkedList<String> l = new LinkedList<>();
+    assertNull(l.getFirst());
+    assertNull(l.get(-1));
+    assertNull(l.get(200));
+    assertNull(l.remove(-1));
+    assertNull(l.remove(45));
+    assertNull(l.remove("the"));
+    l.add("hello");
+    l.add("goodbye");
+    l.add("hi");
+    l.add("bye");
+    assertEquals("hello", l.get(0));
+    assertEquals("goodbye", l.get(1));
+    assertEquals("hi", l.get(2));
+    assertEquals("bye", l.get(3));
+    assertEquals("hello", l.getFirst());
+    assertNull(l.get(4));
+    assertNull(l.remove(4));
+    assertNull(l.remove("ok"));
+    assertEquals("hi", l.remove("hi"));
+    assertEquals("goodbye", l.remove(1));
+    assertEquals("hello", l.remove(0));
+    assertEquals("bye", l.remove("bye"));
   }
 }
