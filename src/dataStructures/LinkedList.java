@@ -98,4 +98,6 @@ public class LinkedList<E> {
     length--;
     return retData;
   }
+
+  public int size() { return length; }
 }

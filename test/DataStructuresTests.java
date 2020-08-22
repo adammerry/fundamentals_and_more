@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import dataStructures.ArrayList;
 import dataStructures.BinarySearchTree;
 import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBad;
@@ -604,6 +605,7 @@ public class DataStructuresTests {
     l.add("goodbye");
     l.add("hi");
     l.add("bye");
+    assertEquals(4, l.size());
     assertEquals("hello", l.get(0));
     assertEquals("goodbye", l.get(1));
     assertEquals("hi", l.get(2));
@@ -616,5 +618,63 @@ public class DataStructuresTests {
     assertEquals("goodbye", l.remove(1));
     assertEquals("hello", l.remove(0));
     assertEquals("bye", l.remove("bye"));
+  }
+
+  @Test
+  public void testArrayList() {
+    ArrayList<String> a = new ArrayList<>();
+    assertNull(a.getFirst());
+    assertNull(a.get(-1));
+    assertNull(a.get(97));
+    assertNull(a.remove(-1));
+    assertNull(a.remove(898));
+    assertNull(a.remove("ok"));
+    a.add("hello");
+    a.add("goodbye");
+    a.add("hi");
+    a.add("bye");
+    assertEquals(4, a.size());
+    assertEquals("hello", a.get(0));
+    assertEquals("goodbye", a.get(1));
+    assertEquals("hi", a.get(2));
+    assertEquals("bye", a.get(3));
+    assertEquals("hello", a.getFirst());
+    assertNull(a.get(4));
+    assertNull(a.remove(4));
+    assertNull(a.remove("ok"));
+    assertEquals("hi", a.remove("hi"));
+    assertEquals("goodbye", a.remove(1));
+    assertEquals("hello", a.remove(0));
+    assertEquals("bye", a.remove("bye"));
+    a = new ArrayList<>(412);
+    a = new ArrayList<>(3);
+    // Add and remove elements so that resize() is called twice.
+    a.add("a");
+    a.add("b");
+    a.add("c");
+    a.add("d");
+    a.add("e");
+    a.add("f");
+    a.add("g");
+    a.add("h");
+    a.add("i");
+    a.add("j");
+    a.add("k");
+    a.add("l");
+    a.add("m");
+    a.add("n");
+    a.remove(13);
+    a.remove(12);
+    a.remove(11);
+    a.remove(0);
+    a.remove(0);
+    a.remove(0);
+    a.remove(2);
+    a.remove(1);
+    a.remove(2);
+    a.remove(0);
+    a.remove(0);
+    a.remove(1);
+    a.remove(0);
   }
 }
