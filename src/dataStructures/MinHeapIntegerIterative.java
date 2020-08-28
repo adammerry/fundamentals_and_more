@@ -3,9 +3,22 @@ package dataStructures;
 // Implementation of a min-heap that stores Integers and has sifting operations implemented in an
 // iterative style.
 public class MinHeapIntegerIterative {
-  private int MAX_SIZE = 100;
-  private Integer[] heap = new Integer[MAX_SIZE];
-  private int nextIdx = 0;
+  private int MAX_SIZE;
+  private Integer[] heap;
+  private int nextIdx;
+
+  public MinHeapIntegerIterative() {
+    MAX_SIZE = 100;
+    heap = new Integer[MAX_SIZE];
+    nextIdx = 0;
+  }
+
+  public MinHeapIntegerIterative(Integer[] arr) {
+    MAX_SIZE = Integer.max(100, arr.length);
+    heap = arr;
+    nextIdx = arr.length;
+    buildHeap();
+  }
 
   public void insert(int elem) {
     if (nextIdx > MAX_SIZE) {
@@ -65,6 +78,10 @@ public class MinHeapIntegerIterative {
 
   public Integer getValAtIdx(int idx) {
     return idx >= 0 && idx < nextIdx ? heap[idx] : null;
+  }
+
+  private void buildHeap() {
+    for (int i = (heap.length / 2) - 1; i >= 0; i--) siftDown(i);
   }
 
   private void swap(int idx1, int idx2) {

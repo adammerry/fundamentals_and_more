@@ -167,6 +167,15 @@ public class DataStructuresTests {
       sortedActual[i] = m.extractMin();
     }
     assertArrayEquals(sortedExpected, sortedActual);
+
+    // Test heapifying a given array.
+    m = new MinHeapIntegerIterative(new Integer[] {67, 82, 3, 15, 105, 9, 44, 37});
+    sortedExpected = new Integer[] {3, 9, 15, 37, 44, 67, 82, 105};
+    sortedActual = new Integer[8];
+    for (int i = 0; i < 8; i++) {
+      sortedActual[i] = m.extractMin();
+    }
+    assertArrayEquals(sortedExpected, sortedActual);
   }
 
   @Test
@@ -246,6 +255,15 @@ public class DataStructuresTests {
     Character[] sortedExpected = {'t', 'b', 'a', 'Z', 'W', 'R', ' '};
     Character[] sortedActual = new Character[7];
     for (int i = 0; i < 7; i++) {
+      sortedActual[i] = m.extractMax();
+    }
+    assertArrayEquals(sortedExpected, sortedActual);
+
+    // Test heapifying a given array.
+    m = new MaxHeapCharacterRecursive(new Character[] {'C', 'k', '+', '9', 'u', '6', 'A', '3'});
+    sortedExpected = new Character[] {'u', 'k', 'C', 'A', '9', '6', '3', '+'};
+    sortedActual = new Character[8];
+    for (int i = 0; i < 8; i++) {
       sortedActual[i] = m.extractMax();
     }
     assertArrayEquals(sortedExpected, sortedActual);

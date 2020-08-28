@@ -3,9 +3,22 @@ package dataStructures;
 // Implementation of a max-heap that stores Characters and has sifting operations implemented in a
 // recursive style.
 public class MaxHeapCharacterRecursive {
-  private int MAX_SIZE = 100;
-  private Character[] heap = new Character[MAX_SIZE];
-  private int nextIdx = 0;
+  private int MAX_SIZE;
+  private Character[] heap;
+  private int nextIdx;
+
+  public MaxHeapCharacterRecursive() {
+    MAX_SIZE = 100;
+    heap = new Character[MAX_SIZE];
+    nextIdx = 0;
+  }
+
+  public MaxHeapCharacterRecursive(Character[] arr) {
+    MAX_SIZE = Integer.max(100, arr.length);
+    heap = arr;
+    nextIdx = arr.length;
+    buildHeap();
+  }
 
   public void insert(Character elem) {
     if (nextIdx > MAX_SIZE) {
@@ -65,6 +78,10 @@ public class MaxHeapCharacterRecursive {
 
   public Character getValAtIdx(int idx) {
     return idx >= 0 && idx < nextIdx ? heap[idx] : null;
+  }
+
+  private void buildHeap() {
+    for (int i = (heap.length / 2) - 1; i >= 0; i--) siftDown(i);
   }
 
   private void swap(int idx1, int idx2) {
