@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import classicProblems.Knapsack;
+import classicProblems.LevenshteinDistance;
 import classicProblems.TravelingSalesman;
 
 public class ClassicProblemsTests {
@@ -143,5 +144,47 @@ public class ClassicProblemsTests {
     assertEquals(27, Knapsack.dynamicProgrammingSolution(weightLim4, weights2, values2));
     assertEquals(45, Knapsack.dynamicProgrammingSolution(weightLim5, weights2, values2));
     assertEquals(64, Knapsack.dynamicProgrammingSolution(weightLim6, weights2, values2));
+  }
+
+  @Test
+  public void testLevenshteinDistanceRecursive() {
+    assertEquals(-1, LevenshteinDistance.findDistanceRecursive(null, null));
+    assertEquals(0, LevenshteinDistance.findDistanceRecursive("", ""));
+    assertEquals(5, LevenshteinDistance.findDistanceRecursive("", "hello"));
+    assertEquals(5, LevenshteinDistance.findDistanceRecursive("hello", ""));
+    assertEquals(1, LevenshteinDistance.findDistanceRecursive("the", "tha"));
+    assertEquals(3, LevenshteinDistance.findDistanceRecursive("comp", "compute"));
+    assertEquals(4, LevenshteinDistance.findDistanceRecursive("distance", "dist"));
+    assertEquals(3, LevenshteinDistance.findDistanceRecursive("sunday", "saturday"));
+    assertEquals(6, LevenshteinDistance.findDistanceRecursive("yellow", "green"));
+    assertEquals(3, LevenshteinDistance.findDistanceRecursive("shirt", "this"));
+  }
+
+  @Test
+  public void testLevenshteinDistanceIterative() {
+    assertEquals(-1, LevenshteinDistance.findDistanceIterative(null, null));
+    assertEquals(0, LevenshteinDistance.findDistanceIterative("", ""));
+    assertEquals(5, LevenshteinDistance.findDistanceIterative("", "hello"));
+    assertEquals(5, LevenshteinDistance.findDistanceIterative("hello", ""));
+    assertEquals(1, LevenshteinDistance.findDistanceIterative("the", "tha"));
+    assertEquals(3, LevenshteinDistance.findDistanceIterative("comp", "compute"));
+    assertEquals(4, LevenshteinDistance.findDistanceIterative("distance", "dist"));
+    assertEquals(3, LevenshteinDistance.findDistanceIterative("sunday", "saturday"));
+    assertEquals(6, LevenshteinDistance.findDistanceIterative("yellow", "green"));
+    assertEquals(3, LevenshteinDistance.findDistanceIterative("shirt", "this"));
+  }
+
+  @Test
+  public void testLevenshteinDistanceSpaceOptimized() {
+    assertEquals(-1, LevenshteinDistance.findDistanceSpaceOptimized(null, null));
+    assertEquals(0, LevenshteinDistance.findDistanceSpaceOptimized("", ""));
+    assertEquals(5, LevenshteinDistance.findDistanceSpaceOptimized("", "hello"));
+    assertEquals(5, LevenshteinDistance.findDistanceSpaceOptimized("hello", ""));
+    assertEquals(1, LevenshteinDistance.findDistanceSpaceOptimized("the", "tha"));
+    assertEquals(3, LevenshteinDistance.findDistanceSpaceOptimized("comp", "compute"));
+    assertEquals(4, LevenshteinDistance.findDistanceSpaceOptimized("distance", "dist"));
+    assertEquals(3, LevenshteinDistance.findDistanceSpaceOptimized("sunday", "saturday"));
+    assertEquals(6, LevenshteinDistance.findDistanceSpaceOptimized("yellow", "green"));
+    assertEquals(3, LevenshteinDistance.findDistanceSpaceOptimized("shirt", "this"));
   }
 }
