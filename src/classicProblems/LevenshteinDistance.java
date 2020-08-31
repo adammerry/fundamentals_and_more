@@ -3,8 +3,7 @@ package classicProblems;
 // The Levenshtein distance (or edit distance) of two strings is the minimum number of edits
 // needed to transform one string into the other. An edit can be either an insertion, a deletion,
 // or a substitution of a single character. This class implements recursive and iterative methods
-// for determining the Levenshtein distance between two strings in linear time through the use of
-// dynamic programming.
+// for determining the Levenshtein distance between two strings using dynamic programming.
 public class LevenshteinDistance {
 
   public static int findDistanceRecursive(String s1, String s2) {
