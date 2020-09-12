@@ -9,9 +9,12 @@ import java.util.Stack;
 // are placed on the structure of the tree.
 public class BinaryTree<E> {
   private Node<E> root;
+  public Node<E> lastNodeParent;
+  public Node<E> lastNode;
 
   public BinaryTree(Node<E> root) {
     this.root = root;
+    this.lastNode = root;
   }
 
   public BinaryTree() {}
@@ -107,11 +110,13 @@ public class BinaryTree<E> {
   // Level order insertion. Insert the given data into the next available spot in the tree,
   // searching from top to bottom, left to right.
   public void insert(E data) {
+    Node<E> insertNode = new Node<>(data);
+    lastNode = insertNode;
     if (data == null) {
       return;
     }
     if (root == null) {
-      root = new Node<E>(data);
+      root = insertNode;
       return;
     }
     Queue<Node<E>> nodes = new LinkedList<>();
@@ -119,11 +124,13 @@ public class BinaryTree<E> {
     while (true) {
       Node<E> next = nodes.poll();
       if (!next.hasLeftChild()) {
-        next.setLeftChild(new Node<>(data));
+        next.setLeftChild(insertNode);
+        lastNodeParent = next;
         return;
       }
       if (!next.hasRightChild()) {
-        next.setRightChild(new Node<>(data));
+        next.setRightChild(insertNode);
+        lastNodeParent = next;
         return;
       }
       nodes.add(next.getLeftChild());
@@ -131,31 +138,49 @@ public class BinaryTree<E> {
     }
   }
 
-  // Delete the node with the given data.
+  // Delete the node with the given data, replacing it with the last node inserted into the tree.
   public void delete(E data) {
     root = deleteHelper(root, data);
+    if (root != null) updateLastNode();
   }
 
-  private Node<E> deleteHelper(Node<E> root, E data) {
-    if (root == null || data == null) {
-      return root;
-    }
-    if (root.getData().equals(data)) {
-      if (root.hasLeftChild()) {
-        return root.getLeftChild();
+  private Node<E> deleteHelper(Node<E> currNode, E data) {
+    if (currNode == null || data == null) return currNode;
+    if (currNode.getData().equals(data)) {
+      Node<E> currNodeLeft = currNode.getLeftChild();
+      Node<E> currNodeRight = currNode.getRightChild();
+      if (currNode == lastNode) return null;
+      if (lastNode != root) {
+        lastNodeParent.setLeftChild(null);
+        lastNodeParent.setRightChild(null);
       }
-      return root.getRightChild();
+      if (lastNode != currNodeLeft) lastNode.setLeftChild(currNodeLeft);
+      if (lastNode != currNodeRight) lastNode.setRightChild(currNodeRight);
+      return lastNode;
     }
-    root.setLeftChild((deleteHelper(root.getLeftChild(), data)));
-    root.setRightChild((deleteHelper(root.getRightChild(), data)));
-    return root;
+    else {
+      currNode.setLeftChild((deleteHelper(currNode.getLeftChild(), data)));
+      currNode.setRightChild((deleteHelper(currNode.getRightChild(), data)));
+      return currNode;
+    }
+  }
+
+  private void updateLastNode() {
+    Node<E> currNodeParent = null;
+    Node<E> currNode = root;
+    while (currNode.hasLeftChild() || currNode.hasRightChild()) {
+      currNodeParent = currNode;
+      currNode = (currNode.hasRightChild()) ? currNode.getRightChild() : currNode.getLeftChild();
+    }
+    lastNodeParent = currNodeParent;
+    lastNode = currNode;
   }
 
   // Print the value of each node in the tree in the order that they would be reached using a
   // breadth-first search.
   public void printTree() {
     Queue<Node<E>> nodes = new LinkedList<>();
-    nodes.add(root);
+    if (root != null) nodes.add(root);
     while (!nodes.isEmpty()) {
       Node<E> next = nodes.poll();
       System.out.print(next.getData() + " ");
