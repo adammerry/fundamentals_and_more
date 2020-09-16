@@ -14,9 +14,7 @@ public class GraphAdjacencyListBad {
 
     public GraphAdjacencyListBad(int numNodes) {
       adjList = (List<Integer>[]) new List[numNodes];
-      for (int i = 0; i < adjList.length; i++) {
-        adjList[i] = new LinkedList<Integer>();
-      }
+      for (int i = 0; i < adjList.length; i++) adjList[i] = new LinkedList<>();
     }
 
     public List<Integer>[] getGraph() { return adjList; }
@@ -26,7 +24,7 @@ public class GraphAdjacencyListBad {
         System.out.println("Invalid node number given");
         return;
       }
-      if (!checkEdge(node1, node2)) {
+      if (!adjList[node1].contains(node2)) {
         adjList[node1].add(node2);
         adjList[node2].add(node1);
       }

@@ -36,7 +36,7 @@ public class GraphAdjacencyListBetter<E> {
   public Map<Node<E>, List<Node<E>>> getGraph() { return adjMap; }
 
   public void addEdge(Node<E> node1, Node<E> node2) {
-    if (!checkEdge(node1, node2)) {
+    if (!adjMap.get(node1).contains(node2)) {
       adjMap.get(node1).add(node2);
       adjMap.get(node2).add(node1);
     }
@@ -54,9 +54,7 @@ public class GraphAdjacencyListBetter<E> {
   }
 
   public void removeNode(Node<E> node) {
-    for (Node<E> neighbor : adjMap.get(node)) {
-      adjMap.get(neighbor).remove(node);
-    }
+    for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
     adjMap.remove(node);
   }
 
