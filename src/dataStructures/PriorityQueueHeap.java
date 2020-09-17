@@ -66,12 +66,8 @@ public class PriorityQueueHeap<E> {
       }
       idx++;
     }
-    if (newPriorityGreater) {
-      siftDown(idx);
-    }
-    else {
-      siftUp(idx);
-    }
+    if (newPriorityGreater) siftDown(idx);
+    else siftUp(idx);
   }
 
   private void siftUp(int childIdx) {
@@ -87,17 +83,15 @@ public class PriorityQueueHeap<E> {
   private void siftDown(int parentIdx) {
     int leftChildIdx = getLeftChildIdx(parentIdx);
     int rightChildIdx = leftChildIdx + 1;
-    int highest = parentIdx;
+    int smallest = parentIdx;
 
-    if (leftChildIdx < size && heap[leftChildIdx].getPriority() < heap[highest].getPriority()) {
-      highest = leftChildIdx;
-    }
-    if (rightChildIdx < size && heap[rightChildIdx].getPriority() < heap[highest].getPriority()) {
-      highest = rightChildIdx;
-    }
-    if (highest != parentIdx) {
-      swap(parentIdx, highest);
-      siftDown(highest);
+    if (leftChildIdx < size && heap[leftChildIdx].getPriority() < heap[smallest].getPriority())
+      smallest = leftChildIdx;
+    if (rightChildIdx < size && heap[rightChildIdx].getPriority() < heap[smallest].getPriority())
+      smallest = rightChildIdx;
+    if (smallest != parentIdx) {
+      swap(parentIdx, smallest);
+      siftDown(smallest);
     }
   }
 
@@ -118,8 +112,7 @@ public class PriorityQueueHeap<E> {
   }
 
   public void printQueue() {
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
       System.out.println(heap[i].getItem().toString() + " : " + heap[i].getPriority());
-    }
   }
 }
