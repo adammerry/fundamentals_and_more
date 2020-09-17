@@ -8,8 +8,9 @@ public class Stack<E> {
     private F data;
     private StackNode<F> next;
 
-    private StackNode(F data) {
+    private StackNode(F data, StackNode<F> next) {
       this.data = data;
+      this.next = next;
     }
   }
 
@@ -24,9 +25,7 @@ public class Stack<E> {
   }
 
   public void push(E data) {
-    StackNode<E> newNode = new StackNode<E>(data);
-    newNode.next = top;
-    top = newNode;
+    top = new StackNode<>(data, top);
   }
 
   public E peek() {

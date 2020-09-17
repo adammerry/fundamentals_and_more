@@ -8,7 +8,6 @@ public class Queue<E> {
   private static class QueueNode<F> {
     private F data;
     private QueueNode<F> next;
-
     private QueueNode(F data) {
       this.data = data;
     }
