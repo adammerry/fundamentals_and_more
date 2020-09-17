@@ -14,7 +14,7 @@ public class Queue<E> {
   }
 
   public void add(E data) {
-    QueueNode<E> newNode = new QueueNode<E>(data);
+    QueueNode<E> newNode = new QueueNode<>(data);
     if (last != null) last.next = newNode;
     last = newNode;
     if (first == null) first = newNode;
