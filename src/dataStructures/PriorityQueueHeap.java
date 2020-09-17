@@ -84,7 +84,6 @@ public class PriorityQueueHeap<E> {
     int leftChildIdx = getLeftChildIdx(parentIdx);
     int rightChildIdx = leftChildIdx + 1;
     int smallest = parentIdx;
-
     if (leftChildIdx < size && heap[leftChildIdx].getPriority() < heap[smallest].getPriority())
       smallest = leftChildIdx;
     if (rightChildIdx < size && heap[rightChildIdx].getPriority() < heap[smallest].getPriority())
