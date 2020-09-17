@@ -5,11 +5,11 @@ public class Queue<E> {
   private QueueNode<E> first;
   private QueueNode<E> last;
 
-  private static class QueueNode<E> {
-    private E data;
-    private QueueNode<E> next;
+  private static class QueueNode<F> {
+    private F data;
+    private QueueNode<F> next;
 
-    private QueueNode(E data) {
+    private QueueNode(F data) {
       this.data = data;
     }
   }

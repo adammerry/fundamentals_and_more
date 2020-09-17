@@ -4,11 +4,11 @@ package dataStructures;
 public class Stack<E> {
   private StackNode<E> top;
 
-  private static class StackNode<E> {
-    private E data;
-    private StackNode<E> next;
+  private static class StackNode<F> {
+    private F data;
+    private StackNode<F> next;
 
-    private StackNode(E data) {
+    private StackNode(F data) {
       this.data = data;
     }
   }
