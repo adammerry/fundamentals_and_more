@@ -2,18 +2,12 @@ package dataStructures;
 
 // Implementation of a singly-linked list.
 public class LinkedList<E> {
-  private ListNode<E> dummyHead;
   private ListNode<E> head;
   private ListNode<E> tail;
-  private ListNode<E> dummyTail;
-  private int length;
+  private int size;
 
   public LinkedList() {
-    dummyHead = new ListNode<>(null);
-    head = null;
-    tail = null;
-    dummyTail = new ListNode<>(null);
-    length = 0;
+    size = 0;
   }
 
   private class ListNode<F> {
@@ -24,80 +18,86 @@ public class LinkedList<E> {
       this.data = data;
       next = null;
     }
-
-    private F getData() { return data; }
-
-    private ListNode<F> getNext() { return next; }
-
-    private void setNext(ListNode<F> next) { this.next = next; }
   }
 
   public void add(E data) {
-    if (length == 0) {
-      head = tail = new ListNode<>(data);
-      dummyHead.setNext(head);
-      tail.setNext(dummyTail);
-    }
+    ListNode<E> newNode = new ListNode<>(data);
+    if (size == 0) head = tail = newNode;
     else {
-      tail.setNext(new ListNode<>(data));
-      tail = tail.getNext();
-      tail.setNext(dummyTail);
+      tail.next = newNode;
+      tail = newNode;
     }
-    length++;
+    size++;
   }
 
   public E get(int idx) {
-    ListNode<E> currNode = head;
-    if (idx < 0 || idx > (length - 1)) {
+    if (idx < 0 || idx > (size - 1)) {
       System.out.println("Invalid index.");
       return null;
     }
-    for (int i = 0; i < idx; i++) {
-      currNode = currNode.getNext();
-    }
-    return currNode.getData();
+    ListNode<E> currNode = head;
+    for (int i = 0; i < idx; i++) currNode = currNode.next;
+    return currNode.data;
   }
 
   public E getFirst() {
-    if (length == 0) {
+    if (size == 0) {
       System.out.println("List empty.");
       return null;
     }
-    return head.getData();
+    return head.data;
   }
 
   public E remove(E data) {
-    if (length == 0) {
+    if (size == 0) {
       System.out.println("Element not found in list.");
       return null;
     }
-    ListNode<E> prevNode = dummyHead;
-    ListNode<E> nextNode = head;
-    while (nextNode != dummyTail) {
-      if (nextNode.getData().equals(data)) {
-        prevNode.setNext(nextNode.getNext());
-        length--;
-        return nextNode.getData();
+    if (head.data.equals(data)) {
+      E retData = head.data;
+      head = head.next;
+      size--;
+      return retData;
+    }
+    ListNode<E> prevNode = head;
+    ListNode<E> nextNode = head.next;
+    while (nextNode != null) {
+      if (nextNode.data.equals(data)) {
+        prevNode.next = nextNode.next;
+        size--;
+        return nextNode.data;
       }
       prevNode = nextNode;
-      nextNode = nextNode.getNext();
+      nextNode = nextNode.next;
     }
     System.out.println("Element not found in list.");
     return null;
   }
 
   public E remove(int idx) {
-    if (idx < 0 || idx > (length - 1)) {
+    if (idx < 0 || idx > (size - 1)) {
       System.out.println("Invalid index.");
       return null;
     }
-    ListNode<E> currNode = dummyHead;
-    for (int i = 0; i < idx; i++) currNode = currNode.getNext();
-    E retData = currNode.getNext().getData();
-    currNode.setNext(currNode.getNext().getNext());
-    length--;
+    if (idx == 0) {
+      E retData = head.data;
+      head = head.next;
+      size--;
+      return retData;
+    }
+    ListNode<E> prevNode = head;
+    ListNode<E> nextNode = head.next;
+    for (int i = 0; i < idx - 1; i++) {
+      prevNode = nextNode;
+      nextNode = nextNode.next;
+    }
+    E retData = nextNode.data;
+    prevNode.next = nextNode.next;
+    size--;
     return retData;
   }
 
-  public int size() { return length; }
+  public int size() { return size; }
+
+  public boolean isEmpty() { return size == 0; }
 }

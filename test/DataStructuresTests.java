@@ -655,7 +655,9 @@ public class DataStructuresTests {
     assertNull(l.remove(-1));
     assertNull(l.remove(45));
     assertNull(l.remove("the"));
+    assertTrue(l.isEmpty());
     l.add("hello");
+    assertFalse(l.isEmpty());
     l.add("goodbye");
     l.add("hi");
     l.add("bye");
@@ -669,9 +671,9 @@ public class DataStructuresTests {
     assertNull(l.remove(4));
     assertNull(l.remove("ok"));
     assertEquals("hi", l.remove("hi"));
+    assertEquals("bye", l.remove(2));
     assertEquals("goodbye", l.remove(1));
     assertEquals("hello", l.remove(0));
-    assertEquals("bye", l.remove("bye"));
   }
 
   @Test
