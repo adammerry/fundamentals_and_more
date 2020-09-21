@@ -2,8 +2,8 @@ package dataStructures;
 
 // Implementation of a generic queue.
 public class Queue<E> {
-  private QueueNode<E> first;
-  private QueueNode<E> last;
+  private QueueNode<E> head;
+  private QueueNode<E> tail;
 
   private static class QueueNode<F> {
     private F data;
@@ -15,31 +15,33 @@ public class Queue<E> {
 
   public void add(E data) {
     QueueNode<E> newNode = new QueueNode<>(data);
-    if (last != null) last.next = newNode;
-    last = newNode;
-    if (first == null) first = newNode;
+    if (head == null) head = tail = newNode;
+    else {
+      tail.next = newNode;
+      tail = newNode;
+    }
   }
 
   public E remove() {
-    if (first == null) {
+    if (head == null) {
       System.out.println("No element to remove.");
       return null;
     }
-    E data = first.data;
-    first = first.next;
-    if (first == null) last = null;
+    E data = head.data;
+    head = head.next;
+    if (head == null) tail = null;
     return data;
   }
 
   public E peek() {
-    if (first == null) {
+    if (head == null) {
       System.out.println("No element to peek.");
       return null;
     }
-    return first.data;
+    return head.data;
   }
 
   public boolean isEmpty() {
-    return first == null;
+    return head == null;
   }
 }
