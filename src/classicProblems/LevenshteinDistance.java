@@ -91,5 +91,4 @@ public class LevenshteinDistance {
     }
     return currArray[c2.length];
   }
-
 }
