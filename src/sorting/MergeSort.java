@@ -3,47 +3,29 @@ package sorting;
 // Implementation of merge sort algorithm to sort an array of ints.
 public class MergeSort {
 
-  public static int[] sort(int[] ints) {
-    if (ints == null) {
-      System.out.println("null array encountered");
-      return null;
-    }
-    if (ints.length == 0) {
-      return ints;
-    }
-    return sortHelper(ints, 0, ints.length - 1);
+  public static void sort(int[] ints) {
+    if (ints == null) System.out.println("null array encountered");
+    else if (ints.length > 0) sortHelper(ints, 0, ints.length - 1);
   }
 
-  private static int[] sortHelper(int[] ints, int lowIdx, int highIdx) {
-    if (lowIdx == highIdx) {
-      int[] singleton = { ints[lowIdx] };
-      return singleton;
+  private static void sortHelper(int[] ints, int lowIdx, int highIdx) {
+    if (lowIdx < highIdx) {
+      int midIdx = lowIdx + ((highIdx - lowIdx) / 2);
+      sortHelper(ints, lowIdx, midIdx);
+      sortHelper(ints, midIdx + 1, highIdx);
+      merge(ints, lowIdx, midIdx, highIdx);
     }
-    int newHighIdx = (lowIdx + highIdx) / 2;
-    int newLowIdx = newHighIdx + 1;
-    int[] sorted1 = sortHelper(ints, lowIdx, newHighIdx);
-    int[] sorted2 = sortHelper(ints, newLowIdx, highIdx);
-    return merge(sorted1, sorted2);
   }
 
-  private static int[] merge(int[] sorted1, int[] sorted2) {
-    int[] merged = new int[sorted1.length + sorted2.length];
-    int sorted1Idx = 0;
-    int sorted2Idx = 0;
-    for (int i = 0; i < sorted1.length + sorted2.length; i++) {
-      if (sorted1Idx == sorted1.length) {
-        merged[i] = sorted2[sorted2Idx];
-        sorted2Idx++;
-      }
-      else if (sorted2Idx == sorted2.length || sorted1[sorted1Idx] < sorted2[sorted2Idx]) {
-        merged[i] = sorted1[sorted1Idx];
-        sorted1Idx++;
-      }
-      else {
-        merged[i] = sorted2[sorted2Idx];
-        sorted2Idx++;
-      }
+  private static void merge(int[] ints, int lowIdx, int midIdx, int highIdx) {
+    int[] merged = new int[highIdx - lowIdx + 1];
+    int sorted1Idx = lowIdx, sorted2Idx = midIdx + 1;
+    for (int i = 0; i < merged.length; i++) {
+      if (sorted1Idx > midIdx) merged[i] = ints[sorted2Idx++];
+      else if (sorted2Idx > highIdx || ints[sorted1Idx] < ints[sorted2Idx])
+        merged[i] = ints[sorted1Idx++];
+      else merged[i] = ints[sorted2Idx++];
     }
-    return merged;
+    System.arraycopy(merged, 0, ints, lowIdx, merged.length);
   }
 }

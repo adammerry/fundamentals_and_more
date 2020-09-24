@@ -4,26 +4,22 @@ package sorting;
 // support sorting arrays with negative numbers.
 public class RadixSort {
 
-  public static int[] sort(int[] ints) {
+  public static void sort(int[] ints) {
     if (ints == null) {
       System.out.println("null array encountered");
-      return null;
+      return;
     }
-    int largest = Integer.MIN_VALUE;
+    if (ints.length == 0) return;
+    int largest = ints[0];
     for (int i : ints) {
       if (i < 0) {
         System.out.println("This implementation of radix sort can't take negative numbers");
-        return ints;
+        return ;
       }
-      if (i > largest) {
-        largest = i;
-      }
+      if (i > largest) largest = i;
     }
     // Perform counting sort for every digit in the largest number in the input.
-    for (int i = 1; largest / i > 0; i *= 10) {
-      countingSortByDigit(ints, i);
-    }
-    return ints;
+    for (int i = 1; largest / i > 0; i *= 10) countingSortByDigit(ints, i);
   }
 
   private static void countingSortByDigit(int[] ints, int divisor) {
@@ -31,17 +27,13 @@ public class RadixSort {
     int[] counts = new int[base];
     int[] output = new int[ints.length];
     // Populate counts[] with information based on appropriate digit of each number in ints[].
-    for (int i = 0; i < ints.length; i++) {
-      counts[(ints[i] / divisor) % base]++;
-    }
+    for (int i : ints) counts[(i / divisor) % base]++;
     // Modify the values of the counts[] array so that each value corresponds to an index in the
     // output[] array. Modifying counts[] here is necessary because the indices of counts[] are
     // not the same as the values in the initial array. Therefore, we cannot produce an answer by
     // simply running through counts[] and ignoring the original array. We must find a creative
     // way to map values in the original array to the proper indices in output[].
-    for (int i = 1; i < base; i++) {
-      counts[i] += counts[i - 1];
-    }
+    for (int i = 1; i < base; i++) counts[i] += counts[i - 1];
     // Build output array.
     for (int i = ints.length - 1; i >= 0; i--) {
       // Map each element of ints[] to its appropriate index in output[]. Working from back to front

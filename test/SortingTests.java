@@ -1,3 +1,5 @@
+import com.sun.scenario.effect.Merge;
+
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,23 +13,23 @@ import sorting.QuickSort;
 import sorting.RadixSort;
 
 public class SortingTests {
-  int[] l1;
-  int[] l2;
-  int[] l3;
-  int[] l4;
-  int[] l5;
-  int[] l6;
-  int[] l7;
-  int[] l8;
+  private int[] l1;
+  private int[] l2;
+  private int[] l3;
+  private int[] l4;
+  private int[] l5;
+  private int[] l6;
+  private int[] l7;
+  private int[] l8;
 
-  int[] s1;
-  int[] s2;
-  int[] s3;
-  int[] s4;
-  int[] s5;
-  int[] s6;
-  int[] s7;
-  int[] s8;
+  private int[] s1;
+  private int[] s2;
+  private int[] s3;
+  private int[] s4;
+  private int[] s5;
+  private int[] s6;
+  private int[] s7;
+  private int[] s8;
 
   @Before
   public void setUpArrays() {
@@ -52,81 +54,133 @@ public class SortingTests {
 
   @Test
   public void testQuickSort() {
-    assertArrayEquals(s1, QuickSort.sort(l1));
-    assertArrayEquals(s2, QuickSort.sort(l2));
-    assertArrayEquals(s3, QuickSort.sort(l3));
-    assertArrayEquals(s4, QuickSort.sort(l4));
-    assertArrayEquals(s5, QuickSort.sort(l5));
-    assertArrayEquals(s6, QuickSort.sort(l6));
-    assertArrayEquals(s7, QuickSort.sort(l7));
-    assertArrayEquals(s8, QuickSort.sort(l8));
+    QuickSort.sort(l1);
+    QuickSort.sort(l2);
+    QuickSort.sort(l3);
+    QuickSort.sort(l4);
+    QuickSort.sort(l5);
+    QuickSort.sort(l6);
+    QuickSort.sort(l7);
+    QuickSort.sort(l8);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s4, l4);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
+    assertArrayEquals(s8, l8);
   }
 
   @Test
   public void testMergeSort() {
-    assertArrayEquals(s1, MergeSort.sort(l1));
-    assertArrayEquals(s2, MergeSort.sort(l2));
-    assertArrayEquals(s3, MergeSort.sort(l3));
-    assertArrayEquals(s4, MergeSort.sort(l4));
-    assertArrayEquals(s5, MergeSort.sort(l5));
-    assertArrayEquals(s6, MergeSort.sort(l6));
-    assertArrayEquals(s7, MergeSort.sort(l7));
-    assertArrayEquals(s8, MergeSort.sort(l8));
+    MergeSort.sort(l1);
+    MergeSort.sort(l2);
+    MergeSort.sort(l3);
+    MergeSort.sort(l4);
+    MergeSort.sort(l5);
+    MergeSort.sort(l6);
+    MergeSort.sort(l7);
+    MergeSort.sort(l8);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s4, l4);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
+    assertArrayEquals(s8, l8);
   }
 
   @Test
   public void testInsertionSort() {
-    assertArrayEquals(s1, InsertionSort.sort(l1));
-    assertArrayEquals(s2, InsertionSort.sort(l2));
-    assertArrayEquals(s3, InsertionSort.sort(l3));
-    assertArrayEquals(s4, InsertionSort.sort(l4));
-    assertArrayEquals(s5, InsertionSort.sort(l5));
-    assertArrayEquals(s6, InsertionSort.sort(l6));
-    assertArrayEquals(s7, InsertionSort.sort(l7));
-    assertArrayEquals(s8, InsertionSort.sort(l8));
+    InsertionSort.sort(l1);
+    InsertionSort.sort(l2);
+    InsertionSort.sort(l3);
+    InsertionSort.sort(l4);
+    InsertionSort.sort(l5);
+    InsertionSort.sort(l6);
+    InsertionSort.sort(l7);
+    InsertionSort.sort(l8);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s4, l4);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
+    assertArrayEquals(s8, l8);
   }
 
   @Test
   public void testHeapSort() {
-    assertArrayEquals(s1, HeapSort.sort(l1));
-    assertArrayEquals(s2, HeapSort.sort(l2));
-    assertArrayEquals(s3, HeapSort.sort(l3));
-    assertArrayEquals(s4, HeapSort.sort(l4));
-    assertArrayEquals(s5, HeapSort.sort(l5));
-    assertArrayEquals(s6, HeapSort.sort(l6));
-    assertArrayEquals(s7, HeapSort.sort(l7));
-    assertArrayEquals(s8, HeapSort.sort(l8));
+    HeapSort.sort(l1);
+    HeapSort.sort(l2);
+    HeapSort.sort(l3);
+    HeapSort.sort(l4);
+    HeapSort.sort(l5);
+    HeapSort.sort(l6);
+    HeapSort.sort(l7);
+    HeapSort.sort(l8);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s4, l4);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
+    assertArrayEquals(s8, l8);
   }
 
   @Test
   public void testCountingSortNonNegative() {
-    assertArrayEquals(s1, CountingSortNonNegative.sort(l1));
-    assertArrayEquals(s2, CountingSortNonNegative.sort(l2));
-    assertArrayEquals(s3, CountingSortNonNegative.sort(l3));
-    assertArrayEquals(s5, CountingSortNonNegative.sort(l5));
-    assertArrayEquals(s6, CountingSortNonNegative.sort(l6));
-    assertArrayEquals(s7, CountingSortNonNegative.sort(l7));
+    CountingSortNonNegative.sort(l1);
+    CountingSortNonNegative.sort(l2);
+    CountingSortNonNegative.sort(l3);
+    CountingSortNonNegative.sort(l5);
+    CountingSortNonNegative.sort(l6);
+    CountingSortNonNegative.sort(l7);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
   }
 
   @Test
   public void testCountingSortNegative() {
-    assertArrayEquals(s1, CountingSortNegative.sort(l1));
-    assertArrayEquals(s2, CountingSortNegative.sort(l2));
-    assertArrayEquals(s3, CountingSortNegative.sort(l3));
-    assertArrayEquals(s4, CountingSortNegative.sort(l4));
-    assertArrayEquals(s5, CountingSortNegative.sort(l5));
-    assertArrayEquals(s6, CountingSortNegative.sort(l6));
-    assertArrayEquals(s7, CountingSortNegative.sort(l7));
-    assertArrayEquals(s8, InsertionSort.sort(l8));
+    CountingSortNegative.sort(l1);
+    CountingSortNegative.sort(l2);
+    CountingSortNegative.sort(l3);
+    CountingSortNegative.sort(l4);
+    CountingSortNegative.sort(l5);
+    CountingSortNegative.sort(l6);
+    CountingSortNegative.sort(l7);
+    CountingSortNegative.sort(l8);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s4, l4);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
+    assertArrayEquals(s8, l8);
   }
 
   @Test
   public void testRadixSort() {
-    assertArrayEquals(s1, RadixSort.sort(l1));
-    assertArrayEquals(s2, RadixSort.sort(l2));
-    assertArrayEquals(s3, RadixSort.sort(l3));
-    assertArrayEquals(s5, RadixSort.sort(l5));
-    assertArrayEquals(s6, RadixSort.sort(l6));
-    assertArrayEquals(s7, RadixSort.sort(l7));
+    RadixSort.sort(l1);
+    RadixSort.sort(l2);
+    RadixSort.sort(l3);
+    RadixSort.sort(l5);
+    RadixSort.sort(l6);
+    RadixSort.sort(l7);
+    assertArrayEquals(s1, l1);
+    assertArrayEquals(s2, l2);
+    assertArrayEquals(s3, l3);
+    assertArrayEquals(s5, l5);
+    assertArrayEquals(s6, l6);
+    assertArrayEquals(s7, l7);
   }
 }
