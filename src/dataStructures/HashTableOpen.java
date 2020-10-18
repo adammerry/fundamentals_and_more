@@ -8,16 +8,15 @@ import java.util.List;
 // function is a simple modulo operation, and the collision resolution policy employs open
 // hashing (storing records externally in a list).
 public class HashTableOpen {
-  private final double LOAD_FACTOR = 0.75;
+  private final double LOAD_FACTOR_MAX = 0.75;
+  private final double LOAD_FACTOR_MIN = 0.25;
   private final int INITIAL_CAPACITY = 10;
-  private ArrayList<List<Record>> table;
+  private ArrayList<ArrayList<Record>> table;
   private int count;
 
   public HashTableOpen() {
     table = new ArrayList<>(INITIAL_CAPACITY);
-    for (int i = 0; i < INITIAL_CAPACITY; i++) {
-      table.add(new LinkedList<>());
-    }
+    for (int i = 0; i < INITIAL_CAPACITY; i++) table.add(new ArrayList<>());
     count = 0;
   }
 
@@ -51,42 +50,27 @@ public class HashTableOpen {
       return null;
     }
     // If table has become too full, expand table size and rehash.
-    if (count == (int) (table.size() * LOAD_FACTOR)) {
-      rehash();
-    }
+    if (count == (int) (table.size() * LOAD_FACTOR_MAX)) rehash(2);
     int slot = Math.abs(key.hashCode()) % table.size();
-    Record oldRecord = null;
-    Object oldValue = null;
     for (Record r : table.get(slot)) {
       if (r.getKey().equals(key)) {
-        oldRecord = r;
-        oldValue = r.getValue();
-        break;
+        Object oldValue = r.getValue();
+        r.setValue(value);
+        return oldValue;
       }
     }
-    if (oldRecord == null) {
-      table.get(slot).add(new Record(key, value));
-      count++;
-    }
-    else {
-      oldRecord.setValue(value);
-    }
-    return oldValue;
+    table.get(slot).add(new Record(key, value));
+    count++;
+    return null;
   }
 
-  private void rehash() {
-    List<Record> tableElements = new ArrayList<>();
-    for (List<Record> list : table) {
-      tableElements.addAll(list);
-    }
-    int newSize = table.size() * 2;
+  private void rehash(double resizeFactor) {
+    ArrayList<ArrayList<Record>> oldTable = table;
+    int newSize = (int) (table.size() * resizeFactor);
     table = new ArrayList<>(newSize);
-    for (int i = 0; i < newSize; i++) {
-      table.add(new LinkedList<>());
-    }
-    for (Record r : tableElements) {
-      put(r.getKey(), r.getValue());
-    }
+    for (int i = 0; i < newSize; i++) table.add(new ArrayList<>());
+    for (List<Record> l : oldTable)
+      for (Record r : l) put(r.getKey(), r.getValue());
   }
 
   public Object get(Object key) {
@@ -94,11 +78,8 @@ public class HashTableOpen {
       System.out.println("Key cannot be null.");
       return null;
     }
-    int slot = Math.abs(key.hashCode()) % table.size();
-    List<Record> list = table.get(slot);
-    for (Record r : list) {
+    for (Record r : table.get(Math.abs(key.hashCode()) % table.size()))
       if (r.getKey().equals(key)) return r.getValue();
-    }
     return null;
   }
 
@@ -108,19 +89,17 @@ public class HashTableOpen {
       System.out.println("Key cannot be null.");
       return null;
     }
-    int slot = Math.abs(key.hashCode()) % table.size();
-    List<Record> list = table.get(slot);
-    Record deleteRecord = null;
-    for (Record r : list) {
-      if (r.getKey().equals(key)) {
-        deleteRecord = r;
-        break;
-      }
-    }
-    if (deleteRecord == null) return null;
-    list.remove(deleteRecord);
+    ArrayList<Record> l = table.get(Math.abs(key.hashCode()) % table.size());
+    int deleteIdx = -1;
+    for (int i = 0; i < l.size() && deleteIdx == -1; i++)
+      if (l.get(i).getKey().equals(key)) deleteIdx = i;
+    if (deleteIdx == -1) return null;
+    Object deleteValue = l.get(deleteIdx).getValue();
+    l.remove(deleteIdx);
     count--;
-    return deleteRecord.getValue();
+    // If table has become too empty, reduce table size and rehash.
+    if (count == (int) (table.size() * LOAD_FACTOR_MIN)) rehash(0.5);
+    return deleteValue;
   }
 
   public boolean containsKey(Object key) {
@@ -128,11 +107,8 @@ public class HashTableOpen {
       System.out.println("Key cannot be null.");
       return false;
     }
-    int slot = Math.abs(key.hashCode()) % table.size();
-    List<Record> list = table.get(slot);
-    for (Record r : list) {
+    for (Record r : table.get(Math.abs(key.hashCode()) % table.size()))
       if (r.getKey().equals(key)) return true;
-    }
     return false;
   }
 }
