@@ -6,7 +6,8 @@ import java.util.Arrays;
 // function is a simple modulo operation, and the collision resolution policy employs closed
 // hashing with linear probing by steps.
 public class HashTableClosed {
-  private final double LOAD_FACTOR = 0.75;
+  private final double LOAD_FACTOR_MAX = 0.75;
+  private final double LOAD_FACTOR_MIN = 0.25;
   private final int INITIAL_CAPACITY = 10;
   private Record[] table;
   private int count;
@@ -50,13 +51,9 @@ public class HashTableClosed {
   }
 
   private int calculateStepSize() {
-    for (int i = 2; i < table.length; i++) {
-      // The step size must be relatively prime with respect to the length of the hash table, so
-      // that the probe sequence can reach every slot in the table.
-      if (gcd(i, table.length) == 1) {
-        return i;
-      }
-    }
+    // The step size must be relatively prime with respect to the length of the hash table, so
+    // that the probe sequence can reach every slot in the table.
+    for (int i = 2; i < table.length; i++) if (gcd(i, table.length) == 1) return i;
     return 1;
   }
 
@@ -73,9 +70,7 @@ public class HashTableClosed {
       return null;
     }
     // If table has become too full, expand table size and rehash.
-    if (count == (int) (table.length * LOAD_FACTOR)) {
-      rehash();
-    }
+    if (count == (int) (table.length * LOAD_FACTOR_MAX)) rehash(2);
     int slot = Math.abs(key.hashCode()) % table.length;
     int firstTombstoneIdx = -1;
     // Iterate until an empty slot is found to ensure that no duplicates will be inserted.
@@ -94,9 +89,7 @@ public class HashTableClosed {
         }
       }
       // Keep track of first tombstone occurrence.
-      if (table[slot].isTombstone() && firstTombstoneIdx == -1) {
-        firstTombstoneIdx = slot;
-      }
+      if (table[slot].isTombstone() && firstTombstoneIdx == -1) firstTombstoneIdx = slot;
       slot = (slot + stepSize) % table.length;
     }
     // If the given key did not already exist in the table, insert a new record into the hash
@@ -107,16 +100,12 @@ public class HashTableClosed {
     return null;
   }
 
-  private void rehash() {
+  private void rehash(double resizeFactor) {
     Record[] tableCopy = Arrays.copyOf(table, table.length);
-    table = new Record[table.length * 2];
+    table = new Record[Math.max(INITIAL_CAPACITY, (int)(table.length * resizeFactor))];
     stepSize = calculateStepSize();
     count = 0;
-    for (Record r : tableCopy) {
-      if (r != null && (!r.isTombstone())) {
-        put(r.getKey(), r.getValue());
-      }
-    }
+    for (Record r : tableCopy) if (r != null && (!r.isTombstone())) put(r.getKey(), r.getValue());
   }
 
   public Object get(Object key) {
@@ -126,9 +115,8 @@ public class HashTableClosed {
     }
     int slot = Math.abs(key.hashCode()) % table.length;
     while (table[slot] != null) {
-      if ((!table[slot].isTombstone()) && table[slot].getKey().equals(key)) {
+      if ((!table[slot].isTombstone()) && table[slot].getKey().equals(key))
         return table[slot].getValue();
-      }
       slot = (slot + stepSize) % table.length;
     }
     return null;
@@ -148,6 +136,7 @@ public class HashTableClosed {
         Object oldValue = table[slot].getValue();
         table[slot].setTombstone(true);
         count--;
+        if (count == (int) (table.length * LOAD_FACTOR_MIN)) rehash(0.5);
         return oldValue;
       }
       slot = (slot + stepSize) % table.length;
@@ -167,9 +156,7 @@ public class HashTableClosed {
     int slot, homeSlot;
     slot = homeSlot = Math.abs(key.hashCode()) % table.length;
     while (table[slot] != null) {
-      if ((!table[slot].isTombstone()) && table[slot].getKey().equals(key)) {
-        return true;
-      }
+      if ((!table[slot].isTombstone()) && table[slot].getKey().equals(key)) return true;
       slot = (slot + stepSize) % table.length;
       // Check to see if we have searched through all slots in the table and returned to the home
       // slot. This corner case may come about if, through a series of insertions and deletions,
