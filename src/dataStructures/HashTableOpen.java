@@ -50,7 +50,7 @@ public class HashTableOpen {
       return null;
     }
     // If table has become too full, expand table size and rehash.
-    if (count == (int) (table.size() * LOAD_FACTOR_MAX)) rehash(2);
+    if (count == (int)(table.size() * LOAD_FACTOR_MAX)) rehash(2);
     int slot = Math.abs(key.hashCode()) % table.size();
     for (Record r : table.get(slot)) {
       if (r.getKey().equals(key)) {
@@ -66,7 +66,7 @@ public class HashTableOpen {
 
   private void rehash(double resizeFactor) {
     ArrayList<ArrayList<Record>> oldTable = table;
-    int newSize = (int) (table.size() * resizeFactor);
+    int newSize = Math.max(INITIAL_CAPACITY, (int)(table.size() * resizeFactor));
     table = new ArrayList<>(newSize);
     for (int i = 0; i < newSize; i++) table.add(new ArrayList<>());
     for (List<Record> l : oldTable)
@@ -98,7 +98,7 @@ public class HashTableOpen {
     l.remove(deleteIdx);
     count--;
     // If table has become too empty, reduce table size and rehash.
-    if (count == (int) (table.size() * LOAD_FACTOR_MIN)) rehash(0.5);
+    if (count == (int)(table.size() * LOAD_FACTOR_MIN)) rehash(0.5);
     return deleteValue;
   }
 
