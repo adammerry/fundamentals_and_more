@@ -23,6 +23,7 @@ import dataStructures.PriorityQueueList;
 import dataStructures.Queue;
 import dataStructures.RedBlackTree;
 import dataStructures.Stack;
+import dataStructures.StringBuilder;
 import dataStructures.Trie;
 
 public class DataStructuresTests {
@@ -732,5 +733,22 @@ public class DataStructuresTests {
     a.remove(0);
     a.remove(1);
     a.remove(0);
+  }
+
+  @Test
+  public void testStringBuilder() {
+    StringBuilder s1 = new StringBuilder();
+    StringBuilder s2 = new StringBuilder(new char[]{'h', 'e', 'l', 'l', 'o'});
+    StringBuilder s3 = new StringBuilder("goodbye");
+    s1.append("hi");
+    s1.append(new char[]{'o', 'k'});
+    s2.append((String) null);
+    s2.append("a long string that will cause resizing");
+    s3.append((char[]) null);
+    String s = "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm";
+    s3.append(s);
+    assertEquals("hiok", s1.toString());
+    assertEquals("helloa long string that will cause resizing", s2.toString());
+    assertEquals("goodbye" + s, s3.toString());
   }
 }
