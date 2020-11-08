@@ -103,9 +103,7 @@ public class LinkedList<E> implements Iterable<E> {
 
   public boolean isEmpty() { return size == 0; }
 
-  public Iterator<E> iterator() {
-    return new LinkedListIterator<>(this);
-  }
+  public Iterator<E> iterator() { return new LinkedListIterator<>(this); }
   
   public class LinkedListIterator<G> implements Iterator<G> {
     LinkedList<G> list;
@@ -117,9 +115,7 @@ public class LinkedList<E> implements Iterable<E> {
     }
     
     @Override
-    public boolean hasNext() {
-      return (nextNode != null);
-    }
+    public boolean hasNext() { return (nextNode != null); }
     
     @Override
     public G next() {

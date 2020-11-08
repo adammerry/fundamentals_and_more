@@ -68,26 +68,18 @@ public class ArrayList<E> implements Iterable<E> {
   public int size() { return size; }
 
   @Override
-  public Iterator<E> iterator() {
-    return new ArrayListIterator<>(this.elements);
-  }
+  public Iterator<E> iterator() { return new ArrayListIterator<>(this.elements); }
 
   private class ArrayListIterator<F> implements Iterator<F> {
     int nextIdx = 0;
     private E[] elements;
 
-    ArrayListIterator(E[] arr) {
-      elements = arr;
-    }
+    ArrayListIterator(E[] arr) { elements = arr; }
 
     @Override
-    public boolean hasNext() {
-      return nextIdx < size;
-    }
+    public boolean hasNext() { return nextIdx < size; }
 
     @Override
-    public F next() {
-      return (F) elements[nextIdx++];
-    }
+    public F next() { return (F) elements[nextIdx++]; }
   }
 }
