@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import java.util.Iterator;
 
 import dataStructures.ArrayList;
 import dataStructures.BinarySearchTree;
@@ -662,6 +663,15 @@ public class DataStructuresTests {
     l.add("goodbye");
     l.add("hi");
     l.add("bye");
+    // Test Iterable functionality.
+    for (String s : l) System.out.println(s);
+    Iterator<String> it = l.iterator();
+    assertTrue(it.hasNext());
+    assertEquals("hello", it.next());
+    assertEquals("goodbye", it.next());
+    assertEquals("hi", it.next());
+    assertEquals("bye", it.next());
+    assertFalse(it.hasNext());
     assertEquals(4, l.size());
     assertEquals("hello", l.get(0));
     assertEquals("goodbye", l.get(1));
@@ -671,10 +681,12 @@ public class DataStructuresTests {
     assertNull(l.get(4));
     assertNull(l.remove(4));
     assertNull(l.remove("ok"));
-    assertEquals("hi", l.remove("hi"));
-    assertEquals("bye", l.remove(2));
-    assertEquals("goodbye", l.remove(1));
-    assertEquals("hello", l.remove(0));
+    l.add("ok");
+    assertEquals("hello", l.remove("hello"));
+    assertEquals("bye", l.remove("bye"));
+    assertEquals("ok", l.remove(2));
+    assertEquals("hi", l.remove(1));
+    assertEquals("goodbye", l.remove(0));
   }
 
   @Test
@@ -703,9 +715,8 @@ public class DataStructuresTests {
     assertEquals("goodbye", a.remove(1));
     assertEquals("hello", a.remove(0));
     assertEquals("bye", a.remove("bye"));
-    a = new ArrayList<>(412);
     a = new ArrayList<>(3);
-    // Add and remove elements so that resize() is called twice.
+    // Add elements so that resize() is called.
     a.add("a");
     a.add("b");
     a.add("c");
@@ -720,6 +731,38 @@ public class DataStructuresTests {
     a.add("l");
     a.add("m");
     a.add("n");
+    a.add("o");
+    a.add("p");
+    a.add("q");
+    a.add("r");
+    a.add("s");
+    a.add("t");
+    // Test Iterable functionality.
+    for (String s : a) System.out.println(s);
+    Iterator<String> it = a.iterator();
+    assertTrue(it.hasNext());
+    assertEquals("a", it.next());
+    assertEquals("b", it.next());
+    assertEquals("c", it.next());
+    assertEquals("d", it.next());
+    assertEquals("e", it.next());
+    assertEquals("f", it.next());
+    assertEquals("g", it.next());
+    assertEquals("h", it.next());
+    assertEquals("i", it.next());
+    assertEquals("j", it.next());
+    assertEquals("k", it.next());
+    assertEquals("l", it.next());
+    assertEquals("m", it.next());
+    assertEquals("n", it.next());
+    assertEquals("o", it.next());
+    assertEquals("p", it.next());
+    assertEquals("q", it.next());
+    assertEquals("r", it.next());
+    assertEquals("s", it.next());
+    assertEquals("t", it.next());
+    assertFalse(it.hasNext());
+    // Remove elements so that resize() is called.
     a.remove(13);
     a.remove(12);
     a.remove(11);

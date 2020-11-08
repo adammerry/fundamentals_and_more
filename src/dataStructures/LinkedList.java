@@ -1,7 +1,9 @@
 package dataStructures;
 
+import java.util.Iterator;
+
 // Implementation of a singly-linked list.
-public class LinkedList<E> {
+public class LinkedList<E> implements Iterable<E> {
   private ListNode<E> head;
   private ListNode<E> tail;
   private int size;
@@ -96,8 +98,34 @@ public class LinkedList<E> {
     size--;
     return retData;
   }
-
+  
   public int size() { return size; }
 
   public boolean isEmpty() { return size == 0; }
+
+  public Iterator<E> iterator() {
+    return new LinkedListIterator<>(this);
+  }
+  
+  public class LinkedListIterator<G> implements Iterator<G> {
+    LinkedList<G> list;
+    ListNode<G> nextNode;
+    
+    LinkedListIterator(LinkedList<G> list) {
+      this.list = list;
+      nextNode = (ListNode<G>) list.head;
+    }
+    
+    @Override
+    public boolean hasNext() {
+      return (nextNode != null);
+    }
+    
+    @Override
+    public G next() {
+      G data = nextNode.data;
+      nextNode = nextNode.next;
+      return data;
+    }
+  }
 }

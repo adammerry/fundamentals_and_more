@@ -1,8 +1,10 @@
 package dataStructures;
 
+import java.util.Iterator;
+
 // Implementation of a generic ArrayList - an array-backed dynamically-resizing list with
 // amortized O(1) insertion complexity.
-public class ArrayList<E> {
+public class ArrayList<E> implements Iterable<E> {
   private int MIN_SIZE = 16;
   private E[] elements;
   private int size = 0;
@@ -64,4 +66,28 @@ public class ArrayList<E> {
   }
 
   public int size() { return size; }
+
+  @Override
+  public Iterator<E> iterator() {
+    return new ArrayListIterator<>(this.elements);
+  }
+
+  private class ArrayListIterator<F> implements Iterator<F> {
+    int nextIdx = 0;
+    private E[] elements;
+
+    ArrayListIterator(E[] arr) {
+      elements = arr;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return nextIdx < size;
+    }
+
+    @Override
+    public F next() {
+      return (F) elements[nextIdx++];
+    }
+  }
 }
