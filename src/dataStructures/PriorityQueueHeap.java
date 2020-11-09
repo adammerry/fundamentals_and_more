@@ -4,13 +4,13 @@ package dataStructures;
 // This is probably the best way to implement a priority queue, since all operations can be
 // executed in sub-linear worst-case time.
 public class PriorityQueueHeap<E> {
-  private int defaultSize = 10;
+  private static final int DEFAULT_SIZE = 10;
   private PriorityQueueElement<E>[] heap;
   private int size;
 
   public PriorityQueueHeap(int capacity) {
     heap = (PriorityQueueElement<E>[]) ((capacity > 0) ? new PriorityQueueElement[capacity] :
-            new PriorityQueueElement[defaultSize]);
+            new PriorityQueueElement[DEFAULT_SIZE]);
     size = 0;
   }
 

@@ -3,7 +3,7 @@ package dataStructures;
 // Implementation of a max-heap that stores Characters and has sifting operations implemented in a
 // recursive style.
 public class MaxHeapCharacterRecursive {
-  private int MAX_SIZE;
+  private static int MAX_SIZE = 100;
   private Character[] heap;
   private int nextIdx;
 

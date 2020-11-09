@@ -2,13 +2,13 @@ package dataStructures;
 
 // Implementation of a generic priority queue using an array as the underlying data structure.
 public class PriorityQueueArray<E> {
-  private int defaultSize = 10;
+  private static final int DEFAULT_SIZE = 10;
   private int size;
   private PriorityQueueElement<E>[] elements;
 
   public PriorityQueueArray(int capacity) {
     elements = (PriorityQueueElement<E>[]) ((capacity > 0) ? new PriorityQueueElement[capacity] :
-            new PriorityQueueElement[defaultSize]);
+            new PriorityQueueElement[DEFAULT_SIZE]);
     size = 0;
   }
 

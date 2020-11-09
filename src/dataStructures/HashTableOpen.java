@@ -8,9 +8,9 @@ import java.util.List;
 // function is a simple modulo operation, and the collision resolution policy employs open
 // hashing (storing records externally in a list).
 public class HashTableOpen {
-  private final double LOAD_FACTOR_MAX = 0.75;
-  private final double LOAD_FACTOR_MIN = 0.25;
-  private final int INITIAL_CAPACITY = 10;
+  private static final double LOAD_FACTOR_MAX = 0.75;
+  private static final double LOAD_FACTOR_MIN = 0.25;
+  private static final int INITIAL_CAPACITY = 10;
   private ArrayList<ArrayList<Record>> table;
   private int count;
 

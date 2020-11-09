@@ -5,7 +5,7 @@ import java.util.Queue;
 
 // Implementation of a Trie data structure that allows insertion, search, and deletion.
 public class Trie {
-  final int ALPHABET_SIZE = 26;
+  private static final int ALPHABET_SIZE = 26;
   private TrieNode root;
 
   private class TrieNode {

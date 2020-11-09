@@ -5,7 +5,7 @@ import java.util.Iterator;
 // Implementation of a generic ArrayList - an array-backed dynamically-resizing list with
 // amortized O(1) insertion complexity.
 public class ArrayList<E> implements Iterable<E> {
-  private int MIN_SIZE = 16;
+  private static final int MIN_SIZE = 16;
   private E[] elements;
   private int size = 0;
 

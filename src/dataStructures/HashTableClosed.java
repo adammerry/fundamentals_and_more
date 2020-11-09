@@ -6,9 +6,9 @@ import java.util.Arrays;
 // function is a simple modulo operation, and the collision resolution policy employs closed
 // hashing with linear probing by steps.
 public class HashTableClosed {
-  private final double LOAD_FACTOR_MAX = 0.75;
-  private final double LOAD_FACTOR_MIN = 0.25;
-  private final int INITIAL_CAPACITY = 10;
+  private static final double LOAD_FACTOR_MAX = 0.75;
+  private static final double LOAD_FACTOR_MIN = 0.25;
+  private static final int INITIAL_CAPACITY = 10;
   private Record[] table;
   private int count;
   private int stepSize;
