@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 // Implementations of a factorial-time brute-force solution, and exponential-time dynamic
 // programming solution to the traveling salesman problem on an undirected graph. (The dynamic
@@ -15,15 +16,10 @@ public class TravelingSalesman {
   private int[][] graph = new int[0][0];
 
   public TravelingSalesman(int[][] adjMatrix) {
-    if (adjMatrix.length < 4) {
-      System.out.println("Please provide a more interesting graph");
-    }
-    else if (adjMatrix.length != adjMatrix[0].length) {
+    if (adjMatrix.length < 4) System.out.println("Please provide a more interesting graph");
+    else if (adjMatrix.length != adjMatrix[0].length)
       System.out.println("Adjacency matrix is invalid");
-    }
-    else {
-      graph = adjMatrix;
-    }
+    else graph = adjMatrix;
   }
 
   // ------------------------------------------------------------------------------------------- //
@@ -33,9 +29,7 @@ public class TravelingSalesman {
   public List<Integer> bruteForceSolution() {
     List<List<Integer>> permutations = new LinkedList<>();
     int[] vertices = new int[graph.length - 1];
-    for (int i = 0; i < graph.length - 1; i++) {
-      vertices[i] = i + 1;
-    }
+    for (int i = 0; i < graph.length - 1; i++) vertices[i] = i + 1;
     generatePermutations(vertices, permutations, graph.length - 1);
     int minCost = Integer.MAX_VALUE;
     List<Integer> minCostPath = new LinkedList<>();
@@ -55,19 +49,14 @@ public class TravelingSalesman {
   private void generatePermutations(int[] vertices, List<List<Integer>> permutations, int counter) {
     if (counter == 1) {
       List<Integer> l = new LinkedList<>();
-      for (int v : vertices) {
-        l.add(v);
-      }
+      for (int v : vertices) l.add(v);
       permutations.add(l);
     }
     else {
       generatePermutations(vertices, permutations, counter - 1);
       for (int i = 0; i < counter - 1; i++) {
-        if (counter % 2 == 0) {
-          swap(vertices, i, counter - 1);
-        } else {
-          swap(vertices, 0, counter - 1);
-        }
+        if (counter % 2 == 0) swap(vertices, i, counter - 1);
+        else swap(vertices, 0, counter - 1);
         generatePermutations(vertices, permutations, counter - 1);
       }
     }
@@ -81,9 +70,7 @@ public class TravelingSalesman {
     Integer previousVertex = null;
     while (iterator.hasNext()) {
       Integer thisVertex = iterator.next();
-      if (previousVertex == null) {
-        previousVertex = thisVertex;
-      }
+      if (previousVertex == null) previousVertex = thisVertex;
       else {
         sum += graph[previousVertex][thisVertex];
         previousVertex = thisVertex;
@@ -104,20 +91,14 @@ public class TravelingSalesman {
     // [ (Set of vertices) : [ (End vertex on path beginning at vertex 0) : (min cost) ] ]
     Map<Set<Integer>, Map<Integer, Integer>> minCosts = new HashMap<>();
     int[] setElements = new int[graph.length - 1];
-    for (int i = 1; i < graph.length; i++) {
-      setElements[i - 1] = i;
-    }
+    for (int i = 1; i < graph.length; i++) setElements[i - 1] = i;
     List<Set<Integer>> powerSet = generatePowerSet(setElements);
     // Populate the maps with initial values.
     for (Set<Integer> set : powerSet) {
       for (Integer vertex : set) {
         Map<Integer, Integer> initialCosts = new HashMap<>();
-        if (set.size() == 1) {
-          initialCosts.put(vertex, graph[0][vertex]);
-        }
-        else {
-          initialCosts.put(vertex, Integer.MAX_VALUE);
-        }
+        if (set.size() == 1) initialCosts.put(vertex, graph[0][vertex]);
+        else initialCosts.put(vertex, Integer.MAX_VALUE);
         minCosts.put(set, initialCosts);
       }
     }
@@ -137,9 +118,7 @@ public class TravelingSalesman {
     int minCost = Integer.MAX_VALUE;
     for (Map.Entry<Integer, Integer> vertexCost : finalPathCosts.entrySet()) {
       int cost = vertexCost.getValue() + graph[vertexCost.getKey()][0];
-      if (cost < minCost) {
-        minCost = cost;
-      }
+      if (cost < minCost) minCost = cost;
     }
     return minCost;
   }
@@ -147,31 +126,27 @@ public class TravelingSalesman {
   // Generate the power set of a given set.
   private List<Set<Integer>> generatePowerSet(int[] setElements) {
     List<Set<Integer>> powerSet = new LinkedList<>();
-    int powerSetSize = (int) Math.pow(2, setElements.length);
-    // We start i from 1 here instead of 0, because we don't care about the empty set.
-    for (int i = 1; i < powerSetSize; i++) {
-      Set<Integer> currentSet = new HashSet<>();
-      for (int j = 0; j < setElements.length; j++) {
-        if ((i & (1 << j)) > 0) {
-          currentSet.add(setElements[j]);
-        }
-        if (!powerSet.contains(currentSet)) {
-          powerSet.add(currentSet);
-        }
-      }
-    }
+    populatePowerSet(0, setElements, new Stack<>(), powerSet);
     return powerSet;
+  }
+
+  // Recursively find all subsets of the given set.
+  private void populatePowerSet(int idx, int[] setElements, Stack<Integer> subset,
+                                List<Set<Integer>> powerSet) {
+    if (idx == setElements.length) powerSet.add(new HashSet<>(subset));
+    else {
+      populatePowerSet(idx + 1, setElements, subset, powerSet);
+      subset.push(setElements[idx]);
+      populatePowerSet(idx + 1, setElements, subset, powerSet);
+      subset.pop();
+    }
   }
 
   // Return a new set containing all elements of the given set, with the exception of the element
   // to be excluded.
   private Set<Integer> copyAllExcept(Set<Integer> oldSet, int excluded) {
     Set<Integer> newSet = new HashSet<>();
-    for (int elem : oldSet) {
-      if (elem != excluded) {
-        newSet.add(elem);
-      }
-    }
+    for (int elem : oldSet) if (elem != excluded) newSet.add(elem);
     return newSet;
   }
 
@@ -181,9 +156,7 @@ public class TravelingSalesman {
     int minCost = Integer.MAX_VALUE;
     for (Map.Entry<Integer, Integer> vertexCost : vertexCosts.entrySet()) {
       int cost = vertexCost.getValue() + graph[vertexCost.getKey()][nextVertex];
-      if (cost < minCost) {
-        minCost = cost;
-      }
+      if (cost < minCost)minCost = cost;
     }
     return minCost;
   }
