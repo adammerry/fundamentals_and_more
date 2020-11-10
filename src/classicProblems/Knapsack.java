@@ -1,7 +1,7 @@
 package classicProblems;
 
 // Implementation of an exponential-time brute-force solution, and pseudo-polynomial-time dynamic
-// programming solution to the knapsack problem. In both solutions below, weights[] and values[]
+// programming solution to the Knapsack problem. In both solutions below, weights[] and values[]
 // are assumed to be equal in length, since otherwise the problem specifications would be invalid.
 public class Knapsack {
 

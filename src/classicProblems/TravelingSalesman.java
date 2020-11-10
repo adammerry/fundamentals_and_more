@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.Stack;
 
 // Implementations of a factorial-time brute-force solution, and exponential-time dynamic
-// programming solution to the traveling salesman problem on an undirected graph. (The dynamic
+// programming solution to the Traveling Salesman problem on an undirected graph. (The dynamic
 // programming solution produces only the minimum cost, not the entire path).
 public class TravelingSalesman {
   private int[][] graph = new int[0][0];
