@@ -4,9 +4,11 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import classicProblems.Knapsack;
 import classicProblems.LevenshteinDistance;
+import classicProblems.TowersOfHanoi;
 import classicProblems.TravelingSalesman;
 
 public class ClassicProblemsTests {
@@ -186,5 +188,41 @@ public class ClassicProblemsTests {
     assertEquals(3, LevenshteinDistance.findDistanceSpaceOptimized("sunday", "saturday"));
     assertEquals(6, LevenshteinDistance.findDistanceSpaceOptimized("yellow", "green"));
     assertEquals(3, LevenshteinDistance.findDistanceSpaceOptimized("shirt", "this"));
+  }
+
+  @Test
+  public void testTowersOfHanoi() {
+    Stack<Integer> s1 = new Stack<>();
+    Stack<Integer> s2 = new Stack<>();
+    Stack<Integer> s3 = new Stack<>();
+    TowersOfHanoi.moveTower(s1, s2, s3);
+    assertTrue(s1.isEmpty());
+    assertTrue(s2.isEmpty());
+    assertTrue(s3.isEmpty());
+    s1.push(1);
+    TowersOfHanoi.moveTower(s1, s2, s3);
+    assertEquals(1, (int) s3.pop());
+    assertTrue(s1.isEmpty() && s2.isEmpty());
+    s1.push(2);
+    s1.push(1);
+    TowersOfHanoi.moveTower(s1, s2, s3);
+    assertEquals(1, (int) s3.pop());
+    assertEquals(2, (int) s3.pop());
+    assertTrue(s1.isEmpty() && s2.isEmpty());
+    s1.push(3);
+    s1.push(2);
+    s1.push(1);
+    TowersOfHanoi.moveTower(s1, s2, s3);
+    assertEquals(1, (int) s3.pop());
+    assertEquals(2, (int) s3.pop());
+    assertEquals(3, (int) s3.pop());
+    assertTrue(s1.isEmpty() && s2.isEmpty());
+    for (int i = 14; i > 0; i--) s1.push(i);
+    TowersOfHanoi.moveTower(s1, s2, s3);
+    for (int i = 1; i < 15; i++) assertEquals(i, (int) s3.pop());
+    assertTrue(s1.isEmpty() && s2.isEmpty());
+    s2.push(6);
+    s3.push(5);
+    TowersOfHanoi.moveTower(s1, s2, s3);
   }
 }
