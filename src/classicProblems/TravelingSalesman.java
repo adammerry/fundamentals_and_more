@@ -1,8 +1,8 @@
 package classicProblems;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Stack;
 // programming solution to the Traveling Salesman problem on an undirected graph. (The dynamic
 // programming solution produces only the minimum cost, not the entire path).
 public class TravelingSalesman {
-  private int[][] graph = new int[0][0];
+  private int[][] graph;
 
   public TravelingSalesman(int[][] adjMatrix) {
     if (adjMatrix.length < 4) System.out.println("Please provide a more interesting graph");
@@ -27,10 +27,9 @@ public class TravelingSalesman {
   // The brute-force solution will generate all permutations of vertices, and run through them to
   // find the one with the least cost.
   public List<Integer> bruteForceSolution() {
-    List<List<Integer>> permutations = new LinkedList<>();
     int[] vertices = new int[graph.length - 1];
     for (int i = 0; i < graph.length - 1; i++) vertices[i] = i + 1;
-    generatePermutations(vertices, permutations, graph.length - 1);
+    List<List<Integer>> permutations = generatePermutations(vertices);
     int minCost = Integer.MAX_VALUE;
     List<Integer> minCostPath = new LinkedList<>();
     for (List<Integer> l : permutations) {
@@ -45,36 +44,34 @@ public class TravelingSalesman {
     return minCostPath;
   }
 
-  // Use Heap's algorithm to generate permutations.
-  private void generatePermutations(int[] vertices, List<List<Integer>> permutations, int counter) {
-    if (counter == 1) {
-      List<Integer> l = new LinkedList<>();
-      for (int v : vertices) l.add(v);
-      permutations.add(l);
-    }
-    else {
-      generatePermutations(vertices, permutations, counter - 1);
-      for (int i = 0; i < counter - 1; i++) {
-        if (counter % 2 == 0) swap(vertices, i, counter - 1);
-        else swap(vertices, 0, counter - 1);
-        generatePermutations(vertices, permutations, counter - 1);
-      }
-    }
+  // Generate all permutations of a given list of vertices.
+  private static List<List<Integer>> generatePermutations(int[] vertices) {
+    return permutationsHelper(vertices, 0);
   }
 
-  // Sum a list of integers.
-  private int sumPath(List<Integer> l) {
-    // Use a list iterator to compute the path cost in linear time.
-    Iterator<Integer> iterator = l.iterator();
-    int sum = 0;
-    Integer previousVertex = null;
-    while (iterator.hasNext()) {
-      Integer thisVertex = iterator.next();
-      if (previousVertex == null) previousVertex = thisVertex;
-      else {
-        sum += graph[previousVertex][thisVertex];
-        previousVertex = thisVertex;
+  private static List<List<Integer>> permutationsHelper(int[] vertices, int idx) {
+    List<List<Integer>> permutations = new LinkedList<>();
+    if (idx == vertices.length) permutations.add(new ArrayList<>());
+    else {
+      List<List<Integer>> prevPermutations = permutationsHelper(vertices, idx + 1);
+      for (List<Integer> permutation : prevPermutations) {
+        for (int i = 0; i <= permutation.size(); i++) {
+          List<Integer> newPermutation = new ArrayList<>(permutation);
+          newPermutation.add(i, vertices[idx]);
+          permutations.add(newPermutation);
+        }
       }
+    }
+    return permutations;
+  }
+
+  // Compute the cost of the path represented by the given list of vertices.
+  private int sumPath(List<Integer> l) {
+    int sum = 0;
+    Integer previous = null;
+    for (Integer vertex : l) {
+      if (previous != null) sum += graph[previous][vertex];
+      previous = vertex;
     }
     return sum;
   }
@@ -124,15 +121,15 @@ public class TravelingSalesman {
   }
 
   // Generate the power set of a given set.
-  private List<Set<Integer>> generatePowerSet(int[] setElements) {
+  private static List<Set<Integer>> generatePowerSet(int[] setElements) {
     List<Set<Integer>> powerSet = new LinkedList<>();
     populatePowerSet(0, setElements, new Stack<>(), powerSet);
     return powerSet;
   }
 
   // Recursively find all subsets of the given set.
-  private void populatePowerSet(int idx, int[] setElements, Stack<Integer> subset,
-                                List<Set<Integer>> powerSet) {
+  private static void populatePowerSet(int idx, int[] setElements, Stack<Integer> subset,
+                                       List<Set<Integer>> powerSet) {
     if (idx == setElements.length) powerSet.add(new HashSet<>(subset));
     else {
       populatePowerSet(idx + 1, setElements, subset, powerSet);
@@ -144,7 +141,7 @@ public class TravelingSalesman {
 
   // Return a new set containing all elements of the given set, with the exception of the element
   // to be excluded.
-  private Set<Integer> copyAllExcept(Set<Integer> oldSet, int excluded) {
+  private static Set<Integer> copyAllExcept(Set<Integer> oldSet, int excluded) {
     Set<Integer> newSet = new HashSet<>();
     for (int elem : oldSet) if (elem != excluded) newSet.add(elem);
     return newSet;
@@ -156,16 +153,8 @@ public class TravelingSalesman {
     int minCost = Integer.MAX_VALUE;
     for (Map.Entry<Integer, Integer> vertexCost : vertexCosts.entrySet()) {
       int cost = vertexCost.getValue() + graph[vertexCost.getKey()][nextVertex];
-      if (cost < minCost)minCost = cost;
+      if (cost < minCost) minCost = cost;
     }
     return minCost;
-  }
-
-  private static void swap(int[] vertices, int idx1, int idx2) {
-    if (idx1 != idx2) {
-      int temp = vertices[idx1];
-      vertices[idx1] = vertices[idx2];
-      vertices[idx2] = temp;
-    }
   }
 }

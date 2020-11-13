@@ -112,11 +112,8 @@ public class ClassicProblemsTests {
   // them is the path returned.
   private boolean checkSolutionBothDirections(List<Integer> solution1, List<Integer> solution2) {
     boolean solutionCorrect = true;
-    for (int i = 0; i < solution1.size(); i++) {
-      if (!solution1.get(i).equals(solution2.get(i))) {
-        solutionCorrect = false;
-      }
-    }
+    for (int i = 0; i < solution1.size(); i++)
+      if (!solution1.get(i).equals(solution2.get(i))) solutionCorrect = false;
     if (!solutionCorrect) {
       solutionCorrect = true;
       for (int i = 0; i < solution1.size(); i++) {
