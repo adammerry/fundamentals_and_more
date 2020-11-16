@@ -11,16 +11,11 @@ public class Knapsack {
     return bruteForceSolutionHelper(weightLimit, weights, values, 0);
   }
 
-  private static int bruteForceSolutionHelper(int weightLimit,
-                                              int[] weights,
-                                              int[] values,
+  private static int bruteForceSolutionHelper(int weightLimit, int[] weights, int[] values,
                                               int item) {
-    if (weightLimit <= 0 || item >= weights.length) {
-      return 0;
-    }
-    if (weights[item] > weightLimit) {
+    if (weightLimit <= 0 || item >= weights.length) return 0;
+    if (weights[item] > weightLimit)
       return bruteForceSolutionHelper(weightLimit, weights, values, item + 1);
-    }
     // Return the maximum of including this item or not.
     return Math.max(bruteForceSolutionHelper(weightLimit - weights[item], weights, values,
             item + 1) + values[item],
@@ -36,13 +31,9 @@ public class Knapsack {
     int[][] optValWeights = new int[weightLimit + 1][values.length + 1];
     for (int i = 1; i <= weightLimit; i++) {
       for (int j = 0; j < values.length; j++) {
-        if (weights[j] > i) {
-          optValWeights[i][j + 1] = optValWeights[i][j];
-        }
-        else {
-          optValWeights[i][j + 1] = Math.max(optValWeights[i][j],
-                  optValWeights[i - weights[j]][j] + values[j]);
-        }
+        if (weights[j] > i) optValWeights[i][j + 1] = optValWeights[i][j];
+        else optValWeights[i][j + 1] = Math.max(optValWeights[i][j],
+                                                optValWeights[i - weights[j]][j] + values[j]);
       }
     }
     return optValWeights[weightLimit][values.length];
