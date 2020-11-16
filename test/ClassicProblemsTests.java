@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import classicProblems.Knapsack;
 import classicProblems.LevenshteinDistance;
+import classicProblems.NQueens;
 import classicProblems.TowersOfHanoi;
 import classicProblems.TravelingSalesman;
 
@@ -221,5 +222,33 @@ public class ClassicProblemsTests {
     s2.push(6);
     s3.push(5);
     TowersOfHanoi.moveTower(s1, s2, s3);
+  }
+
+  @Test
+  public void testNQueens() {
+    List<char[][]> n0Solutions = NQueens.solve(0);
+    List<char[][]> n1Solutions = NQueens.solve(1);
+    List<char[][]> n2Solutions = NQueens.solve(2);
+    List<char[][]> n3Solutions = NQueens.solve(3);
+    List<char[][]> n4Solutions = NQueens.solve(4);
+    List<char[][]> n5Solutions = NQueens.solve(5);
+    assertEquals(new LinkedList<>(), n0Solutions);
+    assertEquals('Q', n1Solutions.get(0)[0][0]);
+    assertEquals(new LinkedList<>(), n2Solutions);
+    assertEquals(new LinkedList<>(), n3Solutions);
+    assertEquals(2, n4Solutions.size());
+    assertEquals(10, n5Solutions.size());
+    List<int[]> n0SolutionsSpaceEfficient = NQueens.solveSpaceEfficient(0);
+    List<int[]> n1SolutionsSpaceEfficient = NQueens.solveSpaceEfficient(1);
+    List<int[]> n2SolutionsSpaceEfficient = NQueens.solveSpaceEfficient(2);
+    List<int[]> n3SolutionsSpaceEfficient = NQueens.solveSpaceEfficient(3);
+    List<int[]> n4SolutionsSpaceEfficient = NQueens.solveSpaceEfficient(4);
+    List<int[]> n5SolutionsSpaceEfficient = NQueens.solveSpaceEfficient(5);
+    assertEquals(new LinkedList<>(), n0SolutionsSpaceEfficient);
+    assertEquals(0, n1SolutionsSpaceEfficient.get(0)[0]);
+    assertEquals(new LinkedList<>(), n2SolutionsSpaceEfficient);
+    assertEquals(new LinkedList<>(), n3SolutionsSpaceEfficient);
+    assertEquals(2, n4SolutionsSpaceEfficient.size());
+    assertEquals(10, n5SolutionsSpaceEfficient.size());
   }
 }
