@@ -109,9 +109,4 @@ public class PriorityQueueHeap<E> {
   private int getLeftChildIdx(int parentIdx) {
     return (2 * parentIdx) + 1;
   }
-
-  public void printQueue() {
-    for (int i = 0; i < size; i++)
-      System.out.println(heap[i].getItem().toString() + " : " + heap[i].getPriority());
-  }
 }

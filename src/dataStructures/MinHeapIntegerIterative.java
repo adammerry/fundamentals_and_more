@@ -21,9 +21,7 @@ public class MinHeapIntegerIterative {
   }
 
   public void insert(int elem) {
-    if (nextIdx > MAX_SIZE) {
-      System.out.println("Maximum heap size reached");
-    }
+    if (nextIdx > MAX_SIZE) System.out.println("Maximum heap size reached");
     else {
       heap[nextIdx] = elem;
       siftUp(nextIdx);
@@ -36,19 +34,13 @@ public class MinHeapIntegerIterative {
       changeKey(idx, Integer.MIN_VALUE);
       extractMin();
     }
-    else {
-      System.out.println("Index out of range");
-    }
+    else System.out.println("Index out of range");
   }
 
-  public Integer getMin() {
-    return nextIdx > 0 ? heap[0] : null;
-  }
+  public Integer getMin() { return nextIdx > 0 ? heap[0] : null; }
 
   public Integer extractMin() {
-    if (nextIdx == 0) {
-      return null;
-    }
+    if (nextIdx == 0) return null;
     Integer minElem = heap[0];
     nextIdx--;
     heap[0] = heap[nextIdx];
@@ -71,18 +63,12 @@ public class MinHeapIntegerIterative {
         }
       }
     }
-    else {
-      System.out.println("Index out of range");
-    }
+    else System.out.println("Index out of range");
   }
 
-  public Integer getValAtIdx(int idx) {
-    return idx >= 0 && idx < nextIdx ? heap[idx] : null;
-  }
+  public Integer getValAtIdx(int idx) { return idx >= 0 && idx < nextIdx ? heap[idx] : null; }
 
-  private void buildHeap() {
-    for (int i = (heap.length / 2) - 1; i >= 0; i--) siftDown(i);
-  }
+  private void buildHeap() { for (int i = (heap.length / 2) - 1; i >= 0; i--) siftDown(i); }
 
   private void swap(int idx1, int idx2) {
     if (idx1 != idx2) {
@@ -109,32 +95,19 @@ public class MinHeapIntegerIterative {
     int leftChildIdx = getLeftChildIdx(parentIdx);
     int rightChildIdx = leftChildIdx + 1;
     int smallest = parentIdx;
-
-    if (leftChildIdx < nextIdx && heap[leftChildIdx] < heap[smallest]) {
-      smallest = leftChildIdx;
-    }
-    if (rightChildIdx < nextIdx && heap[rightChildIdx] < heap[smallest]) {
-      smallest = rightChildIdx;
-    }
+    if (leftChildIdx < nextIdx && heap[leftChildIdx] < heap[smallest]) smallest = leftChildIdx;
+    if (rightChildIdx < nextIdx && heap[rightChildIdx] < heap[smallest]) smallest = rightChildIdx;
     while (smallest != parentIdx) {
       swap(parentIdx, smallest);
       parentIdx = smallest;
       leftChildIdx = getLeftChildIdx(parentIdx);
       rightChildIdx = leftChildIdx + 1;
-      if (leftChildIdx < nextIdx && heap[leftChildIdx] < heap[smallest]) {
-        smallest = leftChildIdx;
-      }
-      if (rightChildIdx < nextIdx && heap[rightChildIdx] < heap[smallest]) {
-        smallest = rightChildIdx;
-      }
+      if (leftChildIdx < nextIdx && heap[leftChildIdx] < heap[smallest]) smallest = leftChildIdx;
+      if (rightChildIdx < nextIdx && heap[rightChildIdx] < heap[smallest]) smallest = rightChildIdx;
     }
   }
 
-  private int getParentIdx(int childIdx) {
-    return (childIdx - 1) / 2;
-  }
+  private int getParentIdx(int childIdx) { return (childIdx - 1) / 2; }
 
-  private int getLeftChildIdx(int parentIdx) {
-    return (2 * parentIdx) + 1;
-  }
+  private int getLeftChildIdx(int parentIdx) { return (2 * parentIdx) + 1; }
 }

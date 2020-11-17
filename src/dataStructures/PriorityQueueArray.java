@@ -41,12 +41,9 @@ public class PriorityQueueArray<E> {
   public E getHighestPriority() {
     if (size == 0) return null;
     PriorityQueueElement<E> highestPriority = elements[0];
-    for (PriorityQueueElement<E> element : elements) {
+    for (PriorityQueueElement<E> element : elements)
       // A smaller number indicates a higher priority value.
-      if (element.getPriority() < highestPriority.getPriority()) {
-        highestPriority = element;
-      }
-    }
+      if (element.getPriority() < highestPriority.getPriority()) highestPriority = element;
     return highestPriority.getItem();
   }
 
@@ -61,9 +58,7 @@ public class PriorityQueueArray<E> {
       }
     }
     E item = elements[highestPriorityIdx].getItem();
-    for (int i = highestPriorityIdx; i < size - 1; i++) {
-      elements[i] = elements[i + 1];
-    }
+    for (int i = highestPriorityIdx; i < size - 1; i++) elements[i] = elements[i + 1];
     size--;
     return item;
   }
@@ -74,12 +69,6 @@ public class PriorityQueueArray<E> {
         element.setPriority(newPriority);
         break;
       }
-    }
-  }
-
-  public void printQueue() {
-    for (int i = 0; i < size; i++) {
-      System.out.println(elements[i].getItem().toString() + " : " + elements[i].getPriority());
     }
   }
 }

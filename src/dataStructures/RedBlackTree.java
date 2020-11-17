@@ -54,12 +54,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     }
 
     TreeNode<E> insertHelper(DataNode<E> insertDataNode, DataNode<E> parent) {
-      if (insertDataNode.getData().compareTo(getData()) < 0) {
+      if (insertDataNode.getData().compareTo(getData()) < 0)
         setLeftChild(leftChild.insertHelper(insertDataNode, this));
-      }
-      else if (insertDataNode.getData().compareTo(getData()) > 0) {
+      else if (insertDataNode.getData().compareTo(getData()) > 0)
         setRightChild(rightChild.insertHelper(insertDataNode, this));
-      }
       return this;
     }
 
@@ -99,20 +97,13 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   public void insert(E insertData) {
     if (insertData != null) {
       DataNode<E> insertDataNode = new DataNode<>(insertData);
-      if (!root.isDataNode()) {
-        root = insertDataNode;
-      }
-      else {
-        root = root.insertHelper(insertDataNode, null);
-      }
+      root = root.isDataNode() ? root.insertHelper(insertDataNode, null) : insertDataNode;
       fixInsert(insertDataNode);
       root.setColor(Color.BLACK);
       // If node-to-insert has a value that was already contained in the tree, it will have a null
       // parent, and will not be the root. We only want to increase "size" upon insertion of
       // non-duplicate values.
-      if (insertDataNode.getParent() != null || insertDataNode == root) {
-        size++;
-      }
+      if (insertDataNode.getParent() != null || insertDataNode == root) size++;
     }
   }
 
@@ -187,16 +178,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     n.setParent(pivot);
     innerSubTree.setParent(n);
     if (parent != null) {
-      if (n == parent.getLeftChild()) {
-        parent.setLeftChild(pivot);
-      }
-      else {
-        parent.setRightChild(pivot);
-      }
+      if (n == parent.getLeftChild()) parent.setLeftChild(pivot);
+      else parent.setRightChild(pivot);
     }
-    if (root == n) {
-      root = pivot;
-    }
+    if (root == n) root = pivot;
   }
 
   private void rightRotate(DataNode<E> n) {
@@ -214,16 +199,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     n.setParent(pivot);
     innerSubTree.setParent(n);
     if (parent != null) {
-      if (parent.getLeftChild() == n) {
-        parent.setLeftChild(pivot);
-      }
-      else {
-        parent.setRightChild(pivot);
-      }
+      if (parent.getLeftChild() == n) parent.setLeftChild(pivot);
+      else parent.setRightChild(pivot);
     }
-    if (root == n) {
-      root = pivot;
-    }
+    if (root == n) root = pivot;
   }
 
   // Find and return the node in the tree with data equal to the given data. If no such node
@@ -233,24 +212,18 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       TreeNode<E> currNode = root;
       while (currNode.isDataNode()) {
         DataNode<E> currDataNode = (DataNode<E>) currNode;
-        if (currDataNode.getData().equals(searchData)) {
-          return currDataNode;
-        }
-        if (currDataNode.getData().compareTo(searchData) > 0) {
+        if (currDataNode.getData().equals(searchData)) return currDataNode;
+        if (currDataNode.getData().compareTo(searchData) > 0)
           currNode = currDataNode.getLeftChild();
-        }
-        else {
+        else
           currNode = currDataNode.getRightChild();
-        }
       }
     }
     return null;
   }
 
   public void delete(E deleteData) {
-    if (deleteData == null) {
-      return;
-    }
+    if (deleteData == null) return;
     // Find the node to be deleted.
     DataNode<E> deleteNode = search(deleteData);
     if (deleteNode != null) {
@@ -276,18 +249,14 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       TreeNode<E> newChild = leftChild.isDataNode() ? leftChild : deleteNode.getRightChild();
       DataNode<E> parent = deleteNode.getParent();
       boolean isLeftChild = true;
-      if (deleteNode == parent.getLeftChild()) {
-        parent.setLeftChild(newChild);
-      }
+      if (deleteNode == parent.getLeftChild()) parent.setLeftChild(newChild);
       else {
         isLeftChild = false;
         parent.setRightChild(newChild);
       }
       newChild.setParent(parent);
       if (deleteNode.getColor() == Color.BLACK) {
-        if (newChild.getColor() == Color.RED) {
-          newChild.setColor(Color.BLACK);
-        }
+        if (newChild.getColor() == Color.RED) newChild.setColor(Color.BLACK);
         else {
           // The node-to-delete is black, and it does not have any red children. This situation
           // requires additional case evaluation in order to keep the black-height property
@@ -310,16 +279,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     DataNode<E> parent = doubleBlackNode.getParent();
     DataNode<E> sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() :
             parent.getLeftChild());
-    if (caseNum == 1) {
-      return;
-    }
+    if (caseNum == 1) return;
     if (caseNum == 2) {
-      if (isLeftChild) {
-        leftRotate(doubleBlackNode.getParent());
-      }
-      else {
-        rightRotate(doubleBlackNode.getParent());
-      }
+      if (isLeftChild) leftRotate(doubleBlackNode.getParent());
+      else rightRotate(doubleBlackNode.getParent());
       parent.setColor(Color.RED);
       sibling.setColor(Color.BLACK);
       // Reset parent and sibling after rotation.
@@ -333,12 +296,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       // The double-black node is now parent. If parent is root, we can short-circuit, since this
       // situation corresponds to case 1. Otherwise, we recurse on parent.
       if (parent != root) {
-        if (parent.getParent().getLeftChild() == parent) {
-          handleDoubleBlack(parent, true);
-        }
-        else {
-          handleDoubleBlack(parent, false);
-        }
+        if (parent.getParent().getLeftChild() == parent) handleDoubleBlack(parent, true);
+        else handleDoubleBlack(parent, false);
       }
     }
     if (caseNum == 4) {
@@ -347,12 +306,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       return;
     }
     if (caseNum == 5) {
-      if (isLeftChild) {
-        rightRotate(sibling);
-      }
-      else {
-        leftRotate(sibling);
-      }
+      if (isLeftChild) rightRotate(sibling);
+      else leftRotate(sibling);
       sibling.setColor(Color.RED);
       sibling.getParent().setColor(Color.BLACK);
       // Reset parent and sibling after rotation.
@@ -361,50 +316,34 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       caseNum = 6;
     }
     if (caseNum == 6) {
-      if (isLeftChild) {
-        leftRotate(parent);
-      }
-      else {
-        rightRotate(parent);
-      }
+      if (isLeftChild) leftRotate(parent);
+      else rightRotate(parent);
       sibling.setColor(parent.getColor());
       parent.setColor(Color.BLACK);
-      if (isLeftChild) {
-        sibling.getRightChild().setColor(Color.BLACK);
-      }
-      else {
-        sibling.getLeftChild().setColor(Color.BLACK);
-      }
+      if (isLeftChild) sibling.getRightChild().setColor(Color.BLACK);
+      else sibling.getLeftChild().setColor(Color.BLACK);
     }
   }
 
   private int checkCaseNum(TreeNode<E> doubleBlackNode, boolean isLeftChild) {
-    if (doubleBlackNode == root) { // Case 1.
-      return 1;
-    }
+    if (doubleBlackNode == root) return 1; // Case 1.
     DataNode<E> parent = doubleBlackNode.getParent();
     // Because insertion always maintains the black-height property, every black data-storing node
     // must have a data-storing sibling. Therefore, it is always safe to perform the following cast.
-    DataNode<E> sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() :
-            parent.getLeftChild());
-    if (sibling.getColor() == Color.RED) {
-      return 2;
-    }
+    DataNode<E> sibling =
+            (DataNode<E>) (isLeftChild ? parent.getRightChild() : parent.getLeftChild());
+    if (sibling.getColor() == Color.RED) return 2;
     // At this point, we know that the sibling is black.
     boolean leftSibChildBlack = sibling.getLeftChild().getColor() == Color.BLACK;
     boolean rightSibChildBlack = sibling.getRightChild().getColor() == Color.BLACK;
-    if (leftSibChildBlack && rightSibChildBlack) {
-      return (parent.getColor() == Color.BLACK) ? 3 : 4;
-    }
+    if (leftSibChildBlack && rightSibChildBlack) return (parent.getColor() == Color.BLACK) ? 3 : 4;
     // At this point, we know that the sibling has at least one red child.
     return ((isLeftChild && rightSibChildBlack) || ((!isLeftChild) && leftSibChildBlack)) ? 5 : 6;
   }
 
   private DataNode<E> findLeftMostNode(DataNode<E> n) {
     DataNode<E> successor = n;
-    while (n.getLeftChild().isDataNode()) {
-      successor = (DataNode<E>) n.getLeftChild();
-    }
+    while (n.getLeftChild().isDataNode()) successor = (DataNode<E>) n.getLeftChild();
     return successor;
   }
 
@@ -412,12 +351,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     TreeNode<E> currNode = root;
     while (currNode.isDataNode()) {
       DataNode<E> currDataNode = (DataNode<E>) currNode;
-      if (currDataNode.getLeftChild().isDataNode()) {
-        currNode = currDataNode.getLeftChild();
-      }
-      else {
-        return currDataNode.getData();
-      }
+      if (currDataNode.getLeftChild().isDataNode()) currNode = currDataNode.getLeftChild();
+      else return currDataNode.getData();
     }
     return null;
   }
@@ -426,12 +361,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     TreeNode<E> currNode = root;
     while (currNode.isDataNode()) {
       DataNode<E> currDataNode = (DataNode<E>) currNode;
-      if (currDataNode.getRightChild().isDataNode()) {
-        currNode = currDataNode.getRightChild();
-      }
-      else {
-        return currDataNode.getData();
-      }
+      if (currDataNode.getRightChild().isDataNode()) currNode = currDataNode.getRightChild();
+      else return currDataNode.getData();
     }
     return null;
   }
@@ -442,19 +373,13 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     Integer[] nodeData = new Integer[size];
     int counter = 0;
     Queue<DataNode<E>> nodes = new LinkedList<>();
-    if (root.isDataNode()) {
-      nodes.add((DataNode<E>) root);
-    }
+    if (root.isDataNode()) nodes.add((DataNode<E>) root);
     while (!nodes.isEmpty()) {
       DataNode<E> next = nodes.poll();
       nodeData[counter] = (Integer) next.getData();
       counter++;
-      if (next.getLeftChild().isDataNode()) {
-        nodes.add((DataNode<E>) next.getLeftChild());
-      }
-      if (next.getRightChild().isDataNode()) {
-        nodes.add((DataNode<E>) next.getRightChild());
-      }
+      if (next.getLeftChild().isDataNode()) nodes.add((DataNode<E>) next.getLeftChild());
+      if (next.getRightChild().isDataNode()) nodes.add((DataNode<E>) next.getRightChild());
     }
     return nodeData;
   }

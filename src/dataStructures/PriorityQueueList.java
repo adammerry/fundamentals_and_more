@@ -82,10 +82,4 @@ public class PriorityQueueList<E> {
     elements.set(i, elements.get(j));
     elements.set(j, temp);
   }
-
-  public void printQueue() {
-    for (PriorityQueueElement<E> element : elements) {
-      System.out.println(element.getItem() + " : " + element.getPriority());
-    }
-  }
 }

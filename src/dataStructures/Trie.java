@@ -18,22 +18,16 @@ public class Trie {
     }
 
     private TrieNode getChild(int idx) {
-      if (idx >= 0 && idx < ALPHABET_SIZE) {
-        return children[idx];
-      }
+      if (idx >= 0 && idx < ALPHABET_SIZE) return children[idx];
       return null;
     }
 
     private void setChild(int idx, TrieNode node) {
       if (idx >= 0 && idx < ALPHABET_SIZE) {
         if (children[idx] == null) {
-          if (node != null) {
-            childCount++;
-          }
+          if (node != null) childCount++;
         }
-        else if (node == null) {
-            childCount--;
-        }
+        else if (node == null) childCount--;
         children[idx] = node;
       }
     }
@@ -57,59 +51,43 @@ public class Trie {
   }
 
   public void insert(String word) {
-    if (word == null) {
-      return;
-    }
-    if (root == null) {
-      root = new TrieNode();
-    }
+    if (word == null) return;
+    if (root == null) root = new TrieNode();
     int childIdx = 0;
     TrieNode currNode = root;
     for (int i = 0; i < word.length(); i++) {
       childIdx = word.charAt(i) - 'a';
-      if (!currNode.hasChild(childIdx)) {
-        currNode.setChild(childIdx, new TrieNode());
-      }
+      if (!currNode.hasChild(childIdx)) currNode.setChild(childIdx, new TrieNode());
       currNode = currNode.getChild(childIdx);
     }
     currNode.markEnd();
   }
 
   public boolean search(String word) {
-    if (word == null || root == null) {
-      return false;
-    }
+    if (word == null || root == null) return false;
     int childIdx;
     TrieNode currNode = root;
     for (int i = 0; i < word.length(); i++) {
       childIdx = word.charAt(i) - 'a';
-      if (!currNode.hasChild(childIdx)) {
-        return false;
-      }
+      if (!currNode.hasChild(childIdx)) return false;
       currNode = currNode.getChild(childIdx);
     }
     return currNode.isEnd();
   }
 
   public void delete(String word) {
-    if (word == null || root == null) {
-      return;
-    }
+    if (word == null || root == null) return;
     root = deleteHelper(root, word, 0);
   }
 
   private TrieNode deleteHelper(TrieNode node, String word, int letterIdx) {
     // Case where we have reached the end of a branch without finding the word in the trie.
-    if (node == null) {
-      return null;
-    }
+    if (node == null) return null;
     // Case where we have reached the end of the given word.
     if (letterIdx == word.length()) {
       if (node.isEnd()) {
         node.unmarkEnd();
-        if (!node.hasChildren()) {
-          return null;
-        }
+        if (!node.hasChildren()) return null;
       }
     }
     // Case where we have found a word in the trie that is a prefix of the given word.
@@ -120,9 +98,7 @@ public class Trie {
     else {
       int childIdx = word.charAt(letterIdx) - 'a';
       node.setChild(childIdx, deleteHelper(node.getChild(childIdx), word, letterIdx + 1));
-      if (!node.hasChildren()) {
-        return null;
-      }
+      if (!node.hasChildren()) return null;
     }
     return node;
   }
@@ -130,9 +106,7 @@ public class Trie {
   // Print each character in the trie using a breadth-first search.
   public void printTrieBFS() {
     Queue<TrieNode> nodes = new LinkedList<>();
-    if (root != null) {
-      nodes.add(root);
-    }
+    if (root != null) nodes.add(root);
     while (!nodes.isEmpty()) {
       TrieNode next = nodes.poll();
       if (next.hasChildren()) {

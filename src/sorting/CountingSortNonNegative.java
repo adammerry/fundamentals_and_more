@@ -24,12 +24,7 @@ public class CountingSortNonNegative {
     // We can safely increase any value in the array immediately, since the default value for
     // elements of an int array in Java is 0.
     for (int i : ints) counts[i]++;
-    for (int i = 0, sortedIdx = 0; i < counts.length; i++) {
-      while (counts[i] > 0) {
-        ints[sortedIdx] = i;
-        counts[i]--;
-        sortedIdx++;
-      }
-    }
+    for (int i = 0, sortedIdx = 0; i < counts.length; i++)
+      for (; counts[i] > 0; counts[i]--, sortedIdx++) ints[sortedIdx] = i;
   }
 }

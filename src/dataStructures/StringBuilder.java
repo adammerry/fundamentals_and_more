@@ -24,7 +24,7 @@ public class StringBuilder {
   public void append(char[] str) {
     if (str == null) return;
     if (charCount + str.length > buffer.length) resizeBuffer(charCount + str.length);
-    for (int i = 0; i < str.length; i++) buffer[charCount + i] = str[i];
+    System.arraycopy(str, 0, buffer, charCount, str.length);
     charCount += str.length;
   }
 

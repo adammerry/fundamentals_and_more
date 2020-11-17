@@ -93,21 +93,15 @@ public class Traversals {
   }
 
   public List<Integer> listLevelOrder() {
-    if (tree.getRoot() == null) {
-      return new LinkedList<>();
-    }
+    if (tree.getRoot() == null) return new LinkedList<>();
     List<Integer> levelOrderList = new LinkedList<>();
     Queue<BinaryTree.Node<Integer>> queue = new LinkedList<>();
     queue.add(tree.getRoot());
     while (!queue.isEmpty()) {
       BinaryTree.Node<Integer> nextNode = queue.poll();
       levelOrderList.add(nextNode.getData());
-      if (nextNode.hasLeftChild()) {
-        queue.add(nextNode.getLeftChild());
-      }
-      if (nextNode.hasRightChild()) {
-        queue.add(nextNode.getRightChild());
-      }
+      if (nextNode.hasLeftChild()) queue.add(nextNode.getLeftChild());
+      if (nextNode.hasRightChild()) queue.add(nextNode.getRightChild());
     }
     return levelOrderList;
   }
