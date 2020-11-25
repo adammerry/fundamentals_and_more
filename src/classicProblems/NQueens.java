@@ -14,7 +14,7 @@ public class NQueens {
     char[][] board = new char[n][n];
     List<char[][]> solutions = new LinkedList<>();
     for (int row = 0; row < n; row++) for (int col = 0; col < n; col++) board[row][col] = '-';
-    solveHelper(n,0,board, solutions);
+    solveHelper(n, 0, board, solutions);
     return solutions;
   }
 
@@ -58,7 +58,7 @@ public class NQueens {
     if (n <= 0 || n == 2 || n == 3) return new LinkedList<>(); // No solutions possible.
     int[] cols = new int[n];
     List<int[]> solutions = new LinkedList<>();
-    solveSpaceEfficientHelper(n,0, cols, solutions);
+    solveSpaceEfficientHelper(n, 0, cols, solutions);
     return solutions;
   }
 
