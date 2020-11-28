@@ -46,7 +46,7 @@ public class BFS {
   }
 
   private GraphAdjacencyListBetter.Node<Integer>
-  startNewSearch(Integer searchVal, GraphAdjacencyListBetter. Node<Integer> root,
+  startNewSearch(Integer searchVal, GraphAdjacencyListBetter.Node<Integer> root,
                  Map<GraphAdjacencyListBetter.Node<Integer>,
                          List<GraphAdjacencyListBetter.Node<Integer>>> adjMap) {
     Queue<GraphAdjacencyListBetter.Node<Integer>> q = new LinkedList<>();
@@ -88,7 +88,7 @@ public class BFS {
   }
 
   private GraphAdjacencyListBetter.Node<Integer>
-  startNewSearch(Integer searchVal, GraphAdjacencyListBetter. Node<Integer> root,
+  startNewSearch(Integer searchVal, GraphAdjacencyListBetter.Node<Integer> root,
                  Map<GraphAdjacencyListBetter.Node<Integer>,
                          List<GraphAdjacencyListBetter.Node<Integer>>> adjMap,
                  Set<GraphAdjacencyListBetter.Node<Integer>> seenSet) {
