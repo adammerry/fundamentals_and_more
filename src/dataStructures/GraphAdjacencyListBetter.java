@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-// A better implementation of an undirected, unweighted graph using an adjacency list
+// A better implementation of an unweighted, undirected graph using an adjacency list
 // representation. This implementation uses a Map as the container for the neighbor lists, which
 // is an advantageous way to structure an adjacency list for the following reasons:
 // - Adding a new node to the graph is O(1).
@@ -19,7 +19,7 @@ public class GraphAdjacencyListBetter<E> {
 
   public static class Node<E> {
     private E data;
-    private boolean seen;
+    private boolean seen; // Useful for searching algorithms such as BFS and DFS.
 
     public Node(E data) {
       this.data = data;
@@ -35,27 +35,35 @@ public class GraphAdjacencyListBetter<E> {
 
   public Map<Node<E>, List<Node<E>>> getGraph() { return adjMap; }
 
+  public void addNode(Node<E> node) {
+    adjMap.put(node, new LinkedList<>());
+  }
+
   public void addEdge(Node<E> node1, Node<E> node2) {
-    if (!adjMap.get(node1).contains(node2)) {
+    if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
+      System.out.println("Cannot add edge between nonexistent nodes.");
+    else if (!adjMap.get(node1).contains(node2)) {
       adjMap.get(node1).add(node2);
       adjMap.get(node2).add(node1);
     }
   }
 
-  public void addNode(Node<E> node) {
-    adjMap.put(node, new LinkedList<>());
-  }
-
   public void removeEdge(Node<E> node1, Node<E> node2) {
-    if (adjMap.containsKey(node1) && adjMap.get(node1).contains(node2)) {
+    if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
+      System.out.println("Cannot remove edge between nonexistent nodes.");
+    else if (adjMap.get(node1).contains(node2)){
         adjMap.get(node1).remove(node2);
         adjMap.get(node2).remove(node1);
     }
   }
 
   public void removeNode(Node<E> node) {
-    for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
-    adjMap.remove(node);
+    if (!adjMap.containsKey(node))
+      System.out.println("Cannot remove nonexistent node.");
+    else {
+      for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
+      adjMap.remove(node);
+    }
   }
 
   public boolean checkEdge(Node<E> node1, Node<E> node2) {
