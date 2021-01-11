@@ -67,6 +67,6 @@ public class GraphAdjacencyListBetter<E> {
   }
 
   public boolean checkEdge(Node<E> node1, Node<E> node2) {
-    return adjMap.get(node1).contains(node2);
+    return adjMap.containsKey(node1) && adjMap.get(node1).contains(node2);
   }
 }

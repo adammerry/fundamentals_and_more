@@ -13,6 +13,7 @@ import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBad;
 import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphAdjacencyMatrix;
+import dataStructures.GraphGeneric;
 import dataStructures.HashTableOpen;
 import dataStructures.HashTableClosed;
 import dataStructures.LinkedList;
@@ -478,6 +479,88 @@ public class DataStructuresTests {
     g.checkEdge(22, 3);
     g.removeEdge(-2, 4);
     g.removeNode(73);
+  }
+
+  @Test
+  public void testGraphGeneric() {
+    // Test an undirected, unweighted graph.
+    GraphGeneric<String> g = new GraphGeneric<>(false);
+    GraphGeneric.Node<String> node1 = new GraphGeneric.Node<>("hello");
+    GraphGeneric.Node<String> node2 = new GraphGeneric.Node<>("hi");
+    GraphGeneric.Node<String> node3 = new GraphGeneric.Node<>("ok");
+    GraphGeneric.Node<String> node4 = new GraphGeneric.Node<>("bye");
+    g.addNode(node1);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addEdge(node1, node3);
+    assertEquals(1, g.checkEdgeWeight(node1, node3));
+    assertEquals(1, g.checkEdgeWeight(node3, node1));
+    g.removeEdge(node1, node3);
+    assertEquals(-1, g.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    g.addEdge(node2, node4);
+    assertEquals(1, g.checkEdgeWeight(node2, node4));
+    assertEquals(1, g.checkEdgeWeight(node4, node2));
+    g.removeNode(node4);
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    // Test a directed, unweighted graph.
+    g = new GraphGeneric<>(true);
+    g.addNode(node1);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addEdge(node1, node3);
+    assertEquals(1, g.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g.checkEdgeWeight(node3, node1));
+    g.removeEdge(node1, node3);
+    assertEquals(-1, g.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    g.addEdge(node2, node4);
+    assertEquals(1, g.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g.checkEdgeWeight(node4, node2));
+    g.addEdge(node4, node2);
+    assertEquals(1, g.checkEdgeWeight(node4, node2));
+    g.removeNode(node4);
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g.checkEdgeWeight(node4, node2));
+    // Test an undirected, weighted graph.
+    g = new GraphGeneric<>(false);
+    g.addNode(node1);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addEdge(node1, node3, 4);
+    assertEquals(4, g.checkEdgeWeight(node1, node3));
+    assertEquals(4, g.checkEdgeWeight(node3, node1));
+    g.removeEdge(node1, node3);
+    assertEquals(-1, g.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    g.addEdge(node2, node4, 7);
+    assertEquals(7, g.checkEdgeWeight(node2, node4));
+    assertEquals(7, g.checkEdgeWeight(node4, node2));
+    g.removeNode(node4);
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    // Test a directed, weighted graph.
+    g = new GraphGeneric<>(true);
+    g.addNode(node1);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addEdge(node1, node3, 8);
+    assertEquals(8, g.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g.checkEdgeWeight(node3, node1));
+    g.removeEdge(node1, node3);
+    assertEquals(-1, g.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    g.addEdge(node2, node4, 15);
+    assertEquals(15, g.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g.checkEdgeWeight(node4, node2));
+    g.addEdge(node4, node2, 29);
+    assertEquals(29, g.checkEdgeWeight(node4, node2));
+    g.removeNode(node4);
+    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g.checkEdgeWeight(node4, node2));
   }
 
   @Test
