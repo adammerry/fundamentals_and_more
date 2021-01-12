@@ -31,8 +31,6 @@ public class GraphGeneric<E> {
     public void setSeen(boolean seen) { this.seen = seen; }
   }
 
-  public Map<Node<E>, Map<Node<E>, Integer>> getGraph() { return adjMap; }
-
   public void addNode(Node<E> node) { adjMap.put(node, new HashMap<>()); }
 
   public void addEdge(Node<E> node1, Node<E> node2) {
@@ -69,5 +67,13 @@ public class GraphGeneric<E> {
   public int checkEdgeWeight(Node<E> node1, Node<E> node2) {
     return (adjMap.containsKey(node1) && adjMap.get(node1).containsKey(node2)) ?
             adjMap.get(node1).get(node2) : -1;
+  }
+
+  public int nodeCount() {
+    return adjMap.size();
+  }
+
+  public Map<Node<E>, Integer> getNeighbors(Node<E> node) {
+    return adjMap.getOrDefault(node, null);
   }
 }

@@ -621,13 +621,13 @@ public class DataStructuresTests {
     pq.insert("ok", 35);
     pq.changePriority("no", -41);
     pq.changePriority("bye", 83);
-    assertEquals("no", pq.getHighestPriority());
-    assertEquals("no", pq.deleteHighestPriority());
-    assertEquals("yes", pq.deleteHighestPriority());
-    assertEquals("goodbye", pq.deleteHighestPriority());
-    assertEquals("hi", pq.deleteHighestPriority());
-    assertEquals("hello", pq.deleteHighestPriority());
-    assertEquals("bye", pq.deleteHighestPriority());
+    assertEquals("no", pq.getHighestPriority().getItem());
+    assertEquals("no", pq.deleteHighestPriority().getItem());
+    assertEquals("yes", pq.deleteHighestPriority().getItem());
+    assertEquals("goodbye", pq.deleteHighestPriority().getItem());
+    assertEquals("hi", pq.deleteHighestPriority().getItem());
+    assertEquals("hello", pq.deleteHighestPriority().getItem());
+    assertEquals("bye", pq.deleteHighestPriority().getItem());
     assertNull(pq.deleteHighestPriority());
   }
 
