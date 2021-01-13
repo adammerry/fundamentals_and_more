@@ -2,6 +2,7 @@ package dataStructures;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 // An implementation of a generic graph that uses a (modified) adjacency-list representation, and
 // can be treated as weighted or unweighted, and directed or undirected.
@@ -75,5 +76,9 @@ public class GraphGeneric<E> {
 
   public Map<Node<E>, Integer> getNeighbors(Node<E> node) {
     return adjMap.getOrDefault(node, null);
+  }
+
+  public Set<Node<E>> getNodes() {
+    return adjMap.keySet();
   }
 }

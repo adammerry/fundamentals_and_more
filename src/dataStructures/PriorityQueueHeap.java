@@ -70,6 +70,10 @@ public class PriorityQueueHeap<E> {
     }
   }
 
+  public boolean isEmpty() {
+    return size == 0;
+  }
+
   private void siftUp(int childIdx) {
     if (childIdx > 0) {
       int parentIdx = getParentIdx(childIdx);

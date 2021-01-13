@@ -612,7 +612,9 @@ public class DataStructuresTests {
   public void testPriorityQueueHeap() {
     PriorityQueueHeap<String> pq = new PriorityQueueHeap<>(6);
     assertNull(pq.getHighestPriority());
+    assertTrue(pq.isEmpty());
     pq.insert("hello", 12);
+    assertFalse(pq.isEmpty());
     pq.insert("hi", 4);
     pq.insert("bye", 7);
     pq.insert("goodbye", 0);
@@ -628,6 +630,7 @@ public class DataStructuresTests {
     assertEquals("hi", pq.deleteHighestPriority().getItem());
     assertEquals("hello", pq.deleteHighestPriority().getItem());
     assertEquals("bye", pq.deleteHighestPriority().getItem());
+    assertTrue(pq.isEmpty());
     assertNull(pq.deleteHighestPriority());
   }
 

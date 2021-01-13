@@ -4,8 +4,12 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import dataStructures.GraphAdjacencyListBetter;
+import java.util.Map;
+
 import dataStructures.BinaryTree;
+import dataStructures.GraphAdjacencyListBetter;
+import dataStructures.GraphGeneric;
+import searching.Dijkstra;
 import searching.Traversals;
 import searching.BFS;
 import searching.DFS;
@@ -226,5 +230,73 @@ public class SearchingTests {
     assertEquals(new Integer(8), dfs.dfsTreeRecursive(8).getData());
     assertNull(dfs.dfsTreeRecursive(null));
     assertNull(dfs.dfsTreeRecursive(17));
+  }
+
+  @Test
+  public void testDijkstra() {
+    // Test graph with one node.
+    GraphGeneric<Integer> g = new GraphGeneric<>(false);
+    GraphGeneric.Node<Integer> n1 = new GraphGeneric.Node<>(1);
+    g.addNode(n1);
+    Map<GraphGeneric.Node<Integer>, Integer> dijkstraMap = Dijkstra.runDijkstra(g, n1);
+    assertEquals(1,  dijkstraMap.size());
+    assertEquals(new Integer(0),  dijkstraMap.get(n1));
+    // Test undirected graph.
+    GraphGeneric.Node<Integer> n2 = new GraphGeneric.Node<>(2);
+    GraphGeneric.Node<Integer> n3 = new GraphGeneric.Node<>(3);
+    GraphGeneric.Node<Integer> n4 = new GraphGeneric.Node<>(4);
+    GraphGeneric.Node<Integer> n5 = new GraphGeneric.Node<>(5);
+    GraphGeneric.Node<Integer> n6 = new GraphGeneric.Node<>(6);
+    g.addNode(n2);
+    g.addNode(n3);
+    g.addNode(n4);
+    g.addNode(n5);
+    g.addNode(n6);
+    g.addEdge(n1, n2, 10);
+    g.addEdge(n1, n6, 3);
+    g.addEdge(n2, n3, 5);
+    g.addEdge(n2, n4, 1);
+    g.addEdge(n2, n5, 4);
+    g.addEdge(n3, n4, 2);
+    g.addEdge(n4, n6, 7);
+    g.addEdge(n5, n6, 2);
+    dijkstraMap = Dijkstra.runDijkstra(g, n1);
+    assertEquals(6, dijkstraMap.size());
+    assertEquals(new Integer(0), dijkstraMap.get(n1));
+    assertEquals(new Integer(9), dijkstraMap.get(n2));
+    assertEquals(new Integer(12), dijkstraMap.get(n3));
+    assertEquals(new Integer(10), dijkstraMap.get(n4));
+    assertEquals(new Integer(5), dijkstraMap.get(n5));
+    assertEquals(new Integer(3), dijkstraMap.get(n6));
+    // Test directed graph.
+    g = new GraphGeneric<>(true);
+    g.addNode(n1);
+    g.addNode(n2);
+    g.addNode(n3);
+    g.addNode(n4);
+    g.addNode(n5);
+    g.addNode(n6);
+    g.addEdge(n1, n2, 2);
+    g.addEdge(n1, n3, 16);
+    g.addEdge(n2, n4, 1);
+    g.addEdge(n2, n6, 4);
+    g.addEdge(n3, n1, 5);
+    g.addEdge(n3, n2, 10);
+    g.addEdge(n3, n5, 6);
+    g.addEdge(n4, n3, 4);
+    g.addEdge(n4, n5, 12);
+    g.addEdge(n5, n2, 3);
+    g.addEdge(n5, n4, 9);
+    g.addEdge(n5, n6, 13);
+    g.addEdge(n6, n3, 15);
+    g.addEdge(n6, n4, 17);
+    dijkstraMap = Dijkstra.runDijkstra(g, n1);
+    assertEquals(6, dijkstraMap.size());
+    assertEquals(new Integer(0), dijkstraMap.get(n1));
+    assertEquals(new Integer(2), dijkstraMap.get(n2));
+    assertEquals(new Integer(7), dijkstraMap.get(n3));
+    assertEquals(new Integer(3), dijkstraMap.get(n4));
+    assertEquals(new Integer(13), dijkstraMap.get(n5));
+    assertEquals(new Integer(6), dijkstraMap.get(n6));
   }
 }
