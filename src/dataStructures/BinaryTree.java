@@ -9,8 +9,8 @@ import java.util.Stack;
 // are placed on the structure of the tree.
 public class BinaryTree<E> {
   private Node<E> root;
-  public Node<E> lastNodeParent;
-  public Node<E> lastNode;
+  private Node<E> lastNodeParent;
+  private Node<E> lastNode;
 
   public BinaryTree(Node<E> root) {
     this.root = root;
@@ -64,22 +64,14 @@ public class BinaryTree<E> {
   // Find the node in the tree that contains the given data, using a breadth-first search. If no
   // such node exists, return null.
   public Node<E> bfs(E data) {
-    if (root == null || data == null) {
-      return null;
-    }
+    if (root == null || data == null) return null;
     Queue<Node<E>> nodes = new LinkedList<>();
     nodes.add(root);
     while (!nodes.isEmpty()) {
       Node<E> next = nodes.poll();
-      if (next.getData().equals(data)) {
-        return next;
-      }
-      if (next.hasLeftChild()) {
-        nodes.add(next.getLeftChild());
-      }
-      if (next.hasRightChild()) {
-        nodes.add(next.getRightChild());
-      }
+      if (next.getData().equals(data)) return next;
+      if (next.hasLeftChild()) nodes.offer(next.getLeftChild());
+      if (next.hasRightChild()) nodes.offer(next.getRightChild());
     }
     return null;
   }
@@ -87,22 +79,14 @@ public class BinaryTree<E> {
   // Find the node in the tree that contains the given data, using a depth-first search. If no
   // such node exists, return null.
   public Node<E> dfs(E data) {
-    if (root == null || data == null) {
-      return null;
-    }
+    if (root == null || data == null) return null;
     Stack<Node<E>> nodes = new Stack<>();
     nodes.push(root);
     while (!nodes.isEmpty()) {
       Node<E> next = nodes.pop();
-      if (next.getData().equals(data)) {
-        return next;
-      }
-      if (next.hasLeftChild()) {
-        nodes.add(next.getLeftChild());
-      }
-      if (next.hasRightChild()) {
-        nodes.add(next.getRightChild());
-      }
+      if (next.getData().equals(data)) return next;
+      if (next.hasRightChild()) nodes.push(next.getRightChild());
+      if (next.hasLeftChild()) nodes.push(next.getLeftChild());
     }
     return null;
   }
@@ -112,9 +96,7 @@ public class BinaryTree<E> {
   public void insert(E data) {
     Node<E> insertNode = new Node<>(data);
     lastNode = insertNode;
-    if (data == null) {
-      return;
-    }
+    if (data == null) return;
     if (root == null) {
       root = insertNode;
       return;
@@ -184,12 +166,8 @@ public class BinaryTree<E> {
     while (!nodes.isEmpty()) {
       Node<E> next = nodes.poll();
       System.out.print(next.getData() + " ");
-      if (next.getLeftChild() != null) {
-        nodes.add(next.getLeftChild());
-      }
-      if (next.getRightChild() != null) {
-        nodes.add(next.getRightChild());
-      }
+      if (next.getLeftChild() != null) nodes.add(next.getLeftChild());
+      if (next.getRightChild() != null) nodes.add(next.getRightChild());
     }
   }
 }
