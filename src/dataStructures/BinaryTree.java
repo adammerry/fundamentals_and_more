@@ -66,7 +66,7 @@ public class BinaryTree<E> {
   public Node<E> bfs(E data) {
     if (root == null || data == null) return null;
     Queue<Node<E>> nodes = new LinkedList<>();
-    nodes.add(root);
+    nodes.offer(root);
     while (!nodes.isEmpty()) {
       Node<E> next = nodes.poll();
       if (next.getData().equals(data)) return next;
@@ -102,7 +102,7 @@ public class BinaryTree<E> {
       return;
     }
     Queue<Node<E>> nodes = new LinkedList<>();
-    nodes.add(root);
+    nodes.offer(root);
     while (true) {
       Node<E> next = nodes.poll();
       if (!next.hasLeftChild()) {
@@ -115,8 +115,8 @@ public class BinaryTree<E> {
         lastNodeParent = next;
         return;
       }
-      nodes.add(next.getLeftChild());
-      nodes.add(next.getRightChild());
+      nodes.offer(next.getLeftChild());
+      nodes.offer(next.getRightChild());
     }
   }
 
@@ -162,12 +162,12 @@ public class BinaryTree<E> {
   // breadth-first search.
   public void printTree() {
     Queue<Node<E>> nodes = new LinkedList<>();
-    if (root != null) nodes.add(root);
+    if (root != null) nodes.offer(root);
     while (!nodes.isEmpty()) {
       Node<E> next = nodes.poll();
       System.out.print(next.getData() + " ");
-      if (next.getLeftChild() != null) nodes.add(next.getLeftChild());
-      if (next.getRightChild() != null) nodes.add(next.getRightChild());
+      if (next.getLeftChild() != null) nodes.offer(next.getLeftChild());
+      if (next.getRightChild() != null) nodes.offer(next.getRightChild());
     }
   }
 }
