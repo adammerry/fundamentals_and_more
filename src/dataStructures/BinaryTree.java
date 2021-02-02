@@ -106,13 +106,13 @@ public class BinaryTree<E> {
   private Node<E> deleteHelper(Node<E> currNode, E data) {
     if (currNode == null || data == null) return currNode;
     if (currNode.getData().equals(data)) { // currNode should be removed from the tree.
-      Node<E> currNodeLeft = currNode.getLeftChild(), currNodeRight = currNode.getRightChild();
       if (currNode == lastNode) return null;
-      if (lastNode != root) {
-        lastNodeParent.setLeftChild(null);
-        lastNodeParent.setRightChild(null);
+      if (lastNode != root) { // Remove the connection between the last node and its parent.
+        if (lastNode == lastNodeParent.getLeftChild()) lastNodeParent.setLeftChild(null);
+        else lastNodeParent.setRightChild(null);
       }
-      // Replace the deleted node with the last node in the tree.
+      // Transfer the deleted node's children to the last node.
+      Node<E> currNodeLeft = currNode.getLeftChild(), currNodeRight = currNode.getRightChild();
       if (lastNode != currNodeLeft) lastNode.setLeftChild(currNodeLeft);
       if (lastNode != currNodeRight) lastNode.setRightChild(currNodeRight);
       return lastNode;
@@ -125,8 +125,7 @@ public class BinaryTree<E> {
   }
 
   private void updateLastNode() {
-    Node<E> currNodeParent = null;
-    Node<E> currNode = root;
+    Node<E> currNodeParent = null, currNode = root;
     while (currNode.hasLeftChild() || currNode.hasRightChild()) {
       currNodeParent = currNode;
       currNode = (currNode.hasRightChild()) ? currNode.getRightChild() : currNode.getLeftChild();
