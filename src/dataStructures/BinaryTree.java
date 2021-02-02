@@ -8,14 +8,9 @@ import java.util.Stack;
 // composed of zero or more nodes, where each node has up to two child nodes. No other restrictions
 // are placed on the structure of the tree.
 public class BinaryTree<E> {
-  private Node<E> root;
-  private Node<E> lastNodeParent;
-  private Node<E> lastNode;
+  private Node<E> root, lastNodeParent, lastNode;
 
-  public BinaryTree(Node<E> root) {
-    this.root = root;
-    this.lastNode = root;
-  }
+  public BinaryTree(Node<E> root) { this.root = lastNode = root; }
 
   public BinaryTree() {}
 
@@ -25,40 +20,23 @@ public class BinaryTree<E> {
 
   public static class Node<E> {
     private E data;
-    private Node<E> leftChild;
-    private Node<E> rightChild;
+    private Node<E> leftChild, rightChild;
 
-    public Node(E data) {
-      this.data = data;
-    }
+    public Node(E data) { this.data = data; }
 
-    public void setLeftChild(Node<E> child) {
-      leftChild = child;
-    }
+    public void setLeftChild(Node<E> child) { leftChild = child; }
 
-    public void setRightChild(Node<E> child) {
-      rightChild = child;
-    }
+    public void setRightChild(Node<E> child) { rightChild = child; }
 
-    public boolean hasLeftChild() {
-      return leftChild != null;
-    }
+    public boolean hasLeftChild() { return leftChild != null; }
 
-    public boolean hasRightChild() {
-      return rightChild != null;
-    }
+    public boolean hasRightChild() { return rightChild != null; }
 
-    public E getData() {
-      return data;
-    }
+    public E getData() { return data; }
 
-    public Node<E> getLeftChild() {
-      return leftChild;
-    }
+    public Node<E> getLeftChild() { return leftChild; }
 
-    public Node<E> getRightChild() {
-      return rightChild;
-    }
+    public Node<E> getRightChild() { return rightChild; }
   }
 
   // Find the node in the tree that contains the given data, using a breadth-first search. If no
@@ -94,9 +72,8 @@ public class BinaryTree<E> {
   // Level order insertion. Insert the given data into the next available spot in the tree,
   // searching from top to bottom, left to right.
   public void insert(E data) {
-    Node<E> insertNode = new Node<>(data);
-    lastNode = insertNode;
     if (data == null) return;
+    Node<E> insertNode = lastNode = new Node<>(data);
     if (root == null) {
       root = insertNode;
       return;
@@ -122,27 +99,27 @@ public class BinaryTree<E> {
 
   // Delete the node with the given data, replacing it with the last node inserted into the tree.
   public void delete(E data) {
-    root = deleteHelper(root, data);
-    if (root != null) updateLastNode();
+    if ((root = deleteHelper(root, data)) != null) updateLastNode();
   }
 
+  // Return a tree that does not contain a node with the given data.
   private Node<E> deleteHelper(Node<E> currNode, E data) {
     if (currNode == null || data == null) return currNode;
-    if (currNode.getData().equals(data)) {
-      Node<E> currNodeLeft = currNode.getLeftChild();
-      Node<E> currNodeRight = currNode.getRightChild();
+    if (currNode.getData().equals(data)) { // currNode should be removed from the tree.
+      Node<E> currNodeLeft = currNode.getLeftChild(), currNodeRight = currNode.getRightChild();
       if (currNode == lastNode) return null;
       if (lastNode != root) {
         lastNodeParent.setLeftChild(null);
         lastNodeParent.setRightChild(null);
       }
+      // Replace the deleted node with the last node in the tree.
       if (lastNode != currNodeLeft) lastNode.setLeftChild(currNodeLeft);
       if (lastNode != currNodeRight) lastNode.setRightChild(currNodeRight);
       return lastNode;
     }
-    else {
-      currNode.setLeftChild((deleteHelper(currNode.getLeftChild(), data)));
-      currNode.setRightChild((deleteHelper(currNode.getRightChild(), data)));
+    else { // This node should remain in the tree, so recurse on its children.
+      currNode.setLeftChild(deleteHelper(currNode.getLeftChild(), data));
+      currNode.setRightChild(deleteHelper(currNode.getRightChild(), data));
       return currNode;
     }
   }
