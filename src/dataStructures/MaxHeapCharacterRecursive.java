@@ -24,8 +24,7 @@ public class MaxHeapCharacterRecursive {
     if (nextIdx > MAX_SIZE) System.out.println("Maximum heap size reached");
     else {
       heap[nextIdx] = elem;
-      siftUp(nextIdx);
-      nextIdx++;
+      siftUp(nextIdx++);
     }
   }
 
@@ -41,11 +40,10 @@ public class MaxHeapCharacterRecursive {
 
   public Character extractMax() {
     if (nextIdx == 0) return null;
-    Character minElem = heap[0];
-    nextIdx--;
-    heap[0] = heap[nextIdx];
+    Character maxElem = heap[0];
+    heap[0] = heap[--nextIdx];
     siftDown(0);
-    return minElem;
+    return maxElem;
   }
 
   public void changeKey(int idx, Character newVal) {
@@ -53,12 +51,9 @@ public class MaxHeapCharacterRecursive {
       heap[idx] = newVal;
       if (idx > 0 && heap[getParentIdx(idx)] < newVal) siftUp(idx);
       else {
-        int leftChildIdx = getLeftChildIdx(idx);
-        int rightChildIdx = leftChildIdx + 1;
+        int leftChildIdx = getLeftChildIdx(idx), rightChildIdx = leftChildIdx + 1;
         if ((leftChildIdx < nextIdx && heap[leftChildIdx] > newVal) ||
-                (rightChildIdx < nextIdx && heap[rightChildIdx] > newVal)) {
-          siftDown(idx);
-        }
+                (rightChildIdx < nextIdx && heap[rightChildIdx] > newVal)) siftDown(idx);
       }
     }
     else System.out.println("Index out of range");
@@ -87,8 +82,7 @@ public class MaxHeapCharacterRecursive {
   }
 
   private void siftDown(int parentIdx) {
-    int leftChildIdx = getLeftChildIdx(parentIdx);
-    int rightChildIdx = leftChildIdx + 1;
+    int leftChildIdx = getLeftChildIdx(parentIdx), rightChildIdx = leftChildIdx + 1;
     int largest = parentIdx;
     if (leftChildIdx < nextIdx && heap[leftChildIdx] > heap[largest]) largest = leftChildIdx;
     if (rightChildIdx < nextIdx && heap[rightChildIdx] > heap[largest]) largest = rightChildIdx;
