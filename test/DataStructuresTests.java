@@ -293,52 +293,48 @@ public class DataStructuresTests {
 
     Character[] sortedExpected = {'t', 'b', 'a', 'Z', 'W', 'R', ' '};
     Character[] sortedActual = new Character[7];
-    for (int i = 0; i < 7; i++) {
-      sortedActual[i] = m.extractMax();
-    }
+    for (int i = 0; i < 7; i++) sortedActual[i] = m.extractMax();
     assertArrayEquals(sortedExpected, sortedActual);
 
     // Test building a heap from a given array.
     m = new MaxHeapCharacterRecursive(new Character[] {'C', 'k', '+', '9', 'u', '6', 'A', '3'});
     sortedExpected = new Character[] {'u', 'k', 'C', 'A', '9', '6', '3', '+'};
     sortedActual = new Character[8];
-    for (int i = 0; i < 8; i++) {
-      sortedActual[i] = m.extractMax();
-    }
+    for (int i = 0; i < 8; i++) sortedActual[i] = m.extractMax();
     assertArrayEquals(sortedExpected, sortedActual);
   }
 
   @Test
   public void testTrie() {
     Trie t = new Trie();
-    assertEquals(false, t.search("a"));
+    assertFalse(t.search("a"));
     t.insert("hello");
-    assertEquals(true, t.search("hello"));
-    assertEquals(false, t.search("he"));
+    assertTrue(t.search("hello"));
+    assertFalse(t.search("he"));
     t.insert("word");
-    assertEquals(true, t.search("word"));
+    assertTrue(t.search("word"));
     t.insert("tiger");
-    assertEquals(true, t.search("tiger"));
+    assertTrue(t.search("tiger"));
     t.insert("he");
-    assertEquals(true, t.search("he"));
-    assertEquals(false, t.search("hellop"));
-    assertEquals(false, t.search("lion"));
+    assertTrue(t.search("he"));
+    assertFalse(t.search("hellop"));
+    assertFalse(t.search("lion"));
     t.delete("tiger");
-    assertEquals(false, t.search("tiger"));
+    assertFalse(t.search("tiger"));
     t.delete("hello");
-    assertEquals(false, t.search("hello"));
-    assertEquals(true, t.search("he"));
+    assertFalse(t.search("hello"));
+    assertTrue(t.search("he"));
     t.delete("he");
-    assertEquals(false, t.search("he"));
+    assertFalse(t.search("he"));
     t.delete("the");
     t.insert("wo");
     t.delete("wo");
-    assertEquals(false, t.search("wo"));
-    assertEquals(false, t.search(""));
+    assertFalse(t.search("wo"));
+    assertFalse(t.search(""));
     t.insert("");
-    assertEquals(true, t.search(""));
+    assertTrue(t.search(""));
     t.delete("");
-    assertEquals(false, t.search(""));
+    assertFalse(t.search(""));
     t.insert(null);
     t.search(null);
     t.delete(null);

@@ -8,6 +8,8 @@ public class Trie {
   private static final int ALPHABET_SIZE = 26;
   private TrieNode root;
 
+  public Trie() { root = new TrieNode(); }
+
   private class TrieNode {
     private TrieNode[] children = new TrieNode[ALPHABET_SIZE];
     private boolean wordEnd;
@@ -24,36 +26,23 @@ public class Trie {
 
     private void setChild(int idx, TrieNode node) {
       if (idx >= 0 && idx < ALPHABET_SIZE) {
-        if (children[idx] == null) {
-          if (node != null) childCount++;
-        }
-        else if (node == null) childCount--;
+        if (children[idx] == null) childCount++;
         children[idx] = node;
       }
     }
 
-    private boolean hasChildren() {
-      return childCount > 0;
-    }
+    private boolean hasChildren() { return childCount > 0; }
 
-    private boolean isEnd() {
-      return wordEnd;
-    }
+    private boolean isEnd() { return wordEnd; }
 
-    private void markEnd() {
-      wordEnd = true;
-    }
+    private void markEnd() { wordEnd = true; }
 
-    private void unmarkEnd() {
-      wordEnd = false;
-    }
-
+    private void unmarkEnd() { wordEnd = false; }
   }
 
   public void insert(String word) {
     if (word == null) return;
-    if (root == null) root = new TrieNode();
-    int childIdx = 0;
+    int childIdx;
     TrieNode currNode = root;
     for (int i = 0; i < word.length(); i++) {
       childIdx = word.charAt(i) - 'a';
@@ -64,7 +53,7 @@ public class Trie {
   }
 
   public boolean search(String word) {
-    if (word == null || root == null) return false;
+    if (word == null) return false;
     int childIdx;
     TrieNode currNode = root;
     for (int i = 0; i < word.length(); i++) {
@@ -76,37 +65,26 @@ public class Trie {
   }
 
   public void delete(String word) {
-    if (word == null || root == null) return;
+    if (word == null) return;
     root = deleteHelper(root, word, 0);
   }
 
   private TrieNode deleteHelper(TrieNode node, String word, int letterIdx) {
-    // Case where we have reached the end of a branch without finding the word in the trie.
-    if (node == null) return null;
-    // Case where we have reached the end of the given word.
-    if (letterIdx == word.length()) {
-      if (node.isEnd()) {
-        node.unmarkEnd();
-        if (!node.hasChildren()) return null;
-      }
+    if (node == null) return null; // We have reached the end of a branch without finding the word.
+    if (letterIdx == word.length()) { // We have reached the end of the given word.
+      if (node.isEnd()) node.unmarkEnd();
+      return (node == root || node.hasChildren()) ? node : null;
     }
-    // Case where we have found a word in the trie that is a prefix of the given word.
-    else if (node.isEnd()) {
-      int childIdx = word.charAt(letterIdx) - 'a';
-      node.setChild(childIdx, deleteHelper(node.getChild(childIdx), word, letterIdx + 1));
-    }
-    else {
-      int childIdx = word.charAt(letterIdx) - 'a';
-      node.setChild(childIdx, deleteHelper(node.getChild(childIdx), word, letterIdx + 1));
-      if (!node.hasChildren()) return null;
-    }
-    return node;
+    int childIdx = word.charAt(letterIdx) - 'a';
+    TrieNode child = deleteHelper(node.getChild(childIdx), word, letterIdx + 1);
+    if (child == null) node.childCount--;
+    return (node == root || node.isEnd() || node.hasChildren()) ? node : null;
   }
 
   // Print each character in the trie using a breadth-first search.
   public void printTrieBFS() {
     Queue<TrieNode> nodes = new LinkedList<>();
-    if (root != null) nodes.add(root);
+    nodes.add(root);
     while (!nodes.isEmpty()) {
       TrieNode next = nodes.poll();
       if (next.hasChildren()) {
