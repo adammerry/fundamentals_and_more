@@ -38,8 +38,7 @@ public class GraphAdjacencyListBad {
   }
 
   public void removeEdge(int node1, int node2) {
-    int idxOf2 = adjList[node1].indexOf(node2);
-    int idxOf1 = adjList[node2].indexOf(node1);
+    int idxOf2 = adjList[node1].indexOf(node2), idxOf1 = adjList[node2].indexOf(node1);
     if (idxOf2 != -1) {
       adjList[node1].remove(idxOf2);
       adjList[node2].remove(idxOf1);

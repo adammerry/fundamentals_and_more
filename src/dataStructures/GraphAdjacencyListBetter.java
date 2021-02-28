@@ -58,8 +58,7 @@ public class GraphAdjacencyListBetter<E> {
   }
 
   public void removeNode(Node<E> node) {
-    if (!adjMap.containsKey(node))
-      System.out.println("Cannot remove nonexistent node.");
+    if (!adjMap.containsKey(node)) System.out.println("Cannot remove nonexistent node.");
     else {
       for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
       adjMap.remove(node);
