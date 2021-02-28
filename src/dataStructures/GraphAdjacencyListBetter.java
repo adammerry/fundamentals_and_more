@@ -49,12 +49,12 @@ public class GraphAdjacencyListBetter<E> {
   }
 
   public void removeEdge(Node<E> node1, Node<E> node2) {
-    if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
+    if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2))) {
       System.out.println("Cannot remove edge between nonexistent nodes.");
-    else if (adjMap.get(node1).contains(node2)){
-        adjMap.get(node1).remove(node2);
-        adjMap.get(node2).remove(node1);
+      return;
     }
+    adjMap.get(node1).remove(node2);
+    adjMap.get(node2).remove(node1);
   }
 
   public void removeNode(Node<E> node) {
