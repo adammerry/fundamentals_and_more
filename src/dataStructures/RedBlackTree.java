@@ -7,7 +7,7 @@ import java.util.Queue;
 // insert, search, delete, getMin, and getMax. This implementation does not support duplicate
 // node values.
 // A Red-Black tree is a self-balancing binary search tree that obeys the following properties:
-// - Each node is given a color, either red or black.
+// - Each node is given a color; either red or black.
 // - The root of the tree is always black.
 // - No red node has a red child.
 // - For any node, every path from that node to a leaf touches the same number of black nodes.
@@ -42,8 +42,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   // Class representing nodes in the Red-Black tree that store data.
   public static class DataNode<E extends Comparable<? super E>> extends TreeNode<E> {
     private E data;
-    private TreeNode<E> leftChild;
-    private TreeNode<E> rightChild;
+    private TreeNode<E> leftChild, rightChild;
 
     private DataNode(E data) {
       this.data = data;
@@ -108,8 +107,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   private void fixInsert(DataNode<E> insertDataNode) {
-    DataNode<E> current = insertDataNode;
-    DataNode<E> parent = insertDataNode.getParent();
+    DataNode<E> current = insertDataNode, parent = insertDataNode.getParent();
     while (parent != null && parent.getColor() == Color.RED) {
       // grandparent must not be null, since parent is red and root must be black.
       DataNode<E> grandparent = parent.getParent();
@@ -169,9 +167,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       System.out.println("Left rotation can't be performed when right child doesn't exist.");
       return;
     }
-    DataNode<E> pivot = (DataNode<E>) maybePivot;
+    DataNode<E> pivot = (DataNode<E>) maybePivot, parent = n.getParent();
     TreeNode<E> innerSubTree = pivot.getLeftChild();
-    DataNode<E> parent = n.getParent();
     pivot.setLeftChild(n);
     pivot.setParent(parent);
     n.setRightChild(innerSubTree);
@@ -190,9 +187,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       System.out.println("Right rotation can't be performed when left child doesn't exist.");
       return;
     }
-    DataNode<E> pivot = (DataNode<E>) maybePivot;
+    DataNode<E> pivot = (DataNode<E>) maybePivot, parent = n.getParent();
     TreeNode<E> innerSubTree = pivot.getRightChild();
-    DataNode<E> parent = n.getParent();
     pivot.setRightChild(n);
     pivot.setParent(parent);
     n.setLeftChild(innerSubTree);
@@ -330,8 +326,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     DataNode<E> parent = doubleBlackNode.getParent();
     // Because insertion always maintains the black-height property, every black data-storing node
     // must have a data-storing sibling. Therefore, it is always safe to perform the following cast.
-    DataNode<E> sibling =
-            (DataNode<E>) (isLeftChild ? parent.getRightChild() : parent.getLeftChild());
+    DataNode<E> sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() :
+            parent.getLeftChild());
     if (sibling.getColor() == Color.RED) return 2;
     // At this point, we know that the sibling is black.
     boolean leftSibChildBlack = sibling.getLeftChild().getColor() == Color.BLACK;
@@ -376,8 +372,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (root.isDataNode()) nodes.add((DataNode<E>) root);
     while (!nodes.isEmpty()) {
       DataNode<E> next = nodes.poll();
-      nodeData[counter] = (Integer) next.getData();
-      counter++;
+      nodeData[counter++] = (Integer) next.getData();
       if (next.getLeftChild().isDataNode()) nodes.add((DataNode<E>) next.getLeftChild());
       if (next.getRightChild().isDataNode()) nodes.add((DataNode<E>) next.getRightChild());
     }
