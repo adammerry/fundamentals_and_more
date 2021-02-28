@@ -11,6 +11,7 @@ import dataStructures.ArrayList;
 import dataStructures.BinarySearchTree;
 import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBad;
+import dataStructures.GraphAdjacencyListBest;
 import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphAdjacencyMatrix;
 import dataStructures.GraphGeneric;
@@ -432,6 +433,28 @@ public class DataStructuresTests {
     assertTrue(g.checkEdge(2, 4));
     g.removeNode(2);
     assertFalse(g.checkEdge(2, 4));
+  }
+
+  @Test
+  public void testGraphAdjacencyListBest() {
+    GraphAdjacencyListBest<String> g = new GraphAdjacencyListBest<>();
+    GraphAdjacencyListBest.Node<String> node1 = new GraphAdjacencyListBest.Node<>("hello");
+    GraphAdjacencyListBest.Node<String> node2 = new GraphAdjacencyListBest.Node<>("hi");
+    GraphAdjacencyListBest.Node<String> node3 = new GraphAdjacencyListBest.Node<>("ok");
+    GraphAdjacencyListBest.Node<String> node4 = new GraphAdjacencyListBest.Node<>("bye");
+    g.addNode(node1);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addEdge(node1, node3);
+    assertTrue(g.checkEdge(node1, node3));
+    g.removeEdge(node1, node3);
+    assertFalse(g.checkEdge(node1, node3));
+    assertFalse(g.checkEdge(node2, node4));
+    g.addEdge(node2, node4);
+    assertTrue(g.checkEdge(node2, node4));
+    g.removeNode(node4);
+    assertFalse(g.checkEdge(node2, node4));
   }
 
   @Test
