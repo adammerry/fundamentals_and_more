@@ -58,8 +58,7 @@ public class PriorityQueueArray<E> {
       }
     }
     E item = elements[highestPriorityIdx].getItem();
-    for (int i = highestPriorityIdx; i < size - 1; i++) elements[i] = elements[i + 1];
-    size--;
+    elements[highestPriorityIdx] = elements[--size];
     return item;
   }
 
