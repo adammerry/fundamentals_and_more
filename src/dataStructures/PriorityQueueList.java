@@ -39,13 +39,11 @@ public class PriorityQueueList<E> {
   }
 
   public E getHighestPriority() {
-    if (elements.isEmpty()) return null;
-    return elements.get(0).getItem();
+    return (elements.isEmpty()) ? null : elements.get(0).getItem();
   }
 
   public E deleteHighestPriority() {
-    if (elements.isEmpty()) return null;
-    return elements.remove(0).getItem();
+    return (elements.isEmpty()) ? null : elements.remove(0).getItem();
   }
 
   public void changePriority(E item, int newPriority) {
@@ -59,7 +57,7 @@ public class PriorityQueueList<E> {
       }
       idx++;
     }
-    if (idx < elements.size()) { // Item found in priority queue, and priority has changed.
+    if (idx < elements.size()) { // Item found in priority queue, and priority has been changed.
       if (newPriorityGreater) {
         while (idx < elements.size() - 1 &&
                 elements.get(idx).getPriority() > elements.get(idx + 1).getPriority()) {

@@ -108,11 +108,7 @@ public class PriorityQueueHeap<E> {
     }
   }
 
-  private int getParentIdx(int childIdx) {
-    return (childIdx - 1) / 2;
-  }
+  private int getParentIdx(int childIdx) { return (childIdx - 1) / 2; }
 
-  private int getLeftChildIdx(int parentIdx) {
-    return (2 * parentIdx) + 1;
-  }
+  private int getLeftChildIdx(int parentIdx) { return (2 * parentIdx) + 1; }
 }
