@@ -24,9 +24,7 @@ public class Stack<E> {
     return topData;
   }
 
-  public void push(E data) {
-    top = new StackNode<>(data, top);
-  }
+  public void push(E data) { top = new StackNode<>(data, top); }
 
   public E peek() {
     if (top == null) {
@@ -36,7 +34,5 @@ public class Stack<E> {
     return top.data;
   }
 
-  public boolean isEmpty() {
-    return top == null;
-  }
+  public boolean isEmpty() { return top == null; }
 }
