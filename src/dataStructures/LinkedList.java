@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 // Implementation of a singly-linked list.
 public class LinkedList<E> implements Iterable<E> {
-  private ListNode<E> head;
-  private ListNode<E> tail;
+  private ListNode<E> head, tail;
   private int size;
 
   public LinkedList() {
@@ -61,16 +60,14 @@ public class LinkedList<E> implements Iterable<E> {
       size--;
       return retData;
     }
-    ListNode<E> prevNode = head;
-    ListNode<E> nextNode = head.next;
+    ListNode<E> prevNode = head, nextNode = head.next;
     while (nextNode != null) {
       if (nextNode.data.equals(data)) {
         prevNode.next = nextNode.next;
         size--;
         return nextNode.data;
       }
-      prevNode = nextNode;
-      nextNode = nextNode.next;
+      nextNode = (prevNode = nextNode).next;
     }
     System.out.println("Element not found in list.");
     return null;
@@ -87,12 +84,8 @@ public class LinkedList<E> implements Iterable<E> {
       size--;
       return retData;
     }
-    ListNode<E> prevNode = head;
-    ListNode<E> nextNode = head.next;
-    for (int i = 0; i < idx - 1; i++) {
-      prevNode = nextNode;
-      nextNode = nextNode.next;
-    }
+    ListNode<E> prevNode = head, nextNode = head.next;
+    for (int i = 0; i < idx - 1; i++) nextNode = (prevNode = nextNode).next;
     E retData = nextNode.data;
     prevNode.next = nextNode.next;
     size--;
@@ -115,7 +108,7 @@ public class LinkedList<E> implements Iterable<E> {
     }
     
     @Override
-    public boolean hasNext() { return (nextNode != null); }
+    public boolean hasNext() { return nextNode != null; }
     
     @Override
     public G next() {
