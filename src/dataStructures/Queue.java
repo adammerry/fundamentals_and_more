@@ -2,8 +2,7 @@ package dataStructures;
 
 // Implementation of a generic queue.
 public class Queue<E> {
-  private QueueNode<E> head;
-  private QueueNode<E> tail;
+  private QueueNode<E> head, tail;
 
   private static class QueueNode<F> {
     private F data;
