@@ -40,7 +40,5 @@ public class Queue<E> {
     return head.data;
   }
 
-  public boolean isEmpty() {
-    return head == null;
-  }
+  public boolean isEmpty() { return head == null; }
 }

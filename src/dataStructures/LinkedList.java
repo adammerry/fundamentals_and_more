@@ -7,9 +7,7 @@ public class LinkedList<E> implements Iterable<E> {
   private ListNode<E> head, tail;
   private int size;
 
-  public LinkedList() {
-    size = 0;
-  }
+  public LinkedList() { size = 0; }
 
   private class ListNode<F> {
     F data;
