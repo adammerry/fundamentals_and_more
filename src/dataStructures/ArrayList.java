@@ -14,8 +14,7 @@ public class ArrayList<E> implements Iterable<E> {
   public ArrayList(int startSize) { elements = (E[]) new Object[Math.max(startSize, MIN_SIZE)]; }
 
   public void add(E elem) {
-    elements[size] = elem;
-    size++;
+    elements[size++] = elem;
     if (size > (elements.length * 0.75)) resize(2);
   }
 
@@ -60,6 +59,7 @@ public class ArrayList<E> implements Iterable<E> {
   private void resize(double factor) {
     int newArrayLen = (int) (elements.length * factor);
     if (newArrayLen < MIN_SIZE) newArrayLen = MIN_SIZE;
+    if (newArrayLen == elements.length) return; // Avoid unnecessarily copying elements.
     E[] newArray = (E[]) new Object[newArrayLen];
     System.arraycopy(elements, 0, newArray, 0, size);
     elements = newArray;
@@ -68,13 +68,13 @@ public class ArrayList<E> implements Iterable<E> {
   public int size() { return size; }
 
   @Override
-  public Iterator<E> iterator() { return new ArrayListIterator<>(this.elements); }
+  public Iterator<E> iterator() { return new ArrayListIterator<>(elements); }
 
   private class ArrayListIterator<F> implements Iterator<F> {
     int nextIdx = 0;
-    private E[] elements;
+    private F[] elements;
 
-    ArrayListIterator(E[] arr) { elements = arr; }
+    ArrayListIterator(F[] arr) { elements = arr; }
 
     @Override
     public boolean hasNext() { return nextIdx < size; }
