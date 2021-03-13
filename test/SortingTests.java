@@ -1,5 +1,3 @@
-import com.sun.scenario.effect.Merge;
-
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,23 +11,7 @@ import sorting.QuickSort;
 import sorting.RadixSort;
 
 public class SortingTests {
-  private int[] l1;
-  private int[] l2;
-  private int[] l3;
-  private int[] l4;
-  private int[] l5;
-  private int[] l6;
-  private int[] l7;
-  private int[] l8;
-
-  private int[] s1;
-  private int[] s2;
-  private int[] s3;
-  private int[] s4;
-  private int[] s5;
-  private int[] s6;
-  private int[] s7;
-  private int[] s8;
+  private int[] l1, l2, l3, l4, l5, l6, l7, l8, s1, s2, s3, s4, s5, s6, s7, s8;
 
   @Before
   public void setUpArrays() {

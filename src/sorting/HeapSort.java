@@ -35,7 +35,5 @@ public class HeapSort {
     }
   }
 
-  private static int getLeftChildIdx(int parentIdx) {
-    return (2 * parentIdx) + 1;
-  }
+  private static int getLeftChildIdx(int parentIdx) { return (2 * parentIdx) + 1; }
 }
