@@ -1,7 +1,7 @@
 package sorting;
 
 // Implementation of counting sort algorithm to sort an array of ints.
-public class CountingSortNegative {
+public class CountingSort {
 
   public static void sort(int[] ints) {
     if (ints == null) {

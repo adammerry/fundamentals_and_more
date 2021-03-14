@@ -2,8 +2,7 @@ import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import sorting.CountingSortNegative;
-import sorting.CountingSortNonNegative;
+import sorting.CountingSort;
 import sorting.HeapSort;
 import sorting.InsertionSort;
 import sorting.MergeSort;
@@ -115,31 +114,15 @@ public class SortingTests {
   }
 
   @Test
-  public void testCountingSortNonNegative() {
-    CountingSortNonNegative.sort(l1);
-    CountingSortNonNegative.sort(l2);
-    CountingSortNonNegative.sort(l3);
-    CountingSortNonNegative.sort(l5);
-    CountingSortNonNegative.sort(l6);
-    CountingSortNonNegative.sort(l7);
-    assertArrayEquals(s1, l1);
-    assertArrayEquals(s2, l2);
-    assertArrayEquals(s3, l3);
-    assertArrayEquals(s5, l5);
-    assertArrayEquals(s6, l6);
-    assertArrayEquals(s7, l7);
-  }
-
-  @Test
-  public void testCountingSortNegative() {
-    CountingSortNegative.sort(l1);
-    CountingSortNegative.sort(l2);
-    CountingSortNegative.sort(l3);
-    CountingSortNegative.sort(l4);
-    CountingSortNegative.sort(l5);
-    CountingSortNegative.sort(l6);
-    CountingSortNegative.sort(l7);
-    CountingSortNegative.sort(l8);
+  public void testCountingSort() {
+    CountingSort.sort(l1);
+    CountingSort.sort(l2);
+    CountingSort.sort(l3);
+    CountingSort.sort(l4);
+    CountingSort.sort(l5);
+    CountingSort.sort(l6);
+    CountingSort.sort(l7);
+    CountingSort.sort(l8);
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
     assertArrayEquals(s3, l3);
