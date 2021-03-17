@@ -9,7 +9,7 @@ public class RadixSort {
       System.out.println("null array encountered");
       return;
     }
-    if (ints.length == 0) return;
+    if (ints.length < 2) return;
     int largest = ints[0];
     for (int i : ints) {
       if (i < 0) {
@@ -24,8 +24,7 @@ public class RadixSort {
 
   private static void countingSortByDigit(int[] ints, int divisor) {
     int base = 10;
-    int[] counts = new int[base];
-    int[] output = new int[ints.length];
+    int[] counts = new int[base], output = new int[ints.length];
     // Populate counts[] with information based on appropriate digit of each number in ints[].
     for (int i : ints) counts[(i / divisor) % base]++;
     // Modify the values of the counts[] array so that each value corresponds to an index in the
