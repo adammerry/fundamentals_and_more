@@ -1,16 +1,31 @@
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import dataStructures.GraphGeneric;
 import sorting.CountingSort;
 import sorting.HeapSort;
 import sorting.InsertionSort;
 import sorting.MergeSort;
 import sorting.QuickSort;
 import sorting.RadixSort;
+import sorting.TopologicalSort;
 
 public class SortingTests {
   private int[] l1, l2, l3, l4, l5, l6, l7, l8, s1, s2, s3, s4, s5, s6, s7, s8;
+  private GraphGeneric<Integer> g;
+  private List<GraphGeneric.Node<Integer>> sort;
+  private GraphGeneric.Node<Integer> node1 = new GraphGeneric.Node<>(1);
+  private GraphGeneric.Node<Integer> node2 = new GraphGeneric.Node<>(2);
+  private GraphGeneric.Node<Integer> node3 = new GraphGeneric.Node<>(3);
+  private GraphGeneric.Node<Integer> node4 = new GraphGeneric.Node<>(4);
+  private GraphGeneric.Node<Integer> node5 = new GraphGeneric.Node<>(5);
+  private GraphGeneric.Node<Integer> node6 = new GraphGeneric.Node<>(6);
+  private GraphGeneric.Node<Integer> node7 = new GraphGeneric.Node<>(7);
 
   @Before
   public void setUpArrays() {
@@ -31,6 +46,12 @@ public class SortingTests {
     s6 = new int[] {19};
     s7 = null;
     s8 = new int[] {-11, -5, -2, -1};
+  }
+
+  @Before
+  public void setUpTopSort() {
+    g = new GraphGeneric<>(true);
+    sort = new LinkedList<>();
   }
 
   @Test
@@ -147,5 +168,81 @@ public class SortingTests {
     assertArrayEquals(s5, l5);
     assertArrayEquals(s6, l6);
     assertArrayEquals(s7, l7);
+  }
+
+  @Test
+  public void testTopologicalSortQueue() {
+    assertEquals(sort, TopologicalSort.topSortQueue(g));
+    g.addNode(node1);
+    sort.add(node1);
+    assertEquals(sort, TopologicalSort.topSortQueue(g));
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addNode(node5);
+    g.addNode(node6);
+    g.addNode(node7);
+    // To prevent the possibility of failing a test by producing a valid topological ordering
+    // that is different than the one the test is checking for, create a graph that has only one
+    // valid ordering.
+    g.addEdge(node1, node2);
+    g.addEdge(node1, node3);
+    g.addEdge(node1, node4);
+    g.addEdge(node2, node7);
+    g.addEdge(node3, node5);
+    g.addEdge(node4, node2);
+    g.addEdge(node4, node7);
+    g.addEdge(node5, node4);
+    g.addEdge(node5, node6);
+    g.addEdge(node5, node7);
+    g.addEdge(node6, node2);
+    g.addEdge(node6, node4);
+    sort.add(node3);
+    sort.add(node5);
+    sort.add(node6);
+    sort.add(node4);
+    sort.add(node2);
+    sort.add(node7);
+    assertEquals(sort, TopologicalSort.topSortQueue(g));
+    // Test a graph that contains a cycle.
+    g.addEdge(node2, node5);
+    assertEquals(null, TopologicalSort.topSortQueue(g));
+  }
+
+  @Test
+  public void testTopologicalSortDFS() {
+    assertEquals(sort, TopologicalSort.topSortDFS(g));
+    g.addNode(node1);
+    sort.add(node1);
+    assertEquals(sort, TopologicalSort.topSortDFS(g));
+    node1.setSeen(false);
+    g.addNode(node2);
+    g.addNode(node3);
+    g.addNode(node4);
+    g.addNode(node5);
+    g.addNode(node6);
+    g.addNode(node7);
+    // To prevent the possibility of failing a test by producing a valid topological ordering
+    // that is different than the one the test is checking for, create a graph that has only one
+    // valid ordering.
+    g.addEdge(node1, node2);
+    g.addEdge(node1, node3);
+    g.addEdge(node1, node4);
+    g.addEdge(node2, node7);
+    g.addEdge(node3, node5);
+    g.addEdge(node4, node2);
+    g.addEdge(node4, node7);
+    g.addEdge(node5, node4);
+    g.addEdge(node5, node6);
+    g.addEdge(node5, node7);
+    g.addEdge(node6, node2);
+    g.addEdge(node6, node4);
+    sort.add(node3);
+    sort.add(node5);
+    sort.add(node6);
+    sort.add(node4);
+    sort.add(node2);
+    sort.add(node7);
+    assertEquals(sort, TopologicalSort.topSortDFS(g));
   }
 }
