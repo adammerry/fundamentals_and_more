@@ -55,11 +55,10 @@ public class TopologicalSort {
     return sort.size() == graph.getNodes().size() ? sort : null;
   }
 
-  // A DFS-based topological sorting algorithm. This algorithm operates by performing a modified
-  // depth-first search from each node, where descendants of the current node are added to the
-  // output list before the current node itself. Once all nodes have been added, reversing the
-  // output list will produce a topological sort. This algorithm has the advantage that it is
-  // shorter and simpler to code, but also the disadvantage that it cannot detect cycles.
+  // A DFS-based topological sorting algorithm. This algorithm operates by performing a post-order
+  // depth-first search from each node. Once all nodes have been added to the output list,
+  // reversing the list will produce a topological sort. This algorithm has the advantage that it
+  // is shorter and simpler to code, but also the disadvantage that it cannot detect cycles.
   public static <E> List<GraphGeneric.Node<E>> topSortDFS(GraphGeneric<E> graph) {
     List<GraphGeneric.Node<E>> sort = new LinkedList<>();
     for (GraphGeneric.Node<E> n : graph.getNodes()) if (!n.hasBeenSeen()) dfsHelper(graph, n, sort);
