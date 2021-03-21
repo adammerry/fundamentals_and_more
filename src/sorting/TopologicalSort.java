@@ -23,31 +23,31 @@ public class TopologicalSort {
   // possible.
   public static <E> List<GraphGeneric.Node<E>> topSortQueue(GraphGeneric<E> graph) {
     // Step 1: Construct the necessary maps:
-    // - [Node -> List of Nodes for which this node has outgoing edges to]
-    // - [Node -> Count of incoming edges]
+    // - [node -> list of nodes to which this node has outgoing edges]
+    // - [node -> number of incoming edges]
     Map<GraphGeneric.Node<E>, List<GraphGeneric.Node<E>>> outEdges = new HashMap<>();
-    Map<GraphGeneric.Node<E>, Integer> edgeCounts = new HashMap<>();
+    Map<GraphGeneric.Node<E>, Integer> inDegrees = new HashMap<>();
     for (GraphGeneric.Node<E> n : graph.getNodes()) {
       outEdges.put(n, new LinkedList<>());
-      edgeCounts.put(n, 0);
+      inDegrees.put(n, 0);
     }
     for (GraphGeneric.Node<E> n : graph.getNodes()) {
       for (GraphGeneric.Node<E> neighbor : graph.getNeighbors(n).keySet()) {
         outEdges.get(n).add(neighbor);
-        edgeCounts.put(neighbor, edgeCounts.get(neighbor) + 1);
+        inDegrees.put(neighbor, inDegrees.get(neighbor) + 1);
       }
     }
     // Step 2: Perform the queue-based sort.
     Queue<GraphGeneric.Node<E>> q = new LinkedList<>();
-    for (Map.Entry<GraphGeneric.Node<E>, Integer> n : edgeCounts.entrySet())
+    for (Map.Entry<GraphGeneric.Node<E>, Integer> n : inDegrees.entrySet())
       if (n.getValue() == 0) q.offer(n.getKey());
     List<GraphGeneric.Node<E>> sort = new LinkedList<>();
     while (!q.isEmpty()) {
       GraphGeneric.Node<E> next = q.poll();
       sort.add(next);
       for (GraphGeneric.Node<E> neighbor : outEdges.get(next)) {
-        edgeCounts.put(neighbor, edgeCounts.get(neighbor) - 1);
-        if (edgeCounts.get(neighbor) == 0) q.offer(neighbor);
+        inDegrees.put(neighbor, inDegrees.get(neighbor) - 1);
+        if (inDegrees.get(neighbor) == 0) q.offer(neighbor);
       }
     }
     // If all nodes were placed in the sorted list, return the list. Otherwise, a cycle was
