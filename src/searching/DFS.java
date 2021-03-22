@@ -50,9 +50,8 @@ public class DFS {
       if (nextNode.getData().equals(searchVal)) return nextNode;
       seenSet.add(nextNode);
       List<GraphAdjacencyListBetter.Node<Integer>> neighbors = adjMap.get(root);
-      for (GraphAdjacencyListBetter.Node<Integer> neighbor : neighbors) {
+      for (GraphAdjacencyListBetter.Node<Integer> neighbor : neighbors)
         if (!seenSet.contains(neighbor)) stack.push(neighbor);
-      }
     }
     return null;
   }
@@ -80,8 +79,7 @@ public class DFS {
                           Integer searchVal,
                           Map<GraphAdjacencyListBetter.Node<Integer>,
                                   List<GraphAdjacencyListBetter.Node<Integer>>> adjMap) {
-    if (root == null) return null;
-    if (root.getData().equals(searchVal)) return root;
+    if (root == null || root.getData().equals(searchVal)) return root;
     root.setSeen(true);
     List<GraphAdjacencyListBetter.Node<Integer>> neighbors = adjMap.get(root);
     for (GraphAdjacencyListBetter.Node<Integer> neighbor : neighbors) {
@@ -113,21 +111,17 @@ public class DFS {
 
   // Preorder DFS on a binary tree using recursion.
   public BinaryTree.Node<Integer> dfsTreeRecursive(Integer searchVal) {
-    if (searchVal != null) {
-      BinaryTree.Node<Integer> root = tree.getRoot();
-      return dfsTreeRecursiveHelper(searchVal, root);
-    }
-    return null;
+    if (searchVal == null) return null;
+    BinaryTree.Node<Integer> root = tree.getRoot();
+    return dfsTreeRecursiveHelper(searchVal, root);
   }
 
   private BinaryTree.Node<Integer> dfsTreeRecursiveHelper(Integer searchVal,
                                                           BinaryTree.Node<Integer> root) {
-    if (root == null) return null;
-    if (root.getData().equals(searchVal)) return root;
+    if (root == null || root.getData().equals(searchVal)) return root;
     BinaryTree.Node<Integer> leftSubtreeRetVal =
             dfsTreeRecursiveHelper(searchVal, root.getLeftChild());
-    BinaryTree.Node<Integer> rightSubtreeRetVal =
-            dfsTreeRecursiveHelper(searchVal, root.getRightChild());
-    return (leftSubtreeRetVal == null) ? rightSubtreeRetVal : leftSubtreeRetVal;
+    return (leftSubtreeRetVal == null) ? dfsTreeRecursiveHelper(searchVal, root.getRightChild()) :
+            leftSubtreeRetVal;
   }
 }
