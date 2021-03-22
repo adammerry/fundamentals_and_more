@@ -83,7 +83,7 @@ public class SearchingTests {
   @Test
   public void testBFS() {
     BFS bfs = new BFS(graph, tree);
-
+    // Test bfsGraphWithSeenField().
     assertEquals(new Integer(15), bfs.bfsGraphWithSeenField(15).getData());
     assertEquals(new Integer(75), bfs.bfsGraphWithSeenField(75).getData());
     assertEquals(new Integer(12), bfs.bfsGraphWithSeenField(12).getData());
@@ -98,7 +98,7 @@ public class SearchingTests {
     assertEquals(new Integer(1), bfs.bfsGraphWithSeenField(1).getData());
     assertNull(bfs.bfsGraphWithSeenField(null));
     assertNull(bfs.bfsGraphWithSeenField(17));
-
+    // Test bfsGraphWithSeenSet().
     assertEquals(new Integer(15), bfs.bfsGraphWithSeenSet(15).getData());
     assertEquals(new Integer(75), bfs.bfsGraphWithSeenSet(75).getData());
     assertEquals(new Integer(12), bfs.bfsGraphWithSeenSet(12).getData());
@@ -113,7 +113,7 @@ public class SearchingTests {
     assertEquals(new Integer(1), bfs.bfsGraphWithSeenSet(1).getData());
     assertNull(bfs.bfsGraphWithSeenSet(null));
     assertNull(bfs.bfsGraphWithSeenSet(17));
-
+    // Test bfsTree().
     assertEquals(new Integer(1), bfs.bfsTree(1).getData());
     assertEquals(new Integer(2), bfs.bfsTree(2).getData());
     assertEquals(new Integer(3), bfs.bfsTree(3).getData());
@@ -129,7 +129,7 @@ public class SearchingTests {
   @Test
   public void testDFS() {
     DFS dfs = new DFS(graph, tree);
-
+    // Test dfsGraphIterative().
     assertEquals(new Integer(15), dfs.dfsGraphIterative(15).getData());
     assertEquals(new Integer(75), dfs.dfsGraphIterative(75).getData());
     assertEquals(new Integer(12), dfs.dfsGraphIterative(12).getData());
@@ -144,7 +144,7 @@ public class SearchingTests {
     assertEquals(new Integer(1), dfs.dfsGraphIterative(1).getData());
     assertNull(dfs.dfsGraphIterative(null));
     assertNull(dfs.dfsGraphIterative(17));
-
+    // Test dfsGraphRecursive().
     assertEquals(new Integer(15), dfs.dfsGraphRecursive(15).getData());
     assertEquals(new Integer(75), dfs.dfsGraphRecursive(75).getData());
     assertEquals(new Integer(12), dfs.dfsGraphRecursive(12).getData());
@@ -159,7 +159,7 @@ public class SearchingTests {
     assertEquals(new Integer(1), dfs.dfsGraphRecursive(1).getData());
     assertNull(dfs.dfsGraphRecursive(null));
     assertNull(dfs.dfsGraphRecursive(17));
-
+    // Test dfsTreeIterative().
     assertEquals(new Integer(1), dfs.dfsTreeIterative(1).getData());
     assertEquals(new Integer(2), dfs.dfsTreeIterative(2).getData());
     assertEquals(new Integer(3), dfs.dfsTreeIterative(3).getData());
@@ -170,7 +170,7 @@ public class SearchingTests {
     assertEquals(new Integer(8), dfs.dfsTreeIterative(8).getData());
     assertNull(dfs.dfsTreeIterative(null));
     assertNull(dfs.dfsTreeIterative(17));
-
+    // Test dfsTreeRecursive().
     assertEquals(new Integer(1), dfs.dfsTreeRecursive(1).getData());
     assertEquals(new Integer(2), dfs.dfsTreeRecursive(2).getData());
     assertEquals(new Integer(3), dfs.dfsTreeRecursive(3).getData());
