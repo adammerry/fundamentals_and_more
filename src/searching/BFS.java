@@ -113,8 +113,7 @@ public class BFS {
     if (searchVal != null) {
       Queue<BinaryTree.Node<Integer>> q = new LinkedList<>();
       BinaryTree.Node<Integer> root = tree.getRoot();
-      if (root == null) return null;
-      if (root.getData().equals(searchVal)) return root;
+      if (root == null || root.getData().equals(searchVal)) return null;
       q.add(root);
       while(!q.isEmpty()) {
         BinaryTree.Node<Integer> nextNode = q.poll();
@@ -132,5 +131,4 @@ public class BFS {
     }
     return null;
   }
-
 }
