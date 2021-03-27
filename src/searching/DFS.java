@@ -49,8 +49,7 @@ public class DFS {
       GraphAdjacencyListBetter.Node<Integer> nextNode = stack.pop();
       if (nextNode.getData().equals(searchVal)) return nextNode;
       seenSet.add(nextNode);
-      List<GraphAdjacencyListBetter.Node<Integer>> neighbors = adjMap.get(root);
-      for (GraphAdjacencyListBetter.Node<Integer> neighbor : neighbors)
+      for (GraphAdjacencyListBetter.Node<Integer> neighbor : adjMap.get(root))
         if (!seenSet.contains(neighbor)) stack.push(neighbor);
     }
     return null;
@@ -81,8 +80,7 @@ public class DFS {
                                   List<GraphAdjacencyListBetter.Node<Integer>>> adjMap) {
     if (root == null || root.getData().equals(searchVal)) return root;
     root.setSeen(true);
-    List<GraphAdjacencyListBetter.Node<Integer>> neighbors = adjMap.get(root);
-    for (GraphAdjacencyListBetter.Node<Integer> neighbor : neighbors) {
+    for (GraphAdjacencyListBetter.Node<Integer> neighbor : adjMap.get(root)) {
       if (!neighbor.hasBeenSeen()) {
         GraphAdjacencyListBetter.Node<Integer> dfsRetVal =
                 dfsGraphRecursiveHelper(neighbor, searchVal, adjMap);
