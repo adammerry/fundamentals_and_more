@@ -10,10 +10,11 @@ import java.util.Map;
 import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphGeneric;
+import searching.BFS;
+import searching.BinarySearch;
+import searching.DFS;
 import searching.Dijkstra;
 import searching.Traversals;
-import searching.BFS;
-import searching.DFS;
 
 public class SearchingTests {
   private GraphAdjacencyListBetter<Integer> graph = new GraphAdjacencyListBetter<>();
@@ -249,5 +250,18 @@ public class SearchingTests {
     assertEquals(new Integer(3), dijkstraMap.get(n4));
     assertEquals(new Integer(13), dijkstraMap.get(n5));
     assertEquals(new Integer(6), dijkstraMap.get(n6));
+  }
+
+  @Test
+  public void testBinarySearch() {
+    assertEquals(-1, BinarySearch.binarySearch(new int[]{}, 1));
+    assertEquals(0, BinarySearch.binarySearch(new int[]{1}, 1));
+    assertEquals(-1, BinarySearch.binarySearch(new int[]{2}, 1));
+    assertEquals(5, BinarySearch.binarySearch(new int[]{1,2,3,4,5,6,7,8,9}, 6));
+    assertEquals(-1, BinarySearch.binarySearch(new int[]{1,2,3,4,5,6,8,9,10}, 7));
+    assertEquals(-1, BinarySearch.binarySearch(new int[]{9,22,35,67,80}, -2));
+    assertEquals(-1, BinarySearch.binarySearch(new int[]{9,22,35,67,80}, 86));
+    assertEquals(4, BinarySearch.binarySearch(new int[]{9,22,35,67,80}, 80));
+    assertEquals(0, BinarySearch.binarySearch(new int[]{9,22,35,67,80}, 9));
   }
 }
