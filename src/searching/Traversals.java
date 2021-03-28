@@ -49,8 +49,7 @@ public class Traversals {
 
   public List<Integer> listInorder() {
     List<Integer> inorderList = new LinkedList<>();
-    BinaryTree.Node<Integer> root = tree.getRoot();
-    inorderHelper(inorderList, root);
+    inorderHelper(inorderList, tree.getRoot());
     return inorderList;
   }
 
@@ -64,8 +63,7 @@ public class Traversals {
 
   public List<Integer> listPreorder() {
     List<Integer> preorderList = new LinkedList<>();
-    BinaryTree.Node<Integer> root = tree.getRoot();
-    preorderHelper(preorderList, root);
+    preorderHelper(preorderList, tree.getRoot());
     return preorderList;
   }
 
@@ -79,8 +77,7 @@ public class Traversals {
 
   public List<Integer> listPostorder() {
     List<Integer> postorderList = new LinkedList<>();
-    BinaryTree.Node<Integer> root = tree.getRoot();
-    postorderHelper(postorderList, root);
+    postorderHelper(postorderList, tree.getRoot());
     return postorderList;
   }
 
@@ -93,10 +90,9 @@ public class Traversals {
   }
 
   public List<Integer> listLevelOrder() {
-    if (tree.getRoot() == null) return new LinkedList<>();
     List<Integer> levelOrderList = new LinkedList<>();
     Queue<BinaryTree.Node<Integer>> queue = new LinkedList<>();
-    queue.add(tree.getRoot());
+    if (tree.getRoot() != null) queue.add(tree.getRoot());
     while (!queue.isEmpty()) {
       BinaryTree.Node<Integer> nextNode = queue.poll();
       levelOrderList.add(nextNode.getData());
