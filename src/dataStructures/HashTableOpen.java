@@ -1,15 +1,13 @@
 package dataStructures;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 // Implementation of a hash table where keys and values can be any type of object, the hash
 // function is a simple modulo operation, and the collision resolution policy employs open
-// hashing (storing records externally in a list).
+// hashing (storing records in a list).
 public class HashTableOpen {
-  private static final double LOAD_FACTOR_MAX = 0.75;
-  private static final double LOAD_FACTOR_MIN = 0.25;
+  private static final double LOAD_FACTOR_MAX = 0.75, LOAD_FACTOR_MIN = 0.25;
   private static final int INITIAL_CAPACITY = 10;
   private ArrayList<ArrayList<Record>> table;
   private int count;
@@ -21,25 +19,18 @@ public class HashTableOpen {
   }
 
   private class Record {
-    private Object key;
-    private Object value;
+    private Object key, value;
 
     private Record(Object key, Object value) {
       this.key = key;
       this.value = value;
     }
 
-    private Object getKey() {
-      return key;
-    }
+    private Object getKey() {return key; }
 
-    private Object getValue() {
-      return value;
-    }
+    private Object getValue() { return value; }
 
-    private void setValue(Object value) {
-      this.value = value;
-    }
+    private void setValue(Object value) { this.value = value; }
   }
 
   // Return the previous value of the specified key in this hash table, or null if the key did
@@ -69,8 +60,7 @@ public class HashTableOpen {
     int newSize = Math.max(INITIAL_CAPACITY, (int)(table.size() * resizeFactor));
     table = new ArrayList<>(newSize);
     for (int i = 0; i < newSize; i++) table.add(new ArrayList<>());
-    for (List<Record> l : oldTable)
-      for (Record r : l) put(r.getKey(), r.getValue());
+    for (List<Record> l : oldTable) for (Record r : l) put(r.getKey(), r.getValue());
   }
 
   public Object get(Object key) {

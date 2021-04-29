@@ -6,22 +6,13 @@ import java.util.Arrays;
 // function is a simple modulo operation, and the collision resolution policy employs closed
 // hashing with linear probing by steps.
 public class HashTableClosed {
-  private static final double LOAD_FACTOR_MAX = 0.75;
-  private static final double LOAD_FACTOR_MIN = 0.25;
+  private static final double LOAD_FACTOR_MAX = 0.75, LOAD_FACTOR_MIN = 0.25;
   private static final int INITIAL_CAPACITY = 10;
-  private Record[] table;
-  private int count;
-  private int stepSize;
-
-  public HashTableClosed() {
-    table = new Record[INITIAL_CAPACITY];
-    count = 0;
-    stepSize = calculateStepSize();
-  }
+  private Record[] table = new Record[INITIAL_CAPACITY];
+  private int count = 0, stepSize = calculateStepSize();
 
   private class Record {
-    private Object key;
-    private Object value;
+    private Object key, value;
     boolean isTombstone;
 
     private Record(Object key, Object value) {
@@ -29,25 +20,15 @@ public class HashTableClosed {
       this.value = value;
     }
 
-    private Object getKey() {
-      return key;
-    }
+    private Object getKey() { return key; }
 
-    private Object getValue() {
-      return value;
-    }
+    private Object getValue() { return value; }
 
-    private void setValue(Object value) {
-      this.value = value;
-    }
+    private void setValue(Object value) { this.value = value; }
 
-    private boolean isTombstone() {
-      return isTombstone;
-    }
+    private boolean isTombstone() { return isTombstone; }
 
-    private void setTombstone(boolean isTombstone) {
-      this.isTombstone = isTombstone;
-    }
+    private void setTombstone(boolean isTombstone) { this.isTombstone = isTombstone; }
   }
 
   private int calculateStepSize() {
@@ -105,7 +86,7 @@ public class HashTableClosed {
     table = new Record[Math.max(INITIAL_CAPACITY, (int)(table.length * resizeFactor))];
     stepSize = calculateStepSize();
     count = 0;
-    for (Record r : tableCopy) if (r != null && (!r.isTombstone())) put(r.getKey(), r.getValue());
+    for (Record r : tableCopy) if (!(r == null || r.isTombstone())) put(r.getKey(), r.getValue());
   }
 
   public Object get(Object key) {
