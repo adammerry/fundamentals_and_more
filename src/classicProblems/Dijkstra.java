@@ -1,4 +1,4 @@
-package searching;
+package classicProblems;
 
 import dataStructures.GraphGeneric;
 import dataStructures.PriorityQueueHeap;
