@@ -21,10 +21,9 @@ public class Dijkstra {
     for (GraphGeneric.Node<E> node : graph.getNodes()) pq.insert(node, Integer.MAX_VALUE);
     pq.changePriority(source, 0);
     while (!pq.isEmpty()) {
-      PriorityQueueHeap<GraphGeneric.Node<E>>.PriorityQueueElement<GraphGeneric.Node<E>> nextMin
-              = pq.deleteHighestPriority();
-      distances.put(nextMin.getItem(), nextMin.getPriority());
-      updateNeighbors(graph, pq, nextMin.getItem(), distances);
+      GraphGeneric.Node<E> nextMinNode = pq.getHighestPriority().getItem();
+      distances.put(nextMinNode, pq.deleteHighestPriority().getPriority());
+      updateNeighbors(graph, pq, nextMinNode, distances);
     }
     return distances;
   }
