@@ -45,9 +45,7 @@ public class PriorityQueueHeap<E> {
     size++;
   }
 
-  public PriorityQueueElement<E> getHighestPriority() {
-    return (size == 0) ? null : heap[0];
-  }
+  public PriorityQueueElement<E> getHighestPriority() { return (size == 0) ? null : heap[0]; }
 
   public PriorityQueueElement<E> deleteHighestPriority() {
     if (size == 0) return null;
@@ -70,8 +68,12 @@ public class PriorityQueueHeap<E> {
     }
   }
 
-  public boolean isEmpty() {
-    return size == 0;
+  public boolean isEmpty() { return size == 0; }
+
+  public boolean contains(E item) { return idxMap.containsKey(item); }
+
+  public Integer getPriority(E item) {
+    return idxMap.containsKey(item) ? heap[idxMap.get(item)].getPriority() : null;
   }
 
   private void siftUp(int childIdx) {
