@@ -61,7 +61,7 @@ public class TopologicalSort {
   // is shorter and simpler to code, but also the disadvantage that it cannot detect cycles.
   public static <E> List<GraphGeneric.Node<E>> topSortDFS(GraphGeneric<E> graph) {
     List<GraphGeneric.Node<E>> sort = new LinkedList<>();
-    for (GraphGeneric.Node<E> n : graph.getNodes()) if (!n.hasBeenSeen()) dfsHelper(graph, n, sort);
+    for (GraphGeneric.Node<E> n : graph.getNodes()) if (!n.seen()) dfsHelper(graph, n, sort);
     Collections.reverse(sort);
     return sort;
   }
@@ -70,7 +70,7 @@ public class TopologicalSort {
                                     List<GraphGeneric.Node<E>> sort) {
     n.setSeen(true);
     for (GraphGeneric.Node<E> neighbor : graph.getNeighbors(n).keySet())
-      if (!neighbor.hasBeenSeen()) dfsHelper(graph, neighbor, sort);
+      if (!neighbor.seen()) dfsHelper(graph, neighbor, sort);
     sort.add(n);
   }
 }

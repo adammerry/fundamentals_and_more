@@ -27,16 +27,14 @@ public class GraphGeneric<E> {
 
     public E getData() { return data; }
 
-    public boolean hasBeenSeen() { return seen; }
+    public boolean seen() { return seen; }
 
     public void setSeen(boolean seen) { this.seen = seen; }
   }
 
   public void addNode(Node<E> node) { adjMap.put(node, new HashMap<>()); }
 
-  public void addEdge(Node<E> node1, Node<E> node2) {
-    addEdge(node1, node2, 1);
-  }
+  public void addEdge(Node<E> node1, Node<E> node2) { addEdge(node1, node2, 1); }
 
   public void addEdge(Node<E> node1, Node<E> node2, int weight) {
     if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
@@ -57,8 +55,7 @@ public class GraphGeneric<E> {
   }
 
   public void removeNode(Node<E> node) {
-    if (!adjMap.containsKey(node))
-      System.out.println("Cannot remove nonexistent node.");
+    if (!adjMap.containsKey(node)) System.out.println("Cannot remove nonexistent node.");
     else {
       for (Node<E> neighbor : adjMap.get(node).keySet()) adjMap.get(neighbor).remove(node);
       adjMap.remove(node);
@@ -70,15 +67,11 @@ public class GraphGeneric<E> {
             adjMap.get(node1).get(node2) : -1;
   }
 
-  public int nodeCount() {
-    return adjMap.size();
-  }
+  public int nodeCount() { return adjMap.size(); }
 
   public Map<Node<E>, Integer> getNeighbors(Node<E> node) {
     return adjMap.getOrDefault(node, null);
   }
 
-  public Set<Node<E>> getNodes() {
-    return adjMap.keySet();
-  }
+  public Set<Node<E>> getNodes() { return adjMap.keySet(); }
 }
