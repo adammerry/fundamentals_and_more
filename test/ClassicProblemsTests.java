@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import dataStructures.GraphGeneric;
@@ -12,6 +13,7 @@ import classicProblems.Dijkstra;
 import classicProblems.Knapsack;
 import classicProblems.LevenshteinDistance;
 import classicProblems.NQueens;
+import classicProblems.Prim;
 import classicProblems.TowersOfHanoi;
 import classicProblems.TravelingSalesman;
 
@@ -321,5 +323,40 @@ public class ClassicProblemsTests {
     assertEquals(new Integer(3), dijkstraMap.get(n4));
     assertEquals(new Integer(13), dijkstraMap.get(n5));
     assertEquals(new Integer(6), dijkstraMap.get(n6));
+  }
+
+  @Test
+  public void testPrim() {
+    // Test graph with one node.
+    GraphGeneric<Integer> g = new GraphGeneric<>(false);
+    GraphGeneric.Node<Integer> n1 = new GraphGeneric.Node<>(1);
+    g.addNode(n1);
+    Set<Prim.Edge<Integer>> edges = Prim.runPrim(g);
+    assertTrue(edges.isEmpty());
+    GraphGeneric.Node<Integer> n2 = new GraphGeneric.Node<>(2);
+    GraphGeneric.Node<Integer> n3 = new GraphGeneric.Node<>(3);
+    GraphGeneric.Node<Integer> n4 = new GraphGeneric.Node<>(4);
+    GraphGeneric.Node<Integer> n5 = new GraphGeneric.Node<>(5);
+    GraphGeneric.Node<Integer> n6 = new GraphGeneric.Node<>(6);
+    g.addNode(n2);
+    g.addNode(n3);
+    g.addNode(n4);
+    g.addNode(n5);
+    g.addNode(n6);
+    g.addEdge(n1, n2, 10);
+    g.addEdge(n1, n6, 3);
+    g.addEdge(n2, n3, 5);
+    g.addEdge(n2, n4, 1);
+    g.addEdge(n2, n5, 4);
+    g.addEdge(n2, n6, 8);
+    g.addEdge(n3, n4, 2);
+    g.addEdge(n3, n5, 7);
+    g.addEdge(n4, n6, 7);
+    g.addEdge(n5, n6, 2);
+    edges = Prim.runPrim(g);
+    assertEquals(5, edges.size());
+    int sum = 0;
+    for (Prim.Edge<Integer> e : edges) sum += e.getWeight();
+    assertEquals(12, sum);
   }
 }

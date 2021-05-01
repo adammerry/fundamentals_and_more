@@ -50,6 +50,7 @@ public class PriorityQueueHeap<E> {
   public PriorityQueueElement<E> deleteHighestPriority() {
     if (size == 0) return null;
     PriorityQueueElement<E> highestPriority = heap[0];
+    idxMap.remove(highestPriority.getItem());
     size--;
     heap[0] = heap[size];
     idxMap.put(heap[0].getItem(), 0);
@@ -58,10 +59,9 @@ public class PriorityQueueHeap<E> {
   }
 
   public void changePriority(E item, int newPriority) {
-    boolean newPriorityGreater;
     int idx = idxMap.getOrDefault(item, -1);
     if (idx >= 0) {
-      newPriorityGreater = newPriority > heap[idx].getPriority();
+      boolean newPriorityGreater = newPriority > heap[idx].getPriority();
       heap[idx].priority = newPriority;
       if (newPriorityGreater) siftDown(idx);
       else siftUp(idx);
