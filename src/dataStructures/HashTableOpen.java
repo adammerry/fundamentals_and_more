@@ -26,7 +26,7 @@ public class HashTableOpen {
       this.value = value;
     }
 
-    private Object getKey() {return key; }
+    private Object getKey() { return key; }
 
     private Object getValue() { return value; }
 
@@ -36,10 +36,8 @@ public class HashTableOpen {
   // Return the previous value of the specified key in this hash table, or null if the key did
   // not exist.
   public Object put(Object key, Object value) {
-    if (key == null || value == null) {
-      System.out.println("Neither key nor value can be null.");
-      return null;
-    }
+    if (key == null || value == null)
+      throw new IllegalArgumentException("Neither key nor value can be null");
     // If table has become too full, expand table size and rehash.
     if (count == (int)(table.size() * LOAD_FACTOR_MAX)) rehash(2);
     int slot = Math.abs(key.hashCode()) % table.size();
@@ -64,10 +62,7 @@ public class HashTableOpen {
   }
 
   public Object get(Object key) {
-    if (key == null) {
-      System.out.println("Key cannot be null.");
-      return null;
-    }
+    if (key == null) throw new IllegalArgumentException("Key cannot be null");
     for (Record r : table.get(Math.abs(key.hashCode()) % table.size()))
       if (r.getKey().equals(key)) return r.getValue();
     return null;
@@ -75,10 +70,7 @@ public class HashTableOpen {
 
   // Return the value of the record with the deleted key, or null if no such record exists.
   public Object delete(Object key) {
-    if (key == null) {
-      System.out.println("Key cannot be null.");
-      return null;
-    }
+    if (key == null) throw new IllegalArgumentException("Key cannot be null");
     ArrayList<Record> l = table.get(Math.abs(key.hashCode()) % table.size());
     int deleteIdx = -1;
     for (int i = 0; i < l.size() && deleteIdx == -1; i++)
@@ -93,10 +85,7 @@ public class HashTableOpen {
   }
 
   public boolean containsKey(Object key) {
-    if (key == null) {
-      System.out.println("Key cannot be null.");
-      return false;
-    }
+    if (key == null) throw new IllegalArgumentException("Key cannot be null");
     for (Record r : table.get(Math.abs(key.hashCode()) % table.size()))
       if (r.getKey().equals(key)) return true;
     return false;

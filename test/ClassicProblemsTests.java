@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -113,6 +114,12 @@ public class ClassicProblemsTests {
     assertEquals(new Integer(31), dpSolution2);
   }
 
+  @Test
+  public void testTravelingSalesmanBadInput() {
+    assertThrows(IllegalArgumentException.class, () -> new TravelingSalesman(new int[3][3]));
+    assertThrows(IllegalArgumentException.class, () -> new TravelingSalesman(new int[4][5]));
+  }
+
   // Since a solution to TSP is a cycle of vertices, it is valid both forward and
   // backward on an undirected graph. Therefore, we must check both cases to ensure that one of
   // them is the path returned.
@@ -153,7 +160,8 @@ public class ClassicProblemsTests {
 
   @Test
   public void testLevenshteinDistanceRecursive() {
-    assertEquals(-1, LevenshteinDistance.findDistanceRecursive(null, null));
+    assertThrows(IllegalArgumentException.class,
+            () -> LevenshteinDistance.findDistanceRecursive(null, null));
     assertEquals(0, LevenshteinDistance.findDistanceRecursive("", ""));
     assertEquals(5, LevenshteinDistance.findDistanceRecursive("", "hello"));
     assertEquals(5, LevenshteinDistance.findDistanceRecursive("hello", ""));
@@ -167,7 +175,8 @@ public class ClassicProblemsTests {
 
   @Test
   public void testLevenshteinDistanceIterative() {
-    assertEquals(-1, LevenshteinDistance.findDistanceIterative(null, null));
+    assertThrows(IllegalArgumentException.class,
+            () -> LevenshteinDistance.findDistanceIterative(null, null));
     assertEquals(0, LevenshteinDistance.findDistanceIterative("", ""));
     assertEquals(5, LevenshteinDistance.findDistanceIterative("", "hello"));
     assertEquals(5, LevenshteinDistance.findDistanceIterative("hello", ""));
@@ -181,7 +190,8 @@ public class ClassicProblemsTests {
 
   @Test
   public void testLevenshteinDistanceSpaceOptimized() {
-    assertEquals(-1, LevenshteinDistance.findDistanceSpaceOptimized(null, null));
+    assertThrows(IllegalArgumentException.class,
+            () -> LevenshteinDistance.findDistanceSpaceOptimized(null, null));
     assertEquals(0, LevenshteinDistance.findDistanceSpaceOptimized("", ""));
     assertEquals(5, LevenshteinDistance.findDistanceSpaceOptimized("", "hello"));
     assertEquals(5, LevenshteinDistance.findDistanceSpaceOptimized("hello", ""));
@@ -225,8 +235,7 @@ public class ClassicProblemsTests {
     for (int i = 1; i < 15; i++) assertEquals(i, (int) s3.pop());
     assertTrue(s1.isEmpty() && s2.isEmpty());
     s2.push(6);
-    s3.push(5);
-    TowersOfHanoi.moveTower(s1, s2, s3);
+    assertThrows(IllegalStateException.class, () -> TowersOfHanoi.moveTower(s1, s2, s3));
   }
 
   @Test

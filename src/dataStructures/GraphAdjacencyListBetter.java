@@ -13,9 +13,7 @@ import java.util.Map;
 public class GraphAdjacencyListBetter<E> {
   private Map<Node<E>, List<Node<E>>> adjMap;
 
-  public GraphAdjacencyListBetter() {
-    adjMap = new HashMap<>();
-  }
+  public GraphAdjacencyListBetter() { adjMap = new HashMap<>(); }
 
   public static class Node<E> {
     private E data;
@@ -28,41 +26,36 @@ public class GraphAdjacencyListBetter<E> {
 
     public E getData() { return data; }
 
-    public boolean hasBeenSeen() { return seen; }
+    public boolean seen() { return seen; }
 
     public void setSeen(boolean seen) { this.seen = seen; }
   }
 
   public Map<Node<E>, List<Node<E>>> getGraph() { return adjMap; }
 
-  public void addNode(Node<E> node) {
-    adjMap.put(node, new LinkedList<>());
-  }
+  public void addNode(Node<E> node) { adjMap.put(node, new LinkedList<>()); }
 
   public void addEdge(Node<E> node1, Node<E> node2) {
     if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
-      System.out.println("Cannot add edge between nonexistent nodes.");
-    else if (!adjMap.get(node1).contains(node2)) {
+      throw new IllegalArgumentException("Cannot add edge between nonexistent nodes");
+    if (!adjMap.get(node1).contains(node2)) {
       adjMap.get(node1).add(node2);
       adjMap.get(node2).add(node1);
     }
   }
 
   public void removeEdge(Node<E> node1, Node<E> node2) {
-    if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2))) {
-      System.out.println("Cannot remove edge between nonexistent nodes.");
-      return;
-    }
+    if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
+      throw new IllegalArgumentException("Cannot remove edge between nonexistent nodes");
     adjMap.get(node1).remove(node2);
     adjMap.get(node2).remove(node1);
   }
 
   public void removeNode(Node<E> node) {
-    if (!adjMap.containsKey(node)) System.out.println("Cannot remove nonexistent node.");
-    else {
-      for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
-      adjMap.remove(node);
-    }
+    if (!adjMap.containsKey(node))
+      throw new IllegalArgumentException("Cannot remove nonexistent node");
+    for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
+    adjMap.remove(node);
   }
 
   public boolean checkEdge(Node<E> node1, Node<E> node2) {

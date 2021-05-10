@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,7 +63,7 @@ public class SortingTests {
     QuickSort.sort(l4);
     QuickSort.sort(l5);
     QuickSort.sort(l6);
-    QuickSort.sort(l7);
+    assertThrows(IllegalArgumentException.class, () -> QuickSort.sort(l7));
     QuickSort.sort(l8);
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
@@ -82,7 +83,7 @@ public class SortingTests {
     MergeSort.sort(l4);
     MergeSort.sort(l5);
     MergeSort.sort(l6);
-    MergeSort.sort(l7);
+    assertThrows(IllegalArgumentException.class, () -> MergeSort.sort(l7));
     MergeSort.sort(l8);
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
@@ -102,7 +103,7 @@ public class SortingTests {
     InsertionSort.sort(l4);
     InsertionSort.sort(l5);
     InsertionSort.sort(l6);
-    InsertionSort.sort(l7);
+    assertThrows(IllegalArgumentException.class, () -> InsertionSort.sort(l7));
     InsertionSort.sort(l8);
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
@@ -122,7 +123,7 @@ public class SortingTests {
     HeapSort.sort(l4);
     HeapSort.sort(l5);
     HeapSort.sort(l6);
-    HeapSort.sort(l7);
+    assertThrows(IllegalArgumentException.class, () -> HeapSort.sort(l7));
     HeapSort.sort(l8);
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
@@ -142,7 +143,7 @@ public class SortingTests {
     CountingSort.sort(l4);
     CountingSort.sort(l5);
     CountingSort.sort(l6);
-    CountingSort.sort(l7);
+    assertThrows(IllegalArgumentException.class, () -> CountingSort.sort(l7));
     CountingSort.sort(l8);
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
@@ -161,7 +162,8 @@ public class SortingTests {
     RadixSort.sort(l3);
     RadixSort.sort(l5);
     RadixSort.sort(l6);
-    RadixSort.sort(l7);
+    assertThrows(IllegalArgumentException.class, () -> RadixSort.sort(l7));
+    assertThrows(IllegalArgumentException.class, () -> RadixSort.sort(l8));
     assertArrayEquals(s1, l1);
     assertArrayEquals(s2, l2);
     assertArrayEquals(s3, l3);

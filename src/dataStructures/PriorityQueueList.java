@@ -2,14 +2,13 @@ package dataStructures;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 // Implementation of a generic priority queue using a list as the underlying data structure.
 public class PriorityQueueList<E> {
   private List<PriorityQueueElement<E>> elements;
 
-  public PriorityQueueList() {
-    elements =  new LinkedList<>();
-  }
+  public PriorityQueueList() { elements =  new LinkedList<>(); }
 
   private class PriorityQueueElement<F> {
     private F item;
@@ -24,9 +23,7 @@ public class PriorityQueueList<E> {
 
     private int getPriority() { return priority; }
 
-    private void setPriority(int priority) {
-      this.priority = priority;
-    }
+    private void setPriority(int priority) { this.priority = priority; }
   }
 
   public void insert(E item, int priority) {
@@ -39,11 +36,13 @@ public class PriorityQueueList<E> {
   }
 
   public E getHighestPriority() {
-    return (elements.isEmpty()) ? null : elements.get(0).getItem();
+    if (elements.isEmpty()) throw new NoSuchElementException("Priority Queue empty");
+    return elements.get(0).getItem();
   }
 
   public E deleteHighestPriority() {
-    return (elements.isEmpty()) ? null : elements.remove(0).getItem();
+    if (elements.isEmpty()) throw new NoSuchElementException("Priority Queue empty");
+    return elements.remove(0).getItem();
   }
 
   public void changePriority(E item, int newPriority) {
@@ -57,7 +56,7 @@ public class PriorityQueueList<E> {
       }
       idx++;
     }
-    if (idx < elements.size()) { // Item found in priority queue, and priority has been changed.
+    if (idx < elements.size()) { // Item found in priority queue.
       if (newPriorityGreater) {
         while (idx < elements.size() - 1 &&
                 elements.get(idx).getPriority() > elements.get(idx + 1).getPriority()) {
@@ -73,6 +72,7 @@ public class PriorityQueueList<E> {
         }
       }
     }
+    else throw new NoSuchElementException("Item not found in Priority Queue");
   }
 
   private void swap(int i, int j) {

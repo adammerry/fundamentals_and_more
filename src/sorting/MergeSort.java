@@ -4,7 +4,7 @@ package sorting;
 public class MergeSort {
 
   public static void sort(int[] ints) {
-    if (ints == null) System.out.println("null array encountered");
+    if (ints == null) throw new IllegalArgumentException("Argument cannot be null");
     else if (ints.length > 0) sortHelper(ints, 0, ints.length - 1);
   }
 

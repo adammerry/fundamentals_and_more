@@ -8,7 +8,7 @@ public class TowersOfHanoi {
 
   public static void moveTower(Stack<Integer> t1, Stack<Integer> t2, Stack<Integer> t3) {
     if (t2.isEmpty() && t3.isEmpty()) moveDisks(t1, t2, t3, t1.size());
-    else System.out.println("Invalid start state. All disks must begin on tower 1.");
+    else throw new IllegalStateException("Invalid start state");
   }
 
   private static void moveDisks(Stack<Integer> source, Stack<Integer> temp, Stack<Integer> dest,

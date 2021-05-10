@@ -5,17 +5,11 @@ package sorting;
 public class RadixSort {
 
   public static void sort(int[] ints) {
-    if (ints == null) {
-      System.out.println("null array encountered");
-      return;
-    }
+    if (ints == null) throw new IllegalArgumentException("Argument cannot be null");
     if (ints.length < 2) return;
     int largest = ints[0];
     for (int i : ints) {
-      if (i < 0) {
-        System.out.println("This implementation of radix sort can't take negative numbers");
-        return ;
-      }
+      if (i < 0) throw new IllegalArgumentException("Negative numbers not supported");
       if (i > largest) largest = i;
     }
     // Perform counting sort for every digit in the largest number in the input.

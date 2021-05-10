@@ -1,6 +1,7 @@
 package dataStructures;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 // Implementation of a generic ArrayList - an array-backed dynamically-resizing list with
 // amortized O(1) insertion complexity.
@@ -19,36 +20,24 @@ public class ArrayList<E> implements Iterable<E> {
   }
 
   public E get(int idx) {
-    if (idx < 0 || idx > size - 1) {
-      System.out.println("Invalid index.");
-      return null;
-    }
+    if (idx < 0 || idx > size - 1) throw new IndexOutOfBoundsException("Invalid index");
     return elements[idx];
   }
 
   public E getFirst() {
-    if (size == 0) {
-      System.out.println("List empty.");
-      return null;
-    }
+    if (size == 0) throw new NoSuchElementException("List empty");
     return elements[0];
   }
 
   public E remove(E data) {
     int elemIdx = 0;
     while (elemIdx < size && !elements[elemIdx].equals(data)) elemIdx++;
-    if (elemIdx == size) {
-      System.out.println("Element not found in list.");
-      return null;
-    }
+    if (elemIdx == size) throw new NoSuchElementException("Element not found in list");
     return remove(elemIdx);
   }
 
   public E remove(int idx) {
-    if (idx < 0 || idx > size - 1) {
-      System.out.println("Invalid index.");
-      return null;
-    }
+    if (idx < 0 || idx > size - 1) throw new IndexOutOfBoundsException("Invalid index");
     E element = elements[idx];
     for (int j = idx + 1; j < size; j++) elements[j - 1] = elements[j];
     size--;
@@ -80,6 +69,6 @@ public class ArrayList<E> implements Iterable<E> {
     public boolean hasNext() { return nextIdx < size; }
 
     @Override
-    public F next() { return (F) elements[nextIdx++]; }
+    public F next() { return elements[nextIdx++]; }
   }
 }

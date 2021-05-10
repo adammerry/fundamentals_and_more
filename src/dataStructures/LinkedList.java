@@ -1,6 +1,7 @@
 package dataStructures;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 // Implementation of a singly-linked list.
 public class LinkedList<E> implements Iterable<E> {
@@ -30,28 +31,19 @@ public class LinkedList<E> implements Iterable<E> {
   }
 
   public E get(int idx) {
-    if (idx < 0 || idx > (size - 1)) {
-      System.out.println("Invalid index.");
-      return null;
-    }
+    if (idx < 0 || idx > (size - 1)) throw new IndexOutOfBoundsException("Invalid index");
     ListNode<E> currNode = head;
     for (int i = 0; i < idx; i++) currNode = currNode.next;
     return currNode.data;
   }
 
   public E getFirst() {
-    if (size == 0) {
-      System.out.println("List empty.");
-      return null;
-    }
+    if (size == 0) throw new NoSuchElementException("List empty");
     return head.data;
   }
 
   public E remove(E data) {
-    if (size == 0) {
-      System.out.println("Element not found in list.");
-      return null;
-    }
+    if (size == 0) throw new NoSuchElementException("Element not found in list");
     if (head.data.equals(data)) {
       E retData = head.data;
       head = head.next;
@@ -67,15 +59,11 @@ public class LinkedList<E> implements Iterable<E> {
       }
       nextNode = (prevNode = nextNode).next;
     }
-    System.out.println("Element not found in list.");
-    return null;
+    throw new NoSuchElementException("Element not found in list");
   }
 
   public E remove(int idx) {
-    if (idx < 0 || idx > (size - 1)) {
-      System.out.println("Invalid index.");
-      return null;
-    }
+    if (idx < 0 || idx > (size - 1)) throw new IndexOutOfBoundsException("Invalid index");
     if (idx == 0) {
       E retData = head.data;
       head = head.next;

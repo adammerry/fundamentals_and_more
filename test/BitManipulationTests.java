@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.Test;
 
 import bitManipulation.BitMethods;
@@ -40,8 +41,10 @@ public class BitManipulationTests {
     assertEquals(534676, BitMethods.convertToDecimal("DcbD2", 14));
     assertEquals(48989, BitMethods.convertToDecimal("E7aE", 15));
     assertEquals(267387871, BitMethods.convertToDecimal("ff003Df", 16));
-    assertEquals(-1, BitMethods.convertToDecimal("", 1));
-    assertEquals(-1, BitMethods.convertToDecimal("", 17));
+    assertThrows(IllegalArgumentException.class,
+            () -> BitMethods.convertToDecimal("", 1));
+    assertThrows(IllegalArgumentException.class,
+            () -> BitMethods.convertToDecimal("", 17));
   }
 
   @Test
@@ -79,8 +82,10 @@ public class BitManipulationTests {
     assertEquals(9, BitMethods.updateBit(1, 3, 1));
     assertEquals(32, BitMethods.updateBit(36, 2, 0));
     assertEquals(27, BitMethods.updateBit(19, 3, 1));
-    assertEquals(100, BitMethods.updateBit(100, 5, -1));
-    assertEquals(100, BitMethods.updateBit(100, 2, 2));
+    assertThrows(IllegalArgumentException.class,
+            () -> BitMethods.updateBit(100, 5, -1));
+    assertThrows(IllegalArgumentException.class,
+            () -> BitMethods.updateBit(100, 2, 2));
   }
 
   @Test

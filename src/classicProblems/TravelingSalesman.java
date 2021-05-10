@@ -16,9 +16,9 @@ public class TravelingSalesman {
   private int[][] graph;
 
   public TravelingSalesman(int[][] adjMatrix) {
-    if (adjMatrix.length < 4) System.out.println("Please provide a more interesting graph");
+    if (adjMatrix.length < 4) throw new IllegalArgumentException("Graph is not interesting");
     else if (adjMatrix.length != adjMatrix[0].length)
-      System.out.println("Adjacency matrix is invalid");
+      throw new IllegalArgumentException("Adjacency matrix is invalid");
     else graph = adjMatrix;
   }
 

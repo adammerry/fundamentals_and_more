@@ -1,5 +1,7 @@
 package dataStructures;
 
+import java.util.NoSuchElementException;
+
 // Implementation of a generic queue.
 public class Queue<E> {
   private QueueNode<E> head, tail;
@@ -7,9 +9,7 @@ public class Queue<E> {
   private static class QueueNode<F> {
     private F data;
     private QueueNode<F> next;
-    private QueueNode(F data) {
-      this.data = data;
-    }
+    private QueueNode(F data) { this.data = data; }
   }
 
   public void add(E data) {
@@ -22,10 +22,7 @@ public class Queue<E> {
   }
 
   public E remove() {
-    if (head == null) {
-      System.out.println("No element to remove.");
-      return null;
-    }
+    if (head == null) throw new NoSuchElementException("No element to remove");
     E data = head.data;
     head = head.next;
     if (head == null) tail = null;
@@ -33,10 +30,7 @@ public class Queue<E> {
   }
 
   public E peek() {
-    if (head == null) {
-      System.out.println("No element to peek.");
-      return null;
-    }
+    if (head == null) throw new NoSuchElementException("No element to peek");
     return head.data;
   }
 

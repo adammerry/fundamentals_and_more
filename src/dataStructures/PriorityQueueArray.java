@@ -1,5 +1,7 @@
 package dataStructures;
 
+import java.util.NoSuchElementException;
+
 // Implementation of a generic priority queue using an array as the underlying data structure.
 public class PriorityQueueArray<E> {
   private static final int DEFAULT_SIZE = 10;
@@ -25,21 +27,16 @@ public class PriorityQueueArray<E> {
 
     private int getPriority() { return priority; }
 
-    private void setPriority(int priority) {
-      this.priority = priority;
-    }
+    private void setPriority(int priority) { this.priority = priority; }
   }
 
   public void insert(E item, int priority) {
-    if (size == elements.length) { // Capacity has been reached.
-      System.out.println("Priority Queue is at capacity.");
-      return;
-    }
+    if (size == elements.length) throw new IllegalStateException("Priority Queue is at capacity");
     elements[size++] = new PriorityQueueElement<>(item, priority);
   }
 
   public E getHighestPriority() {
-    if (size == 0) return null;
+    if (size == 0) throw new NoSuchElementException("Priority Queue empty");
     PriorityQueueElement<E> highestPriority = elements[0];
     for (PriorityQueueElement<E> element : elements)
       // A smaller number indicates a higher priority value.
@@ -48,7 +45,7 @@ public class PriorityQueueArray<E> {
   }
 
   public E deleteHighestPriority() {
-    if (size == 0) return null;
+    if (size == 0) throw new NoSuchElementException("Priority Queue empty");
     int highestPriority = elements[0].getPriority();
     int highestPriorityIdx = 0;
     for (int i = 0; i < size; i++) {
@@ -63,11 +60,12 @@ public class PriorityQueueArray<E> {
   }
 
   public void changePriority(E item, int newPriority) {
-    for (PriorityQueueElement<E> element : elements) {
-      if (element.getItem().equals(item)) {
-        element.setPriority(newPriority);
-        break;
+    for (int i = 0; i < size; i++) {
+      if (elements[i].getItem().equals(item)) {
+        elements[i].setPriority(newPriority);
+        return;
       }
     }
+    throw new NoSuchElementException("Item not found in Priority Queue");
   }
 }

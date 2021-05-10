@@ -19,7 +19,7 @@ public class BitMethods {
   // Converts a String representation of a positive number in any base from 2 to 16, to a decimal
   // integer.
   public static int convertToDecimal(String num, int base) {
-    if (base < 2 || base > 16) return -1;
+    if (base < 2 || base > 16) throw new IllegalArgumentException("Invalid base");
     int total = 0, multiplier = 1;
     for (int i = num.length() - 1; i >= 0; i--) {
       char digit = num.charAt(i);
@@ -43,7 +43,7 @@ public class BitMethods {
 
   // Updates a specific bit of an integer to the given value, and returns the new integer.
   public static int updateBit(int num, int bit, int val) {
-    if (val < 0 || val > 1) return num; // If the value is invalid, return the given integer.
+    if (val < 0 || val > 1) throw new IllegalArgumentException("Invalid value");
     return clearBit(num, bit) | (val << bit);
   }
 

@@ -4,10 +4,7 @@ package sorting;
 public class CountingSort {
 
   public static void sort(int[] ints) {
-    if (ints == null) {
-      System.out.println("null array encountered");
-      return;
-    }
+    if (ints == null) throw new IllegalArgumentException("Argument cannot be null");
     if (ints.length < 2) return;
     // Determine the range of numbers to be sorted. In some situations this may be given or
     // assumed, but here we calculate it as a preliminary step. This does not change the O(n + k)

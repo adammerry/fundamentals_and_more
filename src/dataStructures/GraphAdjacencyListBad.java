@@ -27,10 +27,8 @@ public class GraphAdjacencyListBad {
   }
 
   public void addEdge(int node1, int node2) {
-    if (node1 < 0 || node2 < 0 || node1 >= adjList.length || node2 >= adjList.length) {
-      System.out.println("Invalid node number given");
-      return;
-    }
+    if (node1 < 0 || node2 < 0 || node1 >= adjList.length || node2 >= adjList.length)
+      throw new IllegalArgumentException("Invalid node number given");
     if (!adjList[node1].contains(node2)) {
       adjList[node1].add(node2);
       adjList[node2].add(node1);

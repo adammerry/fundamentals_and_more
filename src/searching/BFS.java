@@ -34,7 +34,7 @@ public class BFS {
       // Initialize all nodes as not seen.
       for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) node.setSeen(false);
       for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) {
-        if (!node.hasBeenSeen()) {
+        if (!node.seen()) {
           if (node.getData().equals(searchVal)) return node;
           node.setSeen(true);
           GraphAdjacencyListBetter.Node<Integer> result = startNewSearch(searchVal, node, adjMap);
@@ -55,7 +55,7 @@ public class BFS {
       GraphAdjacencyListBetter.Node<Integer> nextNode = q.poll();
       List<GraphAdjacencyListBetter.Node<Integer>> neighbors = adjMap.get(nextNode);
       for (GraphAdjacencyListBetter.Node<Integer> neighbor : neighbors) {
-        if (!neighbor.hasBeenSeen()) {
+        if (!neighbor.seen()) {
           if (neighbor.getData().equals(searchVal)) return neighbor;
           neighbor.setSeen(true);
           q.add(neighbor);

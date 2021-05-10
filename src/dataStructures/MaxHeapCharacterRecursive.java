@@ -1,5 +1,7 @@
 package dataStructures;
 
+import java.util.NoSuchElementException;
+
 // Implementation of a max-heap that stores Characters and has sifting operations implemented in a
 // recursive style.
 public class MaxHeapCharacterRecursive {
@@ -21,7 +23,7 @@ public class MaxHeapCharacterRecursive {
   }
 
   public void insert(Character elem) {
-    if (nextIdx > MAX_SIZE) System.out.println("Maximum heap size reached");
+    if (nextIdx > MAX_SIZE) throw new IllegalStateException("Maximum heap size reached");
     else {
       heap[nextIdx] = elem;
       siftUp(nextIdx++);
@@ -33,13 +35,16 @@ public class MaxHeapCharacterRecursive {
       changeKey(idx, Character.MAX_VALUE);
       extractMax();
     }
-    else System.out.println("Index out of range");
+    else throw new IndexOutOfBoundsException("Index out of range");
   }
 
-  public Character getMax() { return nextIdx > 0 ? heap[0] : null; }
+  public Character getMax() {
+    if (nextIdx == 0) throw new NoSuchElementException("Heap empty");
+    return heap[0];
+  }
 
   public Character extractMax() {
-    if (nextIdx == 0) return null;
+    if (nextIdx == 0) throw new NoSuchElementException("Heap empty");
     Character maxElem = heap[0];
     heap[0] = heap[--nextIdx];
     siftDown(0);
@@ -56,10 +61,13 @@ public class MaxHeapCharacterRecursive {
                 (rightChildIdx < nextIdx && heap[rightChildIdx] > newVal)) siftDown(idx);
       }
     }
-    else System.out.println("Index out of range");
+    else throw new IndexOutOfBoundsException("Index out of range");
   }
 
-  public Character getValAtIdx(int idx) { return idx >= 0 && idx < nextIdx ? heap[idx] : null; }
+  public Character getValAtIdx(int idx) {
+    if (idx < 0 || idx >= nextIdx) throw new IndexOutOfBoundsException("Index out of range");
+    return heap[idx];
+  }
 
   private void buildHeap() { for (int i = (heap.length / 2) - 1; i >= 0; i--) siftDown(i); }
 

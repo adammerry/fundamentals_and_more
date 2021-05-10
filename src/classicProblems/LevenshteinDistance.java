@@ -7,20 +7,15 @@ package classicProblems;
 public class LevenshteinDistance {
 
   public static int findDistanceRecursive(String s1, String s2) {
-    if (s1 == null || s2 == null) {
-      System.out.println("Null argument found.");
-      return -1;
-    }
+    if (s1 == null || s2 == null) throw new IllegalArgumentException("Null argument found");
     // Initialize DP array.
     int[][] dists = new int[s1.length() + 1][s2.length() + 1];
     for (int i = 0; i <= s1.length(); i++)
       for (int j = 0; j <= s2.length(); j++) dists[i][j] = -1;
-    return findDistanceRecursive(s1.toCharArray(), s2.toCharArray(), 0, 0, dists);
+    return recursiveHelper(s1.toCharArray(), s2.toCharArray(), 0, 0, dists);
   }
 
-  private static int findDistanceRecursive(char[] s1, char[] s2,
-                                           int idx1, int idx2,
-                                           int[][] dists) {
+  private static int recursiveHelper(char[] s1, char[] s2, int idx1, int idx2, int[][] dists) {
     if (dists[idx1][idx2] >= 0) return dists[idx1][idx2];
     // If there are no characters left in s1, then all remaining characters from s2 must be added.
     if (idx1 == s1.length) dists[idx1][idx2] = s2.length - idx2;
@@ -28,26 +23,22 @@ public class LevenshteinDistance {
     else if (idx2 == s2.length) dists[idx1][idx2] = s1.length - idx1;
     // If the characters of each string at the given indices are equal, no edits are needed.
     else if (s1[idx1] == s2[idx2]) dists[idx1][idx2] =
-            findDistanceRecursive(s1, s2, idx1 + 1, idx2 + 1, dists);
+            recursiveHelper(s1, s2, idx1 + 1, idx2 + 1, dists);
     else {
       // Find the remaining distance as if the correct character was inserted in s1 at idx1.
-      int insert = findDistanceRecursive(s1, s2, idx1, idx2 + 1, dists);
+      int insert = recursiveHelper(s1, s2, idx1, idx2 + 1, dists);
       // Find the remaining distance as if the character at idx1 was removed from s1.
-      int remove = findDistanceRecursive(s1, s2, idx1 + 1, idx2, dists);
+      int remove = recursiveHelper(s1, s2, idx1 + 1, idx2, dists);
       // Find the remaining distance as if s1[idx1] was swapped for the correct character.
-      int swap = findDistanceRecursive(s1, s2, idx1 + 1, idx2 + 1, dists);
+      int swap = recursiveHelper(s1, s2, idx1 + 1, idx2 + 1, dists);
       dists[idx1][idx2] = 1 + Integer.min(Integer.min(insert, remove), swap);
     }
     return dists[idx1][idx2];
   }
 
   public static int findDistanceIterative(String s1, String s2) {
-    if (s1 == null || s2 == null) {
-      System.out.println("Null argument found.");
-      return -1;
-    }
-    char[] c1 = s1.toCharArray();
-    char[] c2 = s2.toCharArray();
+    if (s1 == null || s2 == null) throw new IllegalArgumentException("Null argument found");
+    char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
     // Initialize DP array.
     int[][] dists = new int[c1.length + 1][c2.length + 1];
     for (int i = 0; i <= c1.length; i++) dists[i][0] = i;
@@ -65,17 +56,11 @@ public class LevenshteinDistance {
   // This method takes advantage of the fact that only two rows of the 2D DP array ever need to
   // be held in memory at once, thus optimizing the space usage of the program.
   public static int findDistanceSpaceOptimized(String s1, String s2) {
-    if (s1 == null || s2 == null) {
-      System.out.println("Null argument found.");
-      return -1;
-    }
-    char[] c1 = s1.toCharArray();
-    char[] c2 = s2.toCharArray();
+    if (s1 == null || s2 == null) throw new IllegalArgumentException("Null argument found");
+    char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
     // Initialize DP array.
-    int[] dists1 = new int[c2.length + 1];
-    int[] dists2 = new int[c2.length + 1];
-    int[] currArray = dists1;
-    int[] prevArray = dists2;
+    int[] dists1 = new int[c2.length + 1], dists2 = new int[c2.length + 1];
+    int[] currArray = dists1, prevArray = dists2;
     for (int j = 0; j <= c2.length; j++) currArray[j] = j;
     for (int i = 1; i <= c1.length; i++) {
       // Swap which array is currently being used to store values.

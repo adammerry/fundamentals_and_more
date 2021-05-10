@@ -63,7 +63,7 @@ public class DFS {
       // Initialize all nodes as not seen.
       for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) node.setSeen(false);
       for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) {
-        if (!node.hasBeenSeen()) {
+        if (!node.seen()) {
           GraphAdjacencyListBetter.Node<Integer> nextSearchResult =
                   dfsGraphRecursiveHelper(node, searchVal, adjMap);
           if (nextSearchResult != null) return nextSearchResult;
@@ -81,7 +81,7 @@ public class DFS {
     if (root == null || root.getData().equals(searchVal)) return root;
     root.setSeen(true);
     for (GraphAdjacencyListBetter.Node<Integer> neighbor : adjMap.get(root)) {
-      if (!neighbor.hasBeenSeen()) {
+      if (!neighbor.seen()) {
         GraphAdjacencyListBetter.Node<Integer> dfsRetVal =
                 dfsGraphRecursiveHelper(neighbor, searchVal, adjMap);
         if (dfsRetVal != null) return dfsRetVal;

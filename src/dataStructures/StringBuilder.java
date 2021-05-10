@@ -2,14 +2,11 @@ package dataStructures;
 
 // Implementation of a string-builder that offers efficient operations for constructing a string.
 public class StringBuilder {
-  private static final int SIZE_MULTIPLIER = 2;
-  private static final int DEFAULT_SIZE = 16;
+  private static final int SIZE_MULTIPLIER = 2, DEFAULT_SIZE = 16;
   private char[] buffer;
   private int charCount;
 
-  public StringBuilder() {
-    buffer = new char[DEFAULT_SIZE];
-  }
+  public StringBuilder() { buffer = new char[DEFAULT_SIZE]; }
 
   public StringBuilder(char[] str) {
     buffer = str;
@@ -22,14 +19,14 @@ public class StringBuilder {
   }
 
   public void append(char[] str) {
-    if (str == null) return;
+    if (str == null) throw new IllegalArgumentException("Argument cannot be null");
     if (charCount + str.length > buffer.length) resizeBuffer(charCount + str.length);
     System.arraycopy(str, 0, buffer, charCount, str.length);
     charCount += str.length;
   }
 
   public void append(String str) {
-    if (str == null) return;
+    if (str == null) throw new IllegalArgumentException("Argument cannot be null");
     append(str.toCharArray());
   }
 

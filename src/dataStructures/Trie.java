@@ -41,7 +41,7 @@ public class Trie {
   }
 
   public void insert(String word) {
-    if (word == null) return;
+    if (word == null) throw new IllegalArgumentException("Argument cannot be null");
     int childIdx;
     TrieNode currNode = root;
     for (int i = 0; i < word.length(); i++) {

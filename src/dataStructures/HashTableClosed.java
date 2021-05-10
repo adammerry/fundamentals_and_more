@@ -46,10 +46,8 @@ public class HashTableClosed {
   }
 
   public Object put(Object key, Object value) {
-    if (key == null || value == null) {
-      System.out.println("Neither key nor value can be null.");
-      return null;
-    }
+    if (key == null || value == null)
+      throw new IllegalArgumentException("Neither key nor value can be null");
     // If table has become too full, expand table size and rehash.
     if (count == (int) (table.length * LOAD_FACTOR_MAX)) rehash(2);
     int slot = Math.abs(key.hashCode()) % table.length;
@@ -90,10 +88,7 @@ public class HashTableClosed {
   }
 
   public Object get(Object key) {
-    if (key == null) {
-      System.out.println("Key cannot be null.");
-      return null;
-    }
+    if (key == null) throw new IllegalArgumentException("Key cannot be null");
     int slot = Math.abs(key.hashCode()) % table.length;
     while (table[slot] != null) {
       if ((!table[slot].isTombstone()) && table[slot].getKey().equals(key))
@@ -106,10 +101,7 @@ public class HashTableClosed {
   // Replace the given record with a tombstone and return the record's value if it exists.
   // Otherwise, return null.
   public Object delete(Object key) {
-    if (key == null) {
-      System.out.println("Key cannot be null.");
-      return null;
-    }
+    if (key == null) throw new IllegalArgumentException("Key cannot be null");
     int slot, homeSlot;
     slot = homeSlot = Math.abs(key.hashCode()) % table.length;
     while (table[slot] != null) {
@@ -130,10 +122,7 @@ public class HashTableClosed {
   }
 
   public boolean containsKey(Object key) {
-    if (key == null) {
-      System.out.println("Key cannot be null.");
-      return false;
-    }
+    if (key == null) throw new IllegalArgumentException("Key cannot be null");
     int slot, homeSlot;
     slot = homeSlot = Math.abs(key.hashCode()) % table.length;
     while (table[slot] != null) {

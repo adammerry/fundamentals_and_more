@@ -1,6 +1,7 @@
 package dataStructures;
 
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 // Implementation of a generic Red-Black tree that offers the following operations:
@@ -94,16 +95,15 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   public void insert(E insertData) {
-    if (insertData != null) {
-      DataNode<E> insertDataNode = new DataNode<>(insertData);
-      root = root.isDataNode() ? root.insertHelper(insertDataNode, null) : insertDataNode;
-      fixInsert(insertDataNode);
-      root.setColor(Color.BLACK);
-      // If node-to-insert has a value that was already contained in the tree, it will have a null
-      // parent, and will not be the root. We only want to increase "size" upon insertion of
-      // non-duplicate values.
-      if (insertDataNode.getParent() != null || insertDataNode == root) size++;
-    }
+    if (insertData == null) throw new IllegalArgumentException("Cannot insert null");
+    DataNode<E> insertDataNode = new DataNode<>(insertData);
+    root = root.isDataNode() ? root.insertHelper(insertDataNode, null) : insertDataNode;
+    fixInsert(insertDataNode);
+    root.setColor(Color.BLACK);
+    // If node-to-insert has a value that was already contained in the tree, it will have a null
+    // parent, and will not be the root. We only want to increase "size" upon insertion of
+    // non-duplicate values.
+    if (insertDataNode.getParent() != null || insertDataNode == root) size++;
   }
 
   private void fixInsert(DataNode<E> insertDataNode) {
@@ -163,10 +163,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
   private void leftRotate(DataNode<E> n) {
     TreeNode<E> maybePivot = n.getRightChild();
-    if (!maybePivot.isDataNode()) {
-      System.out.println("Left rotation can't be performed when right child doesn't exist.");
-      return;
-    }
+    if (!maybePivot.isDataNode())
+      throw new IllegalStateException("Left rotation can't be performed without right child");
     DataNode<E> pivot = (DataNode<E>) maybePivot, parent = n.getParent();
     TreeNode<E> innerSubTree = pivot.getLeftChild();
     pivot.setLeftChild(n);
@@ -183,10 +181,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
   private void rightRotate(DataNode<E> n) {
     TreeNode<E> maybePivot = n.getLeftChild();
-    if (!maybePivot.isDataNode()) {
-      System.out.println("Right rotation can't be performed when left child doesn't exist.");
-      return;
-    }
+    if (!maybePivot.isDataNode())
+      throw new IllegalStateException("Right rotation can't be performed without left child");
     DataNode<E> pivot = (DataNode<E>) maybePivot, parent = n.getParent();
     TreeNode<E> innerSubTree = pivot.getRightChild();
     pivot.setRightChild(n);
@@ -350,7 +346,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       if (currDataNode.getLeftChild().isDataNode()) currNode = currDataNode.getLeftChild();
       else return currDataNode.getData();
     }
-    return null;
+    throw new NoSuchElementException("Tree empty");
   }
 
   public E getMax() {
@@ -360,7 +356,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       if (currDataNode.getRightChild().isDataNode()) currNode = currDataNode.getRightChild();
       else return currDataNode.getData();
     }
-    return null;
+    throw new NoSuchElementException("Tree empty");
   }
 
   // Return an array containing a level-order traversal of all nodes, where the data at each node

@@ -1,6 +1,7 @@
 package dataStructures;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 // Implementation of a generic priority queue using a min-heap as the underlying data structure.
 // This is probably the best way to implement a priority queue, since all operations can be
@@ -34,10 +35,7 @@ public class PriorityQueueHeap<E> {
   }
 
   public void insert(E item, int priority) {
-    if (size == heap.length) { // Capacity has been reached.
-      System.out.println("Priority Queue is at capacity.");
-      return;
-    }
+    if (size == heap.length) throw new IllegalStateException("Priority Queue is at capacity");
     PriorityQueueElement<E> elem = new PriorityQueueElement<>(item, priority);
     heap[size] = elem;
     idxMap.put(item, size);
@@ -45,16 +43,21 @@ public class PriorityQueueHeap<E> {
     size++;
   }
 
-  public PriorityQueueElement<E> getHighestPriority() { return (size == 0) ? null : heap[0]; }
+  public PriorityQueueElement<E> getHighestPriority() {
+    if (size == 0) throw new NoSuchElementException("Priority Queue empty");
+    return heap[0];
+  }
 
   public PriorityQueueElement<E> deleteHighestPriority() {
-    if (size == 0) return null;
+    if (size == 0) throw new NoSuchElementException("Priority Queue empty");
     PriorityQueueElement<E> highestPriority = heap[0];
     idxMap.remove(highestPriority.getItem());
     size--;
-    heap[0] = heap[size];
-    idxMap.put(heap[0].getItem(), 0);
-    siftDown(0);
+    if (size > 0) {
+      heap[0] = heap[size];
+      idxMap.put(heap[0].getItem(), 0);
+      siftDown(0);
+    }
     return highestPriority;
   }
 
@@ -66,6 +69,7 @@ public class PriorityQueueHeap<E> {
       if (newPriorityGreater) siftDown(idx);
       else siftUp(idx);
     }
+    else throw new NoSuchElementException("Item not found in Priority Queue");
   }
 
   public boolean isEmpty() { return size == 0; }

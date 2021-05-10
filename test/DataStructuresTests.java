@@ -3,9 +3,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.Test;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import dataStructures.ArrayList;
 import dataStructures.BinarySearchTree;
@@ -130,6 +132,10 @@ public class DataStructuresTests {
   @Test
   public void testMinHeapIntegerIterative() {
     MinHeapIntegerIterative m = new MinHeapIntegerIterative();
+    assertThrows(NoSuchElementException.class, () -> m.getMin());
+    assertThrows(NoSuchElementException.class, () -> m.extractMin());
+    assertThrows(IndexOutOfBoundsException.class, () -> m.changeKey(-1, 10));
+    assertThrows(IndexOutOfBoundsException.class, () -> m.getValAtIdx(0));
 
     m.insert(10);
     m.insert(12);
@@ -140,6 +146,7 @@ public class DataStructuresTests {
     m.insert(11);
     m.insert(34);
     m.insert(88);
+
     assertEquals(new Integer(2), m.getValAtIdx(0));
     assertEquals(new Integer(12), m.getValAtIdx(1));
     assertEquals(new Integer(10), m.getValAtIdx(2));
@@ -169,8 +176,8 @@ public class DataStructuresTests {
     assertEquals(new Integer(88), m.getValAtIdx(5));
     assertEquals(new Integer(11), m.getValAtIdx(6));
 
-    m.delete(-2);
-    m.delete(101);
+    assertThrows(IndexOutOfBoundsException.class, () -> m.delete(-2));
+    assertThrows(IndexOutOfBoundsException.class, () -> m.delete(101));
 
     m.changeKey(0, 78);
     assertEquals(new Integer(10), m.getValAtIdx(0));
@@ -203,24 +210,25 @@ public class DataStructuresTests {
 
     Integer[] sortedExpected = {4, 11, 14, 34, 45, 55, 88};
     Integer[] sortedActual = new Integer[7];
-    for (int i = 0; i < 7; i++) {
-      sortedActual[i] = m.extractMin();
-    }
+    for (int i = 0; i < 7; i++) sortedActual[i] = m.extractMin();
     assertArrayEquals(sortedExpected, sortedActual);
 
     // Test building a heap from a given array.
-    m = new MinHeapIntegerIterative(new Integer[] {67, 82, 3, 15, 105, 9, 44, 37});
+    MinHeapIntegerIterative m2 =
+            new MinHeapIntegerIterative(new Integer[] {67, 82, 3, 15, 105, 9, 44, 37});
     sortedExpected = new Integer[] {3, 9, 15, 37, 44, 67, 82, 105};
     sortedActual = new Integer[8];
-    for (int i = 0; i < 8; i++) {
-      sortedActual[i] = m.extractMin();
-    }
+    for (int i = 0; i < 8; i++) sortedActual[i] = m2.extractMin();
     assertArrayEquals(sortedExpected, sortedActual);
   }
 
   @Test
   public void testMaxHeapCharacterRecursive() {
     MaxHeapCharacterRecursive m = new MaxHeapCharacterRecursive();
+    assertThrows(NoSuchElementException.class, () -> m.getMax());
+    assertThrows(NoSuchElementException.class, () -> m.extractMax());
+    assertThrows(IndexOutOfBoundsException.class, () -> m.changeKey(-1, 'a'));
+    assertThrows(IndexOutOfBoundsException.class, () -> m.getValAtIdx(0));
 
     m.insert('a');
     m.insert('b');
@@ -231,6 +239,7 @@ public class DataStructuresTests {
     m.insert('9');
     m.insert('b');
     m.insert('}');
+
     assertEquals(new Character('}'), m.getValAtIdx(0));
     assertEquals(new Character('z'), m.getValAtIdx(1));
     assertEquals(new Character('b'), m.getValAtIdx(2));
@@ -260,8 +269,8 @@ public class DataStructuresTests {
     assertEquals(new Character('W'), m.getValAtIdx(5));
     assertEquals(new Character('9'), m.getValAtIdx(6));
 
-    m.delete(-1);
-    m.delete(32);
+    assertThrows(IndexOutOfBoundsException.class, () -> m.delete(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> m.delete(32));
 
     m.changeKey(0, ' ');
     assertEquals(new Character('b'), m.getValAtIdx(0));
@@ -298,10 +307,11 @@ public class DataStructuresTests {
     assertArrayEquals(sortedExpected, sortedActual);
 
     // Test building a heap from a given array.
-    m = new MaxHeapCharacterRecursive(new Character[] {'C', 'k', '+', '9', 'u', '6', 'A', '3'});
+    MaxHeapCharacterRecursive m2 =
+            new MaxHeapCharacterRecursive(new Character[] {'C', 'k', '+', '9', 'u', '6', 'A', '3'});
     sortedExpected = new Character[] {'u', 'k', 'C', 'A', '9', '6', '3', '+'};
     sortedActual = new Character[8];
-    for (int i = 0; i < 8; i++) sortedActual[i] = m.extractMax();
+    for (int i = 0; i < 8; i++) sortedActual[i] = m2.extractMax();
     assertArrayEquals(sortedExpected, sortedActual);
   }
 
@@ -336,7 +346,7 @@ public class DataStructuresTests {
     assertTrue(t.search(""));
     t.delete("");
     assertFalse(t.search(""));
-    t.insert(null);
+    assertThrows(IllegalArgumentException.class, () -> t.insert(null));
     t.search(null);
     t.delete(null);
   }
@@ -344,8 +354,8 @@ public class DataStructuresTests {
   @Test
   public void testRedBlacktree() {
     RedBlackTree<Integer> rbt = new RedBlackTree<>();
-    assertNull(rbt.getMax());
-    assertNull(rbt.getMin());
+    assertThrows(NoSuchElementException.class, () -> rbt.getMax());
+    assertThrows(NoSuchElementException.class, () -> rbt.getMin());
     rbt.insert(50);
     assertEquals(new Integer(50), rbt.search(50).getData());
     assertArrayEquals(new Integer[] {50}, rbt.levelOrderTraversal());
@@ -379,7 +389,7 @@ public class DataStructuresTests {
     assertEquals(new Integer(23), rbt.search(23).getData());
     assertArrayEquals(new Integer[] {40, 35, 65, 23, 37, 50, 70, 20, 30},
             rbt.levelOrderTraversal());
-    rbt.insert(null);
+    assertThrows(IllegalArgumentException.class, () -> rbt.insert(null));
     assertNull(rbt.search(100));
     assertNull(rbt.search(null));
     rbt.delete(null);
@@ -421,8 +431,8 @@ public class DataStructuresTests {
   public void testGraphAdjacencyListBad() {
     GraphAdjacencyListBad g = new GraphAdjacencyListBad(5);
     g.addEdge(0, 1);
-    g.addEdge(2, 7);
-    g.addEdge(-3, 4);
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(2, 7));
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(-3, 4));
     assertTrue(g.checkEdge(0, 1));
     assertFalse(g.checkEdge(2, 3));
     g.addNode();
@@ -442,6 +452,9 @@ public class DataStructuresTests {
     GraphAdjacencyListBest.Node<String> node2 = new GraphAdjacencyListBest.Node<>("hi");
     GraphAdjacencyListBest.Node<String> node3 = new GraphAdjacencyListBest.Node<>("ok");
     GraphAdjacencyListBest.Node<String> node4 = new GraphAdjacencyListBest.Node<>("bye");
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1, node2));
+    assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1, node2));
+    assertThrows(IllegalArgumentException.class, () -> g.removeNode(node1));
     g.addNode(node1);
     g.addNode(node2);
     g.addNode(node3);
@@ -464,6 +477,9 @@ public class DataStructuresTests {
     GraphAdjacencyListBetter.Node<String> node2 = new GraphAdjacencyListBetter.Node<>("hi");
     GraphAdjacencyListBetter.Node<String> node3 = new GraphAdjacencyListBetter.Node<>("ok");
     GraphAdjacencyListBetter.Node<String> node4 = new GraphAdjacencyListBetter.Node<>("bye");
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1, node2));
+    assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1, node2));
+    assertThrows(IllegalArgumentException.class, () -> g.removeNode(node1));
     g.addNode(node1);
     g.addNode(node2);
     g.addNode(node3);
@@ -483,8 +499,8 @@ public class DataStructuresTests {
   public void testGraphAdjacencyMatrix() {
     GraphAdjacencyMatrix g = new GraphAdjacencyMatrix(5);
     g.addEdge(0, 1);
-    g.addEdge(2, 7);
-    g.addEdge(-3, 4);
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(2, 7));
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(-3, 4));
     assertTrue(g.checkEdge(0, 1));
     assertFalse(g.checkEdge(2, 3));
     g.addNode();
@@ -495,9 +511,9 @@ public class DataStructuresTests {
     assertTrue(g.checkEdge(2, 4));
     g.removeNode(2);
     assertFalse(g.checkEdge(2, 4));
-    g.checkEdge(22, 3);
-    g.removeEdge(-2, 4);
-    g.removeNode(73);
+    assertFalse(g.checkEdge(22, 3));
+    assertThrows(IllegalArgumentException.class, () -> g.removeEdge(-2, 4));
+    assertThrows(IllegalArgumentException.class, () -> g.removeNode(73));
   }
 
   @Test
@@ -508,6 +524,9 @@ public class DataStructuresTests {
     GraphGeneric.Node<String> node2 = new GraphGeneric.Node<>("hi");
     GraphGeneric.Node<String> node3 = new GraphGeneric.Node<>("ok");
     GraphGeneric.Node<String> node4 = new GraphGeneric.Node<>("bye");
+    assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1, node2));
+    assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1, node2));
+    assertThrows(IllegalArgumentException.class, () -> g.removeNode(node1));
     g.addNode(node1);
     g.addNode(node2);
     g.addNode(node3);
@@ -524,75 +543,76 @@ public class DataStructuresTests {
     g.removeNode(node4);
     assertEquals(-1, g.checkEdgeWeight(node2, node4));
     // Test a directed, unweighted graph.
-    g = new GraphGeneric<>(true);
-    g.addNode(node1);
-    g.addNode(node2);
-    g.addNode(node3);
-    g.addNode(node4);
-    g.addEdge(node1, node3);
-    assertEquals(1, g.checkEdgeWeight(node1, node3));
-    assertEquals(-1, g.checkEdgeWeight(node3, node1));
-    g.removeEdge(node1, node3);
-    assertEquals(-1, g.checkEdgeWeight(node1, node3));
-    assertEquals(-1, g.checkEdgeWeight(node2, node4));
-    g.addEdge(node2, node4);
-    assertEquals(1, g.checkEdgeWeight(node2, node4));
-    assertEquals(-1, g.checkEdgeWeight(node4, node2));
-    g.addEdge(node4, node2);
-    assertEquals(1, g.checkEdgeWeight(node4, node2));
-    g.removeNode(node4);
-    assertEquals(-1, g.checkEdgeWeight(node2, node4));
-    assertEquals(-1, g.checkEdgeWeight(node4, node2));
+    GraphGeneric<String> g2 = new GraphGeneric<>(true);
+    g2.addNode(node1);
+    g2.addNode(node2);
+    g2.addNode(node3);
+    g2.addNode(node4);
+    g2.addEdge(node1, node3);
+    assertEquals(1, g2.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g2.checkEdgeWeight(node3, node1));
+    g2.removeEdge(node1, node3);
+    assertEquals(-1, g2.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g2.checkEdgeWeight(node2, node4));
+    g2.addEdge(node2, node4);
+    assertEquals(1, g2.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g2.checkEdgeWeight(node4, node2));
+    g2.addEdge(node4, node2);
+    assertEquals(1, g2.checkEdgeWeight(node4, node2));
+    g2.removeNode(node4);
+    assertEquals(-1, g2.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g2.checkEdgeWeight(node4, node2));
     // Test an undirected, weighted graph.
-    g = new GraphGeneric<>(false);
-    g.addNode(node1);
-    g.addNode(node2);
-    g.addNode(node3);
-    g.addNode(node4);
-    g.addEdge(node1, node3, 4);
-    assertEquals(4, g.checkEdgeWeight(node1, node3));
-    assertEquals(4, g.checkEdgeWeight(node3, node1));
-    g.removeEdge(node1, node3);
-    assertEquals(-1, g.checkEdgeWeight(node1, node3));
-    assertEquals(-1, g.checkEdgeWeight(node2, node4));
-    g.addEdge(node2, node4, 7);
-    assertEquals(7, g.checkEdgeWeight(node2, node4));
-    assertEquals(7, g.checkEdgeWeight(node4, node2));
-    g.removeNode(node4);
-    assertEquals(-1, g.checkEdgeWeight(node2, node4));
+    GraphGeneric<String> g3 = new GraphGeneric<>(false);
+    g3.addNode(node1);
+    g3.addNode(node2);
+    g3.addNode(node3);
+    g3.addNode(node4);
+    g3.addEdge(node1, node3, 4);
+    assertEquals(4, g3.checkEdgeWeight(node1, node3));
+    assertEquals(4, g3.checkEdgeWeight(node3, node1));
+    g3.removeEdge(node1, node3);
+    assertEquals(-1, g3.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g3.checkEdgeWeight(node2, node4));
+    g3.addEdge(node2, node4, 7);
+    assertEquals(7, g3.checkEdgeWeight(node2, node4));
+    assertEquals(7, g3.checkEdgeWeight(node4, node2));
+    g3.removeNode(node4);
+    assertEquals(-1, g3.checkEdgeWeight(node2, node4));
     // Test a directed, weighted graph.
-    g = new GraphGeneric<>(true);
-    g.addNode(node1);
-    g.addNode(node2);
-    g.addNode(node3);
-    g.addNode(node4);
-    g.addEdge(node1, node3, 8);
-    assertEquals(8, g.checkEdgeWeight(node1, node3));
-    assertEquals(-1, g.checkEdgeWeight(node3, node1));
-    g.removeEdge(node1, node3);
-    assertEquals(-1, g.checkEdgeWeight(node1, node3));
-    assertEquals(-1, g.checkEdgeWeight(node2, node4));
-    g.addEdge(node2, node4, 15);
-    assertEquals(15, g.checkEdgeWeight(node2, node4));
-    assertEquals(-1, g.checkEdgeWeight(node4, node2));
-    g.addEdge(node4, node2, 29);
-    assertEquals(29, g.checkEdgeWeight(node4, node2));
-    g.removeNode(node4);
-    assertEquals(-1, g.checkEdgeWeight(node2, node4));
-    assertEquals(-1, g.checkEdgeWeight(node4, node2));
+    GraphGeneric<String> g4 = new GraphGeneric<>(true);
+    g4.addNode(node1);
+    g4.addNode(node2);
+    g4.addNode(node3);
+    g4.addNode(node4);
+    g4.addEdge(node1, node3, 8);
+    assertEquals(8, g4.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g4.checkEdgeWeight(node3, node1));
+    g4.removeEdge(node1, node3);
+    assertEquals(-1, g4.checkEdgeWeight(node1, node3));
+    assertEquals(-1, g4.checkEdgeWeight(node2, node4));
+    g4.addEdge(node2, node4, 15);
+    assertEquals(15, g4.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g4.checkEdgeWeight(node4, node2));
+    g4.addEdge(node4, node2, 29);
+    assertEquals(29, g4.checkEdgeWeight(node4, node2));
+    g4.removeNode(node4);
+    assertEquals(-1, g4.checkEdgeWeight(node2, node4));
+    assertEquals(-1, g4.checkEdgeWeight(node4, node2));
   }
 
   @Test
   public void testPriorityQueueArray() {
     PriorityQueueArray<String> pq = new PriorityQueueArray<>(6);
-    assertNull(pq.getHighestPriority());
+
     pq.insert("hello", 12);
     pq.insert("hi", 4);
     pq.insert("bye", 7);
     pq.insert("goodbye", 0);
     pq.insert("yes", -3);
     pq.insert("no", 19);
-    pq.insert("ok", 35);
+
+    assertThrows(Exception.class, () -> pq.insert("ok", 35));
     pq.changePriority("no", -41);
     pq.changePriority("bye", 83);
     assertEquals("no", pq.getHighestPriority());
@@ -602,13 +622,14 @@ public class DataStructuresTests {
     assertEquals("hi", pq.deleteHighestPriority());
     assertEquals("hello", pq.deleteHighestPriority());
     assertEquals("bye", pq.deleteHighestPriority());
-    assertNull(pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.getHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.changePriority("bye", 10));
   }
 
   @Test
   public void testPriortyQueueList() {
     PriorityQueueList<String> pq = new PriorityQueueList<>();
-    assertNull(pq.getHighestPriority());
     pq.insert("hello", 12);
     pq.insert("hi", 4);
     pq.insert("bye", 7);
@@ -624,13 +645,14 @@ public class DataStructuresTests {
     assertEquals("hi", pq.deleteHighestPriority());
     assertEquals("hello", pq.deleteHighestPriority());
     assertEquals("bye", pq.deleteHighestPriority());
-    assertNull(pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.getHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.changePriority("bye", 10));
   }
 
   @Test
   public void testPriorityQueueHeap() {
     PriorityQueueHeap<String> pq = new PriorityQueueHeap<>(6);
-    assertNull(pq.getHighestPriority());
     assertTrue(pq.isEmpty());
     assertFalse(pq.contains("hello"));
     pq.insert("hello", 12);
@@ -642,7 +664,7 @@ public class DataStructuresTests {
     pq.insert("goodbye", 0);
     pq.insert("yes", -3);
     pq.insert("no", 19);
-    pq.insert("ok", 35);
+    assertThrows(IllegalStateException.class, () -> pq.insert("ok", 35));
     pq.changePriority("no", -41);
     pq.changePriority("bye", 83);
     assertEquals("no", pq.getHighestPriority().getItem());
@@ -653,15 +675,17 @@ public class DataStructuresTests {
     assertEquals("hello", pq.deleteHighestPriority().getItem());
     assertEquals("bye", pq.deleteHighestPriority().getItem());
     assertTrue(pq.isEmpty());
-    assertNull(pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.getHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, () -> pq.changePriority("bye", 10));
   }
 
   @Test
   public void testHashTableOpen() {
     HashTableOpen h = new HashTableOpen();
-    assertNull(h.put(null, null));
-    assertNull(h.put(12, null));
-    assertNull(h.put(null, 5));
+    assertThrows(IllegalArgumentException.class, () -> h.put(null, null));
+    assertThrows(IllegalArgumentException.class, () -> h.put(12, null));
+    assertThrows(IllegalArgumentException.class, () -> h.put(null, 5));
     assertNull(h.put(15, 16));
     assertNull(h.put("hello", "ok"));
     assertNull(h.put(42.1, "goodbye"));
@@ -672,16 +696,16 @@ public class DataStructuresTests {
     assertNull(h.put("no", 'w'));
     // The following put will cause a rehash.
     assertNull(h.put("     ", 55.555));
-    assertNull(h.get(null));
+    assertThrows(IllegalArgumentException.class, () -> h.get(null));
     assertNull(h.get(84));
     assertEquals(17, h.get(15));
     assertEquals("ok", h.get("hello"));
     assertEquals("goodbye", h.get(42.1));
-    assertNull(h.delete(null));
+    assertThrows(IllegalArgumentException.class, () -> h.delete(null));
     assertNull(h.delete("what"));
     assertEquals("ok", h.delete("hello"));
     assertEquals("goodbye", h.delete(42.1));
-    assertFalse(h.containsKey(null));
+    assertThrows(IllegalArgumentException.class, () -> h.containsKey(null));
     assertFalse(h.containsKey("yes"));
     assertFalse(h.containsKey("hello"));
     assertTrue(h.containsKey(15));
@@ -690,9 +714,9 @@ public class DataStructuresTests {
   @Test
   public void testHashTableClosed() {
     HashTableClosed h = new HashTableClosed();
-    assertNull(h.put(null, null));
-    assertNull(h.put(12, null));
-    assertNull(h.put(null, 5));
+    assertThrows(IllegalArgumentException.class, () -> h.put(null, null));
+    assertThrows(IllegalArgumentException.class, () -> h.put(12, null));
+    assertThrows(IllegalArgumentException.class, () -> h.put(null, 5));
     assertNull(h.put(15, 16));
     assertNull(h.put("hello", "ok"));
     assertNull(h.put(42.1, "goodbye"));
@@ -703,16 +727,16 @@ public class DataStructuresTests {
     assertNull(h.put("no", 'w'));
     // The following put will cause a rehash.
     assertNull(h.put("     ", 55.555));
-    assertNull(h.get(null));
+    assertThrows(IllegalArgumentException.class, () -> h.get(null));
     assertNull(h.get(84));
     assertEquals(17, h.get(15));
     assertEquals("ok", h.get("hello"));
     assertEquals("goodbye", h.get(42.1));
-    assertNull(h.delete(null));
+    assertThrows(IllegalArgumentException.class, () -> h.delete(null));
     assertNull(h.delete("what"));
     assertEquals("ok", h.delete("hello"));
     assertEquals("goodbye", h.delete(42.1));
-    assertFalse(h.containsKey(null));
+    assertThrows(IllegalArgumentException.class, () -> h.containsKey(null));
     assertFalse(h.containsKey("yes"));
     assertFalse(h.containsKey("hello"));
     assertTrue(h.containsKey(15));
@@ -738,8 +762,8 @@ public class DataStructuresTests {
     assertEquals("hi", s.peek());
     assertEquals("hi", s.pop());
     assertEquals("hello", s.pop());
-    assertNull(s.peek());
-    assertNull(s.pop());
+    assertThrows(NoSuchElementException.class, () -> s.peek());
+    assertThrows(NoSuchElementException.class, () -> s.pop());
   }
 
   @Test
@@ -752,19 +776,19 @@ public class DataStructuresTests {
     assertEquals("hello", q.peek());
     assertEquals("hello", q.remove());
     assertEquals("hi", q.remove());
-    assertNull(q.peek());
-    assertNull(q.remove());
+    assertThrows(NoSuchElementException.class, () -> q.peek());
+    assertThrows(NoSuchElementException.class, () -> q.remove());
   }
 
   @Test
   public void testLinkedList() {
     LinkedList<String> l = new LinkedList<>();
-    assertNull(l.getFirst());
-    assertNull(l.get(-1));
-    assertNull(l.get(200));
-    assertNull(l.remove(-1));
-    assertNull(l.remove(45));
-    assertNull(l.remove("the"));
+    assertThrows(NoSuchElementException.class, () -> l.getFirst());
+    assertThrows(IndexOutOfBoundsException.class, () -> l.get(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> l.get(200));
+    assertThrows(IndexOutOfBoundsException.class, () -> l.remove(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> l.remove(45));
+    assertThrows(NoSuchElementException.class, () -> l.remove("the"));
     assertTrue(l.isEmpty());
     l.add("hello");
     assertFalse(l.isEmpty());
@@ -786,9 +810,9 @@ public class DataStructuresTests {
     assertEquals("hi", l.get(2));
     assertEquals("bye", l.get(3));
     assertEquals("hello", l.getFirst());
-    assertNull(l.get(4));
-    assertNull(l.remove(4));
-    assertNull(l.remove("ok"));
+    assertThrows(IndexOutOfBoundsException.class, () -> l.get(4));
+    assertThrows(IndexOutOfBoundsException.class, () -> l.remove(4));
+    assertThrows(NoSuchElementException.class, () -> l.remove("ok"));
     l.add("ok");
     assertEquals("hello", l.remove("hello"));
     assertEquals("bye", l.remove("bye"));
@@ -800,12 +824,12 @@ public class DataStructuresTests {
   @Test
   public void testArrayList() {
     ArrayList<String> a = new ArrayList<>();
-    assertNull(a.getFirst());
-    assertNull(a.get(-1));
-    assertNull(a.get(97));
-    assertNull(a.remove(-1));
-    assertNull(a.remove(898));
-    assertNull(a.remove("ok"));
+    assertThrows(NoSuchElementException.class, () -> a.getFirst());
+    assertThrows(IndexOutOfBoundsException.class, () -> a.get(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> a.get(97));
+    assertThrows(IndexOutOfBoundsException.class, () -> a.remove(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> a.remove(898));
+    assertThrows(NoSuchElementException.class, () -> a.remove("ok"));
     a.add("hello");
     a.add("goodbye");
     a.add("hi");
@@ -816,38 +840,38 @@ public class DataStructuresTests {
     assertEquals("hi", a.get(2));
     assertEquals("bye", a.get(3));
     assertEquals("hello", a.getFirst());
-    assertNull(a.get(4));
-    assertNull(a.remove(4));
-    assertNull(a.remove("ok"));
+    assertThrows(IndexOutOfBoundsException.class, () -> a.get(4));
+    assertThrows(IndexOutOfBoundsException.class, () -> a.remove(4));
+    assertThrows(NoSuchElementException.class, () -> a.remove("ok"));
     assertEquals("hi", a.remove("hi"));
     assertEquals("goodbye", a.remove(1));
     assertEquals("hello", a.remove(0));
     assertEquals("bye", a.remove("bye"));
-    a = new ArrayList<>(3);
+    ArrayList<String> b = new ArrayList<>(3);
     // Add elements so that resize() is called.
-    a.add("a");
-    a.add("b");
-    a.add("c");
-    a.add("d");
-    a.add("e");
-    a.add("f");
-    a.add("g");
-    a.add("h");
-    a.add("i");
-    a.add("j");
-    a.add("k");
-    a.add("l");
-    a.add("m");
-    a.add("n");
-    a.add("o");
-    a.add("p");
-    a.add("q");
-    a.add("r");
-    a.add("s");
-    a.add("t");
+    b.add("a");
+    b.add("b");
+    b.add("c");
+    b.add("d");
+    b.add("e");
+    b.add("f");
+    b.add("g");
+    b.add("h");
+    b.add("i");
+    b.add("j");
+    b.add("k");
+    b.add("l");
+    b.add("m");
+    b.add("n");
+    b.add("o");
+    b.add("p");
+    b.add("q");
+    b.add("r");
+    b.add("s");
+    b.add("t");
     // Test Iterable functionality.
-    for (String s : a) System.out.println(s);
-    Iterator<String> it = a.iterator();
+    for (String s : b) System.out.println(s);
+    Iterator<String> it = b.iterator();
     assertTrue(it.hasNext());
     assertEquals("a", it.next());
     assertEquals("b", it.next());
@@ -871,19 +895,19 @@ public class DataStructuresTests {
     assertEquals("t", it.next());
     assertFalse(it.hasNext());
     // Remove elements so that resize() is called.
-    a.remove(13);
-    a.remove(12);
-    a.remove(11);
-    a.remove(0);
-    a.remove(0);
-    a.remove(0);
-    a.remove(2);
-    a.remove(1);
-    a.remove(2);
-    a.remove(0);
-    a.remove(0);
-    a.remove(1);
-    a.remove(0);
+    b.remove(13);
+    b.remove(12);
+    b.remove(11);
+    b.remove(0);
+    b.remove(0);
+    b.remove(0);
+    b.remove(2);
+    b.remove(1);
+    b.remove(2);
+    b.remove(0);
+    b.remove(0);
+    b.remove(1);
+    b.remove(0);
   }
 
   @Test
@@ -893,9 +917,9 @@ public class DataStructuresTests {
     StringBuilder s3 = new StringBuilder("goodbye");
     s1.append("hi");
     s1.append(new char[]{'o', 'k'});
-    s2.append((String) null);
+    assertThrows(IllegalArgumentException.class, () -> s2.append((String) null));
     s2.append("a long string that will cause resizing");
-    s3.append((char[]) null);
+    assertThrows(IllegalArgumentException.class, () -> s3.append((char[]) null));
     String s = "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm";
     s3.append(s);
     assertEquals("hiok", s1.toString());

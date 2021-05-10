@@ -4,7 +4,7 @@ package sorting;
 public class HeapSort {
 
   public static void sort(int[] ints) {
-    if (ints == null) System.out.println("null array encountered");
+    if (ints == null) throw new IllegalArgumentException("Argument cannot be null");
     else {
       // Convert array to valid max-heap.
       for (int i = (ints.length / 2) - 1; i >= 0; i--) siftDown(ints, ints.length, i);

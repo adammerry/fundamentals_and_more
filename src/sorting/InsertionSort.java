@@ -4,7 +4,7 @@ package sorting;
 public class InsertionSort {
 
   public static void sort(int[] ints) {
-    if (ints == null) System.out.println("null array encountered");
+    if (ints == null) throw new IllegalArgumentException("Argument cannot be null");
     else {
       for (int i = 1; i < ints.length; i++)
         for (int j = i; j > 0 && ints[j] < ints[j - 1]; j--) swap(ints, j - 1, j);

@@ -1,5 +1,7 @@
 package dataStructures;
 
+import java.util.NoSuchElementException;
+
 // Implementation of a min-heap that stores Integers and has sifting operations implemented in an
 // iterative style.
 public class MinHeapIntegerIterative {
@@ -21,7 +23,7 @@ public class MinHeapIntegerIterative {
   }
 
   public void insert(int elem) {
-    if (nextIdx > MAX_SIZE) System.out.println("Maximum heap size reached");
+    if (nextIdx > MAX_SIZE) throw new IllegalStateException("Maximum heap size reached");
     else {
       heap[nextIdx] = elem;
       siftUp(nextIdx++);
@@ -33,13 +35,16 @@ public class MinHeapIntegerIterative {
       changeKey(idx, Integer.MIN_VALUE);
       extractMin();
     }
-    else System.out.println("Index out of range");
+    else throw new IndexOutOfBoundsException("Index out of range");
   }
 
-  public Integer getMin() { return nextIdx > 0 ? heap[0] : null; }
+  public Integer getMin() {
+    if (nextIdx == 0) throw new NoSuchElementException("Heap empty");
+    return heap[0];
+  }
 
   public Integer extractMin() {
-    if (nextIdx == 0) return null;
+    if (nextIdx == 0) throw new NoSuchElementException("Heap empty");
     Integer minElem = heap[0];
     heap[0] = heap[--nextIdx];
     siftDown(0);
@@ -56,10 +61,13 @@ public class MinHeapIntegerIterative {
                 (rightChildIdx < nextIdx && heap[rightChildIdx] < newVal)) siftDown(idx);
       }
     }
-    else System.out.println("Index out of range");
+    else throw new IndexOutOfBoundsException("Index out of range");
   }
 
-  public Integer getValAtIdx(int idx) { return idx >= 0 && idx < nextIdx ? heap[idx] : null; }
+  public Integer getValAtIdx(int idx) {
+    if (idx < 0 || idx >= nextIdx) throw new IndexOutOfBoundsException("Index out of range");
+    return heap[idx];
+  }
 
   private void buildHeap() { for (int i = (heap.length / 2) - 1; i >= 0; i--) siftDown(i); }
 

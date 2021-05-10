@@ -4,15 +4,11 @@ package dataStructures;
 public class GraphAdjacencyMatrix {
   private boolean[][] adjMatrix;
 
-  public GraphAdjacencyMatrix(int numNodes) {
-    adjMatrix = new boolean[numNodes][numNodes];
-  }
+  public GraphAdjacencyMatrix(int numNodes) { adjMatrix = new boolean[numNodes][numNodes]; }
 
   public void addEdge(int node1, int node2) {
-    if (node1 < 0 || node2 < 0 || node1 >= adjMatrix.length || node2 >= adjMatrix.length) {
-      System.out.println("Invalid node number given");
-      return;
-    }
+    if (node1 < 0 || node2 < 0 || node1 >= adjMatrix.length || node2 >= adjMatrix.length)
+      throw new IllegalArgumentException("Invalid node number given");
     adjMatrix[node1][node2] = adjMatrix[node2][node1] = true;
   }
 
@@ -26,28 +22,21 @@ public class GraphAdjacencyMatrix {
   }
 
   public void removeEdge(int node1, int node2) {
-    if (node1 < 0 || node2 < 0 || node1 >= adjMatrix.length || node2 >= adjMatrix.length) {
-      System.out.println("Invalid node number given");
-      return;
-    }
+    if (node1 < 0 || node2 < 0 || node1 >= adjMatrix.length || node2 >= adjMatrix.length)
+      throw new IllegalArgumentException("Invalid node number given");
     adjMatrix[node1][node2] = adjMatrix[node2][node1] = false;
   }
 
   public void removeNode(int node) {
-    if (node < 0 || node >= adjMatrix.length) {
-      System.out.println("Invalid node number given");
-      return;
-    }
+    if (node < 0 || node >= adjMatrix.length)
+      throw new IllegalArgumentException("Invalid node number given");
     // Set all other nodes to not have the given node as a neighbor. Do not remove the given node
     // from the adjacency matrix entirely, since that would cause re-numbering issues among nodes.
     for (int i = 0; i < adjMatrix.length; i++) adjMatrix[i][node] = adjMatrix[node][i] = false;
   }
 
   public boolean checkEdge(int node1, int node2) {
-    if (node1 < 0 || node2 < 0 || node1 >= adjMatrix.length || node2 >= adjMatrix.length) {
-      System.out.println("Invalid node number given");
-      return false;
-    }
-    return adjMatrix[node1][node2];
+    return node1 >= 0 && node2 >= 0 && node1 < adjMatrix.length && node2 < adjMatrix.length &&
+            adjMatrix[node1][node2];
   }
 }
