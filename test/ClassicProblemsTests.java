@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import classicProblems.BellmanFord;
 import dataStructures.GraphGeneric;
 import classicProblems.Dijkstra;
 import classicProblems.Knapsack;
@@ -367,5 +368,109 @@ public class ClassicProblemsTests {
     int sum = 0;
     for (Prim.Edge<Integer> e : edges) sum += e.getWeight();
     assertEquals(12, sum);
+  }
+
+  @Test
+  public void testBellmanFord() {
+    // Test graph with one node.
+    GraphGeneric<Integer> g = new GraphGeneric<>(false);
+    GraphGeneric.Node<Integer> n1 = new GraphGeneric.Node<>(1);
+    g.addNode(n1);
+    Map<GraphGeneric.Node<Integer>, Integer> bellmanFordMap = BellmanFord.runBellmanFord(g, n1);
+    assertEquals(1,  bellmanFordMap.size());
+    assertEquals(new Integer(0),  bellmanFordMap.get(n1));
+    // Test undirected graph.
+    GraphGeneric.Node<Integer> n2 = new GraphGeneric.Node<>(2);
+    GraphGeneric.Node<Integer> n3 = new GraphGeneric.Node<>(3);
+    GraphGeneric.Node<Integer> n4 = new GraphGeneric.Node<>(4);
+    GraphGeneric.Node<Integer> n5 = new GraphGeneric.Node<>(5);
+    GraphGeneric.Node<Integer> n6 = new GraphGeneric.Node<>(6);
+    g.addNode(n2);
+    g.addNode(n3);
+    g.addNode(n4);
+    g.addNode(n5);
+    g.addNode(n6);
+    g.addEdge(n1, n2, 10);
+    g.addEdge(n1, n6, 3);
+    g.addEdge(n2, n3, 5);
+    g.addEdge(n2, n4, 1);
+    g.addEdge(n2, n5, 4);
+    g.addEdge(n3, n4, 2);
+    g.addEdge(n4, n6, 7);
+    g.addEdge(n5, n6, 2);
+    bellmanFordMap = BellmanFord.runBellmanFord(g, n1);
+    assertEquals(6, bellmanFordMap.size());
+    assertEquals(new Integer(0), bellmanFordMap.get(n1));
+    assertEquals(new Integer(9), bellmanFordMap.get(n2));
+    assertEquals(new Integer(12), bellmanFordMap.get(n3));
+    assertEquals(new Integer(10), bellmanFordMap.get(n4));
+    assertEquals(new Integer(5), bellmanFordMap.get(n5));
+    assertEquals(new Integer(3), bellmanFordMap.get(n6));
+    // Test directed graph.
+    g = new GraphGeneric<>(true);
+    g.addNode(n1);
+    g.addNode(n2);
+    g.addNode(n3);
+    g.addNode(n4);
+    g.addNode(n5);
+    g.addNode(n6);
+    g.addEdge(n1, n2, 2);
+    g.addEdge(n1, n3, 16);
+    g.addEdge(n2, n4, 1);
+    g.addEdge(n2, n6, 4);
+    g.addEdge(n3, n1, 5);
+    g.addEdge(n3, n2, 10);
+    g.addEdge(n3, n5, 6);
+    g.addEdge(n4, n3, 4);
+    g.addEdge(n4, n5, 12);
+    g.addEdge(n5, n2, 3);
+    g.addEdge(n5, n4, 9);
+    g.addEdge(n5, n6, 13);
+    g.addEdge(n6, n3, 15);
+    g.addEdge(n6, n4, 17);
+    bellmanFordMap = BellmanFord.runBellmanFord(g, n1);
+    assertEquals(6, bellmanFordMap.size());
+    assertEquals(new Integer(0), bellmanFordMap.get(n1));
+    assertEquals(new Integer(2), bellmanFordMap.get(n2));
+    assertEquals(new Integer(7), bellmanFordMap.get(n3));
+    assertEquals(new Integer(3), bellmanFordMap.get(n4));
+    assertEquals(new Integer(13), bellmanFordMap.get(n5));
+    assertEquals(new Integer(6), bellmanFordMap.get(n6));
+    // Test graph with negative edge weights.
+    g = new GraphGeneric<>(true);
+    g.addNode(n1);
+    g.addNode(n2);
+    g.addNode(n3);
+    g.addNode(n4);
+    g.addNode(n5);
+    g.addEdge(n1, n2, -1);
+    g.addEdge(n1, n3, 4);
+    g.addEdge(n2, n3, 3);
+    g.addEdge(n2, n4, 2);
+    g.addEdge(n2, n5, 2);
+    g.addEdge(n4, n2, 1);
+    g.addEdge(n5, n4, -3);
+    bellmanFordMap = BellmanFord.runBellmanFord(g, n1);
+    assertEquals(new Integer(0), bellmanFordMap.get(n1));
+    assertEquals(new Integer(-1), bellmanFordMap.get(n2));
+    assertEquals(new Integer(2), bellmanFordMap.get(n3));
+    assertEquals(new Integer(-2), bellmanFordMap.get(n4));
+    assertEquals(new Integer(1), bellmanFordMap.get(n5));
+    // Test graph with negative cycle.
+    GraphGeneric<Integer> badGraph = new GraphGeneric<>(false);
+    badGraph.addNode(n1);
+    badGraph.addNode(n2);
+    badGraph.addNode(n3);
+    badGraph.addNode(n4);
+    badGraph.addNode(n5);
+    badGraph.addEdge(n1, n2, -1);
+    badGraph.addEdge(n1, n3, 4);
+    badGraph.addEdge(n2, n3, 3);
+    badGraph.addEdge(n2, n4, 2);
+    badGraph.addEdge(n2, n5, 2);
+    badGraph.addEdge(n4, n2, 1);
+    badGraph.addEdge(n5, n4, -3);
+    badGraph.addEdge(n4, n1, 1);
+    assertThrows(IllegalArgumentException.class, () -> BellmanFord.runBellmanFord(badGraph, n1));
   }
 }
