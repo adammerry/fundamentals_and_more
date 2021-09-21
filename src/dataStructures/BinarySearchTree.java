@@ -7,7 +7,7 @@ import java.util.Queue;
 public class BinarySearchTree<E extends Comparable<? super E>> {
   private Node<E> root;
 
-  public static class Node<E> {
+  public class Node<E> {
     private E data;
     private Node<E> leftChild, rightChild;
 

@@ -22,7 +22,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   // Abstract class representing both types of nodes that make up the Red-Black tree.
-  private static abstract class TreeNode<E extends Comparable<? super E>> {
+  private abstract class TreeNode<E extends Comparable<? super E>> {
     DataNode<E> parent;
     Color color;
     boolean isDoubleBlack;
@@ -41,7 +41,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   // Class representing nodes in the Red-Black tree that store data.
-  public static class DataNode<E extends Comparable<? super E>> extends TreeNode<E> {
+  public class DataNode<E extends Comparable<? super E>> extends TreeNode<E> {
     private E data;
     private TreeNode<E> leftChild, rightChild;
 
@@ -79,7 +79,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   // Class representing nodes in the Red-Black tree that do not store data. These nodes are used
   // as children of data-storing nodes to indicate the lack of a data-storing child. All null nodes
   // are black, and are capable of becoming double-black nodes during the deletion process.
-  private static class NullNode<E extends Comparable<? super E>> extends TreeNode<E> {
+  private class NullNode<E extends Comparable<? super E>> extends TreeNode<E> {
 
     private NullNode() {
       color = Color.BLACK;

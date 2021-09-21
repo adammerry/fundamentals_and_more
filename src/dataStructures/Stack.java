@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 public class Stack<E> {
   private StackNode<E> top;
 
-  private static class StackNode<F> {
+  private class StackNode<F> {
     private F data;
     private StackNode<F> next;
 
