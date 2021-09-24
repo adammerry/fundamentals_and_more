@@ -84,8 +84,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
       }
       return node.getLeftChild();
     }
-    else if (node.hasRightChild()) return node.getRightChild();
-    else return null;
+    return (node.hasRightChild()) ? node.getRightChild() : null;
   }
 
   // Remove the node with the largest value from the subtree rooted at the given node.
