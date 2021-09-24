@@ -354,8 +354,8 @@ public class DataStructuresTests {
   @Test
   public void testRedBlacktree() {
     RedBlackTree<Integer> rbt = new RedBlackTree<>();
-    assertThrows(NoSuchElementException.class, () -> rbt.getMax());
-    assertThrows(NoSuchElementException.class, () -> rbt.getMin());
+    assertThrows(NoSuchElementException.class, rbt::getMax);
+    assertThrows(NoSuchElementException.class, rbt::getMin);
     rbt.insert(50);
     assertEquals(new Integer(50), rbt.search(50).getData());
     assertArrayEquals(new Integer[] {50}, rbt.levelOrderTraversal());
