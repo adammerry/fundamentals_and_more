@@ -13,7 +13,7 @@ import java.util.Queue;
 // - No red node has a red child.
 // - For any node, every path from that node to a leaf touches the same number of black nodes.
 public class RedBlackTree<E extends Comparable<? super E>> {
-  private TreeNode<E> root = new NullNode<>();
+  private TreeNode root = new NullNode<>();
   private int size;
 
   private enum Color {
@@ -22,28 +22,28 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   // Abstract class representing both types of nodes that make up the Red-Black tree.
-  private abstract class TreeNode<E extends Comparable<? super E>> {
-    DataNode<E> parent;
+  private abstract class TreeNode {
+    DataNode parent;
     Color color;
     boolean isDoubleBlack;
 
-    abstract TreeNode<E> insertHelper(DataNode<E> insertDataNode, DataNode<E> parent);
+    abstract TreeNode insertHelper(DataNode insertDataNode, DataNode parent);
 
     abstract boolean isDataNode();
 
     void setColor(Color color) { this.color = color; }
 
-    void setParent(DataNode<E> parent) { this.parent = parent; }
+    void setParent(DataNode parent) { this.parent = parent; }
 
-    DataNode<E> getParent() { return parent; }
+    DataNode getParent() { return parent; }
 
     Color getColor() { return color; }
   }
 
   // Class representing nodes in the Red-Black tree that store data.
-  public class DataNode<E extends Comparable<? super E>> extends TreeNode<E> {
+  public class DataNode extends TreeNode {
     private E data;
-    private TreeNode<E> leftChild, rightChild;
+    private TreeNode leftChild, rightChild;
 
     private DataNode(E data) {
       this.data = data;
@@ -53,7 +53,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       this.rightChild = new NullNode<>();
     }
 
-    TreeNode<E> insertHelper(DataNode<E> insertDataNode, DataNode<E> parent) {
+    TreeNode insertHelper(DataNode insertDataNode, DataNode parent) {
       if (insertDataNode.getData().compareTo(getData()) < 0)
         setLeftChild(leftChild.insertHelper(insertDataNode, this));
       else if (insertDataNode.getData().compareTo(getData()) > 0)
@@ -65,28 +65,28 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
     private void setData(E data) { this.data = data; }
 
-    private void setLeftChild(TreeNode<E> child) { leftChild = child; }
+    private void setLeftChild(TreeNode child) { leftChild = child; }
 
-    private void setRightChild(TreeNode<E> child) { rightChild = child; }
+    private void setRightChild(TreeNode child) { rightChild = child; }
 
     public E getData() { return data; }
 
-    private TreeNode<E> getLeftChild() { return leftChild; }
+    private TreeNode getLeftChild() { return leftChild; }
 
-    private TreeNode<E> getRightChild() { return rightChild; }
+    private TreeNode getRightChild() { return rightChild; }
   }
 
   // Class representing nodes in the Red-Black tree that do not store data. These nodes are used
   // as children of data-storing nodes to indicate the lack of a data-storing child. All null nodes
   // are black, and are capable of becoming double-black nodes during the deletion process.
-  private class NullNode<E extends Comparable<? super E>> extends TreeNode<E> {
+  private class NullNode<F extends Comparable<? super E>> extends TreeNode {
 
     private NullNode() {
       color = Color.BLACK;
       isDoubleBlack = false;
     }
 
-    DataNode<E> insertHelper(DataNode<E> insertDataNode, DataNode<E> parent) {
+    DataNode insertHelper(DataNode insertDataNode, DataNode parent) {
       insertDataNode.setParent(parent);
       return insertDataNode;
     }
@@ -96,7 +96,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
   public void insert(E insertData) {
     if (insertData == null) throw new IllegalArgumentException("Cannot insert null");
-    DataNode<E> insertDataNode = new DataNode<>(insertData);
+    DataNode insertDataNode = new DataNode(insertData);
     root = root.isDataNode() ? root.insertHelper(insertDataNode, null) : insertDataNode;
     fixInsert(insertDataNode);
     root.setColor(Color.BLACK);
@@ -106,13 +106,13 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (insertDataNode.getParent() != null || insertDataNode == root) size++;
   }
 
-  private void fixInsert(DataNode<E> insertDataNode) {
-    DataNode<E> current = insertDataNode, parent = insertDataNode.getParent();
+  private void fixInsert(DataNode insertDataNode) {
+    DataNode current = insertDataNode, parent = insertDataNode.getParent();
     while (parent != null && parent.getColor() == Color.RED) {
       // grandparent must not be null, since parent is red and root must be black.
-      DataNode<E> grandparent = parent.getParent();
+      DataNode grandparent = parent.getParent();
       if (parent == grandparent.getLeftChild()) {
-        TreeNode<E> uncle = grandparent.getRightChild();
+        TreeNode uncle = grandparent.getRightChild();
         if (uncle.getColor() == Color.RED) { // Case: UNCLE RED.
           parent.setColor(Color.BLACK);
           uncle.setColor(Color.BLACK);
@@ -135,7 +135,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
         }
       }
       else { // parent is the right child of grandparent.
-        TreeNode<E> uncle = grandparent.getLeftChild();
+        TreeNode uncle = grandparent.getLeftChild();
         if (uncle.getColor() == Color.RED) { // Case: UNCLE RED.
           parent.setColor(Color.BLACK);
           uncle.setColor(Color.BLACK);
@@ -161,12 +161,12 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     root.setColor(Color.BLACK);
   }
 
-  private void leftRotate(DataNode<E> n) {
-    TreeNode<E> maybePivot = n.getRightChild();
+  private void leftRotate(DataNode n) {
+    TreeNode maybePivot = n.getRightChild();
     if (!maybePivot.isDataNode())
       throw new IllegalStateException("Left rotation can't be performed without right child");
-    DataNode<E> pivot = (DataNode<E>) maybePivot, parent = n.getParent();
-    TreeNode<E> innerSubTree = pivot.getLeftChild();
+    DataNode pivot = (DataNode) maybePivot, parent = n.getParent();
+    TreeNode innerSubTree = pivot.getLeftChild();
     pivot.setLeftChild(n);
     pivot.setParent(parent);
     n.setRightChild(innerSubTree);
@@ -179,12 +179,12 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (root == n) root = pivot;
   }
 
-  private void rightRotate(DataNode<E> n) {
-    TreeNode<E> maybePivot = n.getLeftChild();
+  private void rightRotate(DataNode n) {
+    TreeNode maybePivot = n.getLeftChild();
     if (!maybePivot.isDataNode())
       throw new IllegalStateException("Right rotation can't be performed without left child");
-    DataNode<E> pivot = (DataNode<E>) maybePivot, parent = n.getParent();
-    TreeNode<E> innerSubTree = pivot.getRightChild();
+    DataNode pivot = (DataNode) maybePivot, parent = n.getParent();
+    TreeNode innerSubTree = pivot.getRightChild();
     pivot.setRightChild(n);
     pivot.setParent(parent);
     n.setLeftChild(innerSubTree);
@@ -199,11 +199,11 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
   // Find and return the node in the tree with data equal to the given data. If no such node
   // exists, return null.
-  public DataNode<E> search(E searchData) {
+  public DataNode search(E searchData) {
     if (searchData != null) {
-      TreeNode<E> currNode = root;
+      TreeNode currNode = root;
       while (currNode.isDataNode()) {
-        DataNode<E> currDataNode = (DataNode<E>) currNode;
+        DataNode currDataNode = (DataNode) currNode;
         if (currDataNode.getData().equals(searchData)) return currDataNode;
         if (currDataNode.getData().compareTo(searchData) > 0)
           currNode = currDataNode.getLeftChild();
@@ -217,17 +217,17 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   public void delete(E deleteData) {
     if (deleteData == null) return;
     // Find the node to be deleted.
-    DataNode<E> deleteNode = search(deleteData);
+    DataNode deleteNode = search(deleteData);
     if (deleteNode != null) {
       // If node to delete has two data-storing children, replace it with it's inorder successor.
       if (deleteNode.getLeftChild().isDataNode() && deleteNode.getRightChild().isDataNode()) {
-        DataNode<E> successor = findLeftMostNode((DataNode<E>) deleteNode.getRightChild());
+        DataNode successor = findLeftMostNode((DataNode) deleteNode.getRightChild());
         deleteNode.setData(successor.getData());
         deleteNode = successor;
       }
       // If node to delete has < 2 data-storing children, and is the root, replace it appropriately.
       else if (deleteNode == root) {
-        TreeNode<E> leftChild = deleteNode.getLeftChild();
+        TreeNode leftChild = deleteNode.getLeftChild();
         root = (leftChild.isDataNode()) ? leftChild : deleteNode.getRightChild();
         root.setColor(Color.BLACK);
         size--;
@@ -237,9 +237,9 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       // Replace the node-to-delete with the data-storing child if possible. If node-to-delete is
       // red, we are done. Otherwise, check if the new child is red. If so, set its color to
       // black. If not, we have a double-black situation.
-      TreeNode<E> leftChild = deleteNode.getLeftChild();
-      TreeNode<E> newChild = leftChild.isDataNode() ? leftChild : deleteNode.getRightChild();
-      DataNode<E> parent = deleteNode.getParent();
+      TreeNode leftChild = deleteNode.getLeftChild();
+      TreeNode newChild = leftChild.isDataNode() ? leftChild : deleteNode.getRightChild();
+      DataNode parent = deleteNode.getParent();
       boolean isLeftChild = true;
       if (deleteNode == parent.getLeftChild()) parent.setLeftChild(newChild);
       else {
@@ -260,7 +260,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     }
   }
 
-  private void handleDoubleBlack(TreeNode<E> doubleBlackNode, boolean isLeftChild) {
+  private void handleDoubleBlack(TreeNode doubleBlackNode, boolean isLeftChild) {
     // Case 1: Double-black node is root.
     // Case 2: Sibling is red.
     // Case 3: Parent is black, sibling is black, and sibling's children are both black.
@@ -268,8 +268,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     // Case 5: Sibling is black, sibling's outer child is black, and sibling's inner child is red.
     // Case 6: Sibling is black, sibling's outer child is red.
     int caseNum = checkCaseNum(doubleBlackNode, isLeftChild);
-    DataNode<E> parent = doubleBlackNode.getParent();
-    DataNode<E> sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() :
+    DataNode parent = doubleBlackNode.getParent();
+    DataNode sibling = (DataNode) (isLeftChild ? parent.getRightChild() :
             parent.getLeftChild());
     if (caseNum == 1) return;
     if (caseNum == 2) {
@@ -279,7 +279,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       sibling.setColor(Color.BLACK);
       // Reset parent and sibling after rotation.
       parent = doubleBlackNode.getParent();
-      sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() : parent.getLeftChild());
+      sibling = (DataNode) (isLeftChild ? parent.getRightChild() : parent.getLeftChild());
       // Either case 4, case 5, or case 6 will now be applicable.
       caseNum = checkCaseNum(doubleBlackNode, isLeftChild);
     }
@@ -304,7 +304,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       sibling.getParent().setColor(Color.BLACK);
       // Reset parent and sibling after rotation.
       parent = doubleBlackNode.getParent();
-      sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() : parent.getLeftChild());
+      sibling = (DataNode) (isLeftChild ? parent.getRightChild() : parent.getLeftChild());
       caseNum = 6;
     }
     if (caseNum == 6) {
@@ -317,12 +317,12 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     }
   }
 
-  private int checkCaseNum(TreeNode<E> doubleBlackNode, boolean isLeftChild) {
+  private int checkCaseNum(TreeNode doubleBlackNode, boolean isLeftChild) {
     if (doubleBlackNode == root) return 1; // Case 1.
-    DataNode<E> parent = doubleBlackNode.getParent();
+    DataNode parent = doubleBlackNode.getParent();
     // Because insertion always maintains the black-height property, every black data-storing node
     // must have a data-storing sibling. Therefore, it is always safe to perform the following cast.
-    DataNode<E> sibling = (DataNode<E>) (isLeftChild ? parent.getRightChild() :
+    DataNode sibling = (DataNode) (isLeftChild ? parent.getRightChild() :
             parent.getLeftChild());
     if (sibling.getColor() == Color.RED) return 2;
     // At this point, we know that the sibling is black.
@@ -333,16 +333,16 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     return ((isLeftChild && rightSibChildBlack) || ((!isLeftChild) && leftSibChildBlack)) ? 5 : 6;
   }
 
-  private DataNode<E> findLeftMostNode(DataNode<E> n) {
-    DataNode<E> successor = n;
-    while (n.getLeftChild().isDataNode()) successor = (DataNode<E>) n.getLeftChild();
+  private DataNode findLeftMostNode(DataNode n) {
+    DataNode successor = n;
+    while (n.getLeftChild().isDataNode()) successor = (DataNode) n.getLeftChild();
     return successor;
   }
 
   public E getMin() {
-    TreeNode<E> currNode = root;
+    TreeNode currNode = root;
     while (currNode.isDataNode()) {
-      DataNode<E> currDataNode = (DataNode<E>) currNode;
+      DataNode currDataNode = (DataNode) currNode;
       if (currDataNode.getLeftChild().isDataNode()) currNode = currDataNode.getLeftChild();
       else return currDataNode.getData();
     }
@@ -350,9 +350,9 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   public E getMax() {
-    TreeNode<E> currNode = root;
+    TreeNode currNode = root;
     while (currNode.isDataNode()) {
-      DataNode<E> currDataNode = (DataNode<E>) currNode;
+      DataNode currDataNode = (DataNode) currNode;
       if (currDataNode.getRightChild().isDataNode()) currNode = currDataNode.getRightChild();
       else return currDataNode.getData();
     }
@@ -364,13 +364,13 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   public Integer[] levelOrderTraversal() {
     Integer[] nodeData = new Integer[size];
     int counter = 0;
-    Queue<DataNode<E>> nodes = new LinkedList<>();
-    if (root.isDataNode()) nodes.add((DataNode<E>) root);
+    Queue<DataNode> nodes = new LinkedList<>();
+    if (root.isDataNode()) nodes.add((DataNode) root);
     while (!nodes.isEmpty()) {
-      DataNode<E> next = nodes.poll();
+      DataNode next = nodes.poll();
       nodeData[counter++] = (Integer) next.getData();
-      if (next.getLeftChild().isDataNode()) nodes.add((DataNode<E>) next.getLeftChild());
-      if (next.getRightChild().isDataNode()) nodes.add((DataNode<E>) next.getRightChild());
+      if (next.getLeftChild().isDataNode()) nodes.add((DataNode) next.getLeftChild());
+      if (next.getRightChild().isDataNode()) nodes.add((DataNode) next.getRightChild());
     }
     return nodeData;
   }
