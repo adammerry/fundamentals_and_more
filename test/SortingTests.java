@@ -1,8 +1,8 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class SortingTests {
   private GraphGeneric.Node<Integer> node6 = new GraphGeneric.Node<>(6);
   private GraphGeneric.Node<Integer> node7 = new GraphGeneric.Node<>(7);
 
-  @Before
+  @BeforeEach
   public void setUpArrays() {
     l1 = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
     l2 = new int[] {0, 0, 0, 0, 0};
@@ -49,7 +49,7 @@ public class SortingTests {
     s8 = new int[] {-11, -5, -2, -1};
   }
 
-  @Before
+  @BeforeEach
   public void setUpTopSort() {
     g = new GraphGeneric<>(true);
     sort = new LinkedList<>();

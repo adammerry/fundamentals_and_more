@@ -1,9 +1,9 @@
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBetter;
@@ -28,7 +28,7 @@ public class SearchingTests {
   private GraphAdjacencyListBetter.Node<Integer> node12 = new GraphAdjacencyListBetter.Node<>(1);
   private BinaryTree<Integer> tree = new BinaryTree<>();
 
-  @Before
+  @BeforeEach
   public void setUpGraphAndTree() {
     graph.addNode(node1);
     graph.addNode(node2);
