@@ -93,8 +93,8 @@ public class DataStructuresTests {
     assertEquals(new Integer(6), b.bfs(6).getData());
     assertEquals(null, b.bfs(null));
     assertEquals(null, b.dfs(null));
-    b.insert(null);
-    b.delete(null);
+    assertThrows(IllegalArgumentException.class, () -> b.insert(null));
+    assertThrows(IllegalArgumentException.class, () -> b.delete(null));
   }
 
   @Test
@@ -124,16 +124,16 @@ public class DataStructuresTests {
     b.delete(6);
     assertEquals(null, b.search(6));
     b.delete(9);
-    b.insert(null);
-    b.delete(null);
+    assertThrows(IllegalArgumentException.class, () -> b.insert(null));
+    assertThrows(IllegalArgumentException.class, () -> b.delete(null));
     b.search(null);
   }
 
   @Test
   public void testMinHeapIntegerIterative() {
     MinHeapIntegerIterative m = new MinHeapIntegerIterative();
-    assertThrows(NoSuchElementException.class, () -> m.getMin());
-    assertThrows(NoSuchElementException.class, () -> m.extractMin());
+    assertThrows(NoSuchElementException.class, m::getMin);
+    assertThrows(NoSuchElementException.class, m::extractMin);
     assertThrows(IndexOutOfBoundsException.class, () -> m.changeKey(-1, 10));
     assertThrows(IndexOutOfBoundsException.class, () -> m.getValAtIdx(0));
 
@@ -225,8 +225,8 @@ public class DataStructuresTests {
   @Test
   public void testMaxHeapCharacterRecursive() {
     MaxHeapCharacterRecursive m = new MaxHeapCharacterRecursive();
-    assertThrows(NoSuchElementException.class, () -> m.getMax());
-    assertThrows(NoSuchElementException.class, () -> m.extractMax());
+    assertThrows(NoSuchElementException.class, m::getMax);
+    assertThrows(NoSuchElementException.class, m::extractMax);
     assertThrows(IndexOutOfBoundsException.class, () -> m.changeKey(-1, 'a'));
     assertThrows(IndexOutOfBoundsException.class, () -> m.getValAtIdx(0));
 
@@ -622,8 +622,8 @@ public class DataStructuresTests {
     assertEquals("hi", pq.deleteHighestPriority());
     assertEquals("hello", pq.deleteHighestPriority());
     assertEquals("bye", pq.deleteHighestPriority());
-    assertThrows(NoSuchElementException.class, () -> pq.getHighestPriority());
-    assertThrows(NoSuchElementException.class, () -> pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, pq::getHighestPriority);
+    assertThrows(NoSuchElementException.class, pq::deleteHighestPriority);
     assertThrows(NoSuchElementException.class, () -> pq.changePriority("bye", 10));
   }
 
@@ -645,8 +645,8 @@ public class DataStructuresTests {
     assertEquals("hi", pq.deleteHighestPriority());
     assertEquals("hello", pq.deleteHighestPriority());
     assertEquals("bye", pq.deleteHighestPriority());
-    assertThrows(NoSuchElementException.class, () -> pq.getHighestPriority());
-    assertThrows(NoSuchElementException.class, () -> pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, pq::getHighestPriority);
+    assertThrows(NoSuchElementException.class, pq::deleteHighestPriority);
     assertThrows(NoSuchElementException.class, () -> pq.changePriority("bye", 10));
   }
 
@@ -675,8 +675,8 @@ public class DataStructuresTests {
     assertEquals("hello", pq.deleteHighestPriority().getItem());
     assertEquals("bye", pq.deleteHighestPriority().getItem());
     assertTrue(pq.isEmpty());
-    assertThrows(NoSuchElementException.class, () -> pq.getHighestPriority());
-    assertThrows(NoSuchElementException.class, () -> pq.deleteHighestPriority());
+    assertThrows(NoSuchElementException.class, pq::getHighestPriority);
+    assertThrows(NoSuchElementException.class, pq::deleteHighestPriority);
     assertThrows(NoSuchElementException.class, () -> pq.changePriority("bye", 10));
   }
 
@@ -762,8 +762,8 @@ public class DataStructuresTests {
     assertEquals("hi", s.peek());
     assertEquals("hi", s.pop());
     assertEquals("hello", s.pop());
-    assertThrows(NoSuchElementException.class, () -> s.peek());
-    assertThrows(NoSuchElementException.class, () -> s.pop());
+    assertThrows(NoSuchElementException.class, s::peek);
+    assertThrows(NoSuchElementException.class, s::pop);
   }
 
   @Test
@@ -776,14 +776,14 @@ public class DataStructuresTests {
     assertEquals("hello", q.peek());
     assertEquals("hello", q.remove());
     assertEquals("hi", q.remove());
-    assertThrows(NoSuchElementException.class, () -> q.peek());
-    assertThrows(NoSuchElementException.class, () -> q.remove());
+    assertThrows(NoSuchElementException.class, q::peek);
+    assertThrows(NoSuchElementException.class, q::remove);
   }
 
   @Test
   public void testLinkedList() {
     LinkedList<String> l = new LinkedList<>();
-    assertThrows(NoSuchElementException.class, () -> l.getFirst());
+    assertThrows(NoSuchElementException.class, l::getFirst);
     assertThrows(IndexOutOfBoundsException.class, () -> l.get(-1));
     assertThrows(IndexOutOfBoundsException.class, () -> l.get(200));
     assertThrows(IndexOutOfBoundsException.class, () -> l.remove(-1));
@@ -824,7 +824,7 @@ public class DataStructuresTests {
   @Test
   public void testArrayList() {
     ArrayList<String> a = new ArrayList<>();
-    assertThrows(NoSuchElementException.class, () -> a.getFirst());
+    assertThrows(NoSuchElementException.class, a::getFirst);
     assertThrows(IndexOutOfBoundsException.class, () -> a.get(-1));
     assertThrows(IndexOutOfBoundsException.class, () -> a.get(97));
     assertThrows(IndexOutOfBoundsException.class, () -> a.remove(-1));

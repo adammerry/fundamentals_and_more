@@ -95,7 +95,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   public void insert(E insertData) {
-    if (insertData == null) throw new IllegalArgumentException("Cannot insert null");
+    if (insertData == null) throw new IllegalArgumentException("Data cannot be null");
     DataNode insertDataNode = new DataNode(insertData);
     root = root.isDataNode() ? root.insertHelper(insertDataNode, null) : insertDataNode;
     fixInsert(insertDataNode);

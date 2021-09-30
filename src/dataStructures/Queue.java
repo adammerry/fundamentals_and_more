@@ -4,16 +4,16 @@ import java.util.NoSuchElementException;
 
 // Implementation of a generic queue.
 public class Queue<E> {
-  private QueueNode<E> head, tail;
+  private QueueNode head, tail;
 
-  private class QueueNode<F> {
-    private F data;
-    private QueueNode<F> next;
-    private QueueNode(F data) { this.data = data; }
+  private class QueueNode {
+    private E data;
+    private QueueNode next;
+    private QueueNode(E data) { this.data = data; }
   }
 
   public void add(E data) {
-    QueueNode<E> newNode = new QueueNode<>(data);
+    QueueNode newNode = new QueueNode(data);
     if (head == null) head = tail = newNode;
     else {
       tail.next = newNode;

@@ -4,13 +4,13 @@ import java.util.NoSuchElementException;
 
 // Implementation of a generic stack.
 public class Stack<E> {
-  private StackNode<E> top;
+  private StackNode top;
 
-  private class StackNode<F> {
-    private F data;
-    private StackNode<F> next;
+  private class StackNode {
+    private E data;
+    private StackNode next;
 
-    private StackNode(F data, StackNode<F> next) {
+    private StackNode(E data, StackNode next) {
       this.data = data;
       this.next = next;
     }
@@ -23,7 +23,7 @@ public class Stack<E> {
     return topData;
   }
 
-  public void push(E data) { top = new StackNode<>(data, top); }
+  public void push(E data) { top = new StackNode(data, top); }
 
   public E peek() {
     if (top == null) throw new NoSuchElementException("No element to peek");

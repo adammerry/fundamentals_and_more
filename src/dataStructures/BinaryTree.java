@@ -14,9 +14,7 @@ public class BinaryTree<E> {
 
   public BinaryTree() {}
 
-  public Node<E> getRoot() {
-    return root;
-  }
+  public Node<E> getRoot() { return root; }
 
   public static class Node<E> {
     private E data;
@@ -72,7 +70,7 @@ public class BinaryTree<E> {
   // Level order insertion. Insert the given data into the next available spot in the tree,
   // searching from top to bottom, left to right.
   public void insert(E data) {
-    if (data == null) return;
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
     Node<E> insertNode = lastNode = new Node<>(data);
     if (root == null) {
       root = insertNode;
@@ -99,6 +97,7 @@ public class BinaryTree<E> {
 
   // Delete the node with the given data, replacing it with the last node inserted into the tree.
   public void delete(E data) {
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
     if ((root = deleteHelper(root, data)) != null) updateLastNode();
   }
 

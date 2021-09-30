@@ -3,21 +3,22 @@ package dataStructures;
 import java.util.LinkedList;
 import java.util.Queue;
 
-// Implementation of a Binary Search Tree using nodes that hold generic values.
+// Implementation of a Binary Search Tree using nodes that hold generic values. This
+// implementation does not support duplicate node values.
 public class BinarySearchTree<E extends Comparable<? super E>> {
-  private Node<E> root;
+  private Node root;
 
-  public class Node<E> {
+  public class Node {
     private E data;
-    private Node<E> leftChild, rightChild;
+    private Node leftChild, rightChild;
 
     private Node(E data) { this.data = data; }
 
     private void setData(E data) { this.data = data; }
 
-    private void setLeftChild(Node<E> child) { leftChild = child; }
+    private void setLeftChild(Node child) { leftChild = child; }
 
-    private void setRightChild(Node<E> child) { rightChild = child; }
+    private void setRightChild(Node child) { rightChild = child; }
 
     private boolean hasLeftChild() { return leftChild != null; }
 
@@ -25,9 +26,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 
     public E getData() { return data; }
 
-    private Node<E> getLeftChild() { return leftChild; }
+    private Node getLeftChild() { return leftChild; }
 
-    private Node<E> getRightChild() { return rightChild; }
+    private Node getRightChild() { return rightChild; }
 
     // Return the largest value in the subtree rooted at the given node.
     private E getLargestVal() { return hasRightChild() ? rightChild.getLargestVal() : data; }
@@ -36,11 +37,12 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
   // Insert a node with the given data into the tree, if there does not already exist a node with
   // that data. Insertion will preserve all BST properties.
   public void insert(E insertData) {
-    if (insertData != null) root = insertHelper(root, insertData);
+    if (insertData == null) throw new IllegalArgumentException("Data cannot be null");
+    root = insertHelper(root, insertData);
   }
 
-  private Node<E> insertHelper(Node<E> node, E insertData) {
-    if (node == null) return new Node<>(insertData);
+  private Node insertHelper(Node node, E insertData) {
+    if (node == null) return new Node(insertData);
     if (insertData.compareTo(node.getData()) < 0)
       node.setLeftChild(insertHelper(node.getLeftChild(), insertData));
     else if (insertData.compareTo(node.getData()) > 0)
@@ -50,9 +52,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 
   // Find and return the node in the tree with data equal to the given data. If no such node
   // exists, return null.
-  public Node<E> search(E searchData) {
+  public Node search(E searchData) {
     if (searchData == null) return null;
-    Node<E> currNode = root;
+    Node currNode = root;
     while (currNode != null) {
       if (currNode.getData().equals(searchData)) return currNode;
       if (currNode.getData().compareTo(searchData) > 0) currNode = currNode.getLeftChild();
@@ -63,9 +65,12 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 
   // Delete the node in the tree that has data equal to the given data, if such a node exists.
   // Deletion will preserve all BST properties.
-  public void delete(E data) { if (data != null) root = deleteHelper(root, data); }
+  public void delete(E data) {
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
+    root = deleteHelper(root, data);
+  }
 
-  private Node<E> deleteHelper(Node<E> node, E deleteData) {
+  private Node deleteHelper(Node node, E deleteData) {
     if (node == null) return null;
     if (node.getData().equals(deleteData)) return deleteNode(node);
     if (node.getData().compareTo(deleteData) > 0)
@@ -75,7 +80,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
   }
 
   // Handle cases for when the node to delete has zero, one, or two children.
-  private Node<E> deleteNode(Node<E> node) {
+  private Node deleteNode(Node node) {
     if (node.hasLeftChild()) {
       if (node.hasRightChild()) {
         node.setData(node.getLeftChild().getLargestVal());
@@ -88,7 +93,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
   }
 
   // Remove the node with the largest value from the subtree rooted at the given node.
-  private Node<E> deleteLargest(Node<E> node) {
+  private Node deleteLargest(Node node) {
     if (node.hasRightChild()) {
       node.setRightChild(deleteLargest(node.getRightChild()));
       return node;
@@ -99,13 +104,13 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
   // Print the value of each node in the tree in the order that they would be reached using a
   // breadth-first search.
   public void printTree() {
-    Queue<Node<E>> nodes = new LinkedList<>();
-    nodes.add(root);
+    Queue<Node> nodes = new LinkedList<>();
+    if (root != null) nodes.offer(root);
     while (!nodes.isEmpty()) {
-      Node<E> next = nodes.poll();
+      Node next = nodes.poll();
       System.out.print(next.getData() + " ");
-      if (next.getLeftChild() != null) nodes.add(next.getLeftChild());
-      if (next.getRightChild() != null) nodes.add(next.getRightChild());
+      if (next.getLeftChild() != null) nodes.offer(next.getLeftChild());
+      if (next.getRightChild() != null) nodes.offer(next.getRightChild());
     }
   }
 }
