@@ -11,115 +11,96 @@ import java.util.Stack;
 
 // Implementations of depth-first search on a graph and a tree. The graph version is
 // slightly more complex, as it must handle cycles as well as disconnected graphs.
-public class DFS {
-  private GraphAdjacencyListBetter<Integer> graph;
-  private BinaryTree<Integer> tree;
+public class DFS<E> {
+  private GraphAdjacencyListBetter<E> graph;
+  private BinaryTree<E> tree;
 
-  public DFS(GraphAdjacencyListBetter<Integer> graph, BinaryTree<Integer> tree) {
+  public DFS(GraphAdjacencyListBetter<E> graph, BinaryTree<E> tree) {
     this.graph = graph;
     this.tree = tree;
   }
 
   // Preorder DFS on a graph, using iteration and a Set for visited nodes.
-  public GraphAdjacencyListBetter.Node<Integer> dfsGraphIterative(Integer searchVal) {
+  public boolean dfsGraphIterative(E searchVal) {
     if (searchVal != null) {
-      Map<GraphAdjacencyListBetter.Node<Integer>,
-              List<GraphAdjacencyListBetter.Node<Integer>>> adjMap = graph.getGraph();
-      Set<GraphAdjacencyListBetter.Node<Integer>> seenSet = new HashSet<>();
-      for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) {
-        if (!seenSet.contains(node)) {
-          GraphAdjacencyListBetter.Node<Integer> nextSearchResult =
-                  dfsGraphIterativeHelper(node, searchVal, adjMap, seenSet);
-          if (nextSearchResult != null) return nextSearchResult;
-        }
+      Map<GraphAdjacencyListBetter<E>.Node,
+              List<GraphAdjacencyListBetter<E>.Node>> adjMap = graph.getGraph();
+      Set<GraphAdjacencyListBetter<E>.Node> seenSet = new HashSet<>();
+      for (GraphAdjacencyListBetter<E>.Node node : adjMap.keySet()) {
+        if (!seenSet.contains(node) && dfsGraphIterativeHelper(node, searchVal, adjMap, seenSet))
+          return true;
       }
     }
-    return null;
+    return false;
   }
 
-  private GraphAdjacencyListBetter.Node<Integer>
-  dfsGraphIterativeHelper(GraphAdjacencyListBetter.Node<Integer> root,
-                          Integer searchVal,
-                          Map<GraphAdjacencyListBetter.Node<Integer>,
-                                  List<GraphAdjacencyListBetter.Node<Integer>>> adjMap,
-                          Set<GraphAdjacencyListBetter.Node<Integer>> seenSet) {
-    Stack<GraphAdjacencyListBetter.Node<Integer>> stack = new Stack<>();
+  private boolean dfsGraphIterativeHelper(GraphAdjacencyListBetter<E>.Node root, E searchVal,
+                                          Map<GraphAdjacencyListBetter<E>.Node,
+                                                  List<GraphAdjacencyListBetter<E>.Node>> adjMap,
+                                          Set<GraphAdjacencyListBetter<E>.Node> seenSet) {
+    Stack<GraphAdjacencyListBetter<E>.Node> stack = new Stack<>();
     stack.add(root);
     while (!stack.isEmpty()) {
-      GraphAdjacencyListBetter.Node<Integer> nextNode = stack.pop();
-      if (nextNode.getData().equals(searchVal)) return nextNode;
+      GraphAdjacencyListBetter<E>.Node nextNode = stack.pop();
+      if (nextNode.getData().equals(searchVal)) return true;
       seenSet.add(nextNode);
-      for (GraphAdjacencyListBetter.Node<Integer> neighbor : adjMap.get(root))
+      for (GraphAdjacencyListBetter<E>.Node neighbor : adjMap.get(root))
         if (!seenSet.contains(neighbor)) stack.push(neighbor);
     }
-    return null;
+    return false;
   }
 
   // Preorder DFS on a graph, using recursion and a "seen" field for visited nodes.
-  public GraphAdjacencyListBetter.Node<Integer> dfsGraphRecursive(Integer searchVal) {
+  public boolean dfsGraphRecursive(E searchVal) {
     if (searchVal != null) {
-      Map<GraphAdjacencyListBetter.Node<Integer>,
-              List<GraphAdjacencyListBetter.Node<Integer>>> adjMap = graph.getGraph();
+      Map<GraphAdjacencyListBetter<E>.Node,
+              List<GraphAdjacencyListBetter<E>.Node>> adjMap = graph.getGraph();
       // Initialize all nodes as not seen.
-      for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) node.setSeen(false);
-      for (GraphAdjacencyListBetter.Node<Integer> node : adjMap.keySet()) {
-        if (!node.seen()) {
-          GraphAdjacencyListBetter.Node<Integer> nextSearchResult =
-                  dfsGraphRecursiveHelper(node, searchVal, adjMap);
-          if (nextSearchResult != null) return nextSearchResult;
-        }
-      }
+      for (GraphAdjacencyListBetter<E>.Node node : adjMap.keySet()) node.setSeen(false);
+      for (GraphAdjacencyListBetter<E>.Node node : adjMap.keySet())
+        if (!node.seen() && dfsGraphRecursiveHelper(node, searchVal, adjMap)) return true;
     }
-    return null;
+    return false;
   }
 
-  private GraphAdjacencyListBetter.Node<Integer>
-  dfsGraphRecursiveHelper(GraphAdjacencyListBetter.Node<Integer> root,
-                          Integer searchVal,
-                          Map<GraphAdjacencyListBetter.Node<Integer>,
-                                  List<GraphAdjacencyListBetter.Node<Integer>>> adjMap) {
-    if (root == null || root.getData().equals(searchVal)) return root;
+  private boolean dfsGraphRecursiveHelper(GraphAdjacencyListBetter<E>.Node root, E searchVal,
+                                          Map<GraphAdjacencyListBetter<E>.Node,
+                                                  List<GraphAdjacencyListBetter<E>.Node>> adjMap) {
+    if (root == null) return false;
+    if (root.getData().equals(searchVal)) return true;
     root.setSeen(true);
-    for (GraphAdjacencyListBetter.Node<Integer> neighbor : adjMap.get(root)) {
-      if (!neighbor.seen()) {
-        GraphAdjacencyListBetter.Node<Integer> dfsRetVal =
-                dfsGraphRecursiveHelper(neighbor, searchVal, adjMap);
-        if (dfsRetVal != null) return dfsRetVal;
-      }
-    }
-    return null;
+    for (GraphAdjacencyListBetter<E>.Node neighbor : adjMap.get(root))
+      if (!neighbor.seen() && dfsGraphRecursiveHelper(neighbor, searchVal, adjMap)) return true;
+    return false;
   }
 
   // Preorder DFS on a binary tree using iteration.
-  public BinaryTree.Node<Integer> dfsTreeIterative(Integer searchVal) {
+  public boolean dfsTreeIterative(E searchVal) {
     if (searchVal != null) {
-      Stack<BinaryTree.Node<Integer>> stack = new Stack<>();
+      Stack<BinaryTree<E>.Node> stack = new Stack<>();
       stack.push(tree.getRoot());
       while (!stack.isEmpty()) {
-        BinaryTree.Node<Integer> nextNode = stack.pop();
+        BinaryTree<E>.Node nextNode = stack.pop();
         if (nextNode != null) {
-          if (nextNode.getData().equals(searchVal)) return nextNode;
+          if (nextNode.getData().equals(searchVal)) return true;
           stack.push(nextNode.getLeftChild());
           stack.push(nextNode.getRightChild());
         }
       }
     }
-    return null;
+    return false;
   }
 
   // Preorder DFS on a binary tree using recursion.
-  public BinaryTree.Node<Integer> dfsTreeRecursive(Integer searchVal) {
-    if (searchVal == null) return null;
-    BinaryTree.Node<Integer> root = tree.getRoot();
-    return dfsTreeRecursiveHelper(searchVal, root);
+  public boolean dfsTreeRecursive(E searchVal) {
+    if (searchVal == null) return false;
+    return dfsTreeRecursiveHelper(searchVal, tree.getRoot());
   }
 
-  private BinaryTree.Node<Integer> dfsTreeRecursiveHelper(Integer searchVal,
-                                                          BinaryTree.Node<Integer> root) {
-    if (root == null || root.getData().equals(searchVal)) return root;
-    BinaryTree.Node<Integer> leftSubtreeRetVal =
-            dfsTreeRecursiveHelper(searchVal, root.getLeftChild());
-    return (leftSubtreeRetVal == null) ? dfsTreeRecursiveHelper(searchVal, root.getRightChild()) :
-            leftSubtreeRetVal;
+  private boolean dfsTreeRecursiveHelper(E searchVal, BinaryTree<E>.Node root) {
+    if (root == null) return false;
+    if (root.getData().equals(searchVal)) return true;
+    if (dfsTreeRecursiveHelper(searchVal, root.getLeftChild())) return true;
+    return dfsTreeRecursiveHelper(searchVal, root.getRightChild());
   }
 }
