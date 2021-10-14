@@ -19,14 +19,14 @@ import sorting.TopologicalSort;
 public class SortingTests {
   private int[] l1, l2, l3, l4, l5, l6, l7, l8, s1, s2, s3, s4, s5, s6, s7, s8;
   private GraphGeneric<Integer> g;
-  private List<GraphGeneric.Node<Integer>> sort;
-  private GraphGeneric.Node<Integer> node1 = new GraphGeneric.Node<>(1);
-  private GraphGeneric.Node<Integer> node2 = new GraphGeneric.Node<>(2);
-  private GraphGeneric.Node<Integer> node3 = new GraphGeneric.Node<>(3);
-  private GraphGeneric.Node<Integer> node4 = new GraphGeneric.Node<>(4);
-  private GraphGeneric.Node<Integer> node5 = new GraphGeneric.Node<>(5);
-  private GraphGeneric.Node<Integer> node6 = new GraphGeneric.Node<>(6);
-  private GraphGeneric.Node<Integer> node7 = new GraphGeneric.Node<>(7);
+  private List<GraphGeneric<Integer>.Node> sort;
+  private GraphGeneric<Integer>.Node node1;
+  private GraphGeneric<Integer>.Node node2;
+  private GraphGeneric<Integer>.Node node3;
+  private GraphGeneric<Integer>.Node node4;
+  private GraphGeneric<Integer>.Node node5;
+  private GraphGeneric<Integer>.Node node6;
+  private GraphGeneric<Integer>.Node node7;
 
   @BeforeEach
   public void setUpArrays() {
@@ -175,15 +175,14 @@ public class SortingTests {
   @Test
   public void testTopologicalSortQueue() {
     assertEquals(sort, TopologicalSort.topSortQueue(g));
-    g.addNode(node1);
-    sort.add(node1);
+    sort.add(g.addNode(1));
     assertEquals(sort, TopologicalSort.topSortQueue(g));
-    g.addNode(node2);
-    g.addNode(node3);
-    g.addNode(node4);
-    g.addNode(node5);
-    g.addNode(node6);
-    g.addNode(node7);
+    sort.add(g.addNode(2));
+    sort.add(g.addNode(3));
+    sort.add(g.addNode(4));
+    sort.add(g.addNode(5));
+    sort.add(g.addNode(6));
+    sort.add(g.addNode(7));
     // To prevent the possibility of failing a test by producing a valid topological ordering
     // that is different than the one the test is checking for, create a graph that has only one
     // valid ordering.
@@ -214,16 +213,15 @@ public class SortingTests {
   @Test
   public void testTopologicalSortDFS() {
     assertEquals(sort, TopologicalSort.topSortDFS(g));
-    g.addNode(node1);
-    sort.add(node1);
+    sort.add(g.addNode(1));
     assertEquals(sort, TopologicalSort.topSortDFS(g));
     node1.setSeen(false);
-    g.addNode(node2);
-    g.addNode(node3);
-    g.addNode(node4);
-    g.addNode(node5);
-    g.addNode(node6);
-    g.addNode(node7);
+    sort.add(g.addNode(2));
+    sort.add(g.addNode(3));
+    sort.add(g.addNode(4));
+    sort.add(g.addNode(5));
+    sort.add(g.addNode(6));
+    sort.add(g.addNode(7));
     // To prevent the possibility of failing a test by producing a valid topological ordering
     // that is different than the one the test is checking for, create a graph that has only one
     // valid ordering.

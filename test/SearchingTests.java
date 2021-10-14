@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,35 +14,36 @@ import searching.DFS;
 import searching.Traversals;
 
 public class SearchingTests {
-  private GraphAdjacencyListBetter<Integer> graph = new GraphAdjacencyListBetter<>();
-  private GraphAdjacencyListBetter.Node<Integer> node1 = new GraphAdjacencyListBetter.Node<>(15);
-  private GraphAdjacencyListBetter.Node<Integer> node2 = new GraphAdjacencyListBetter.Node<>(75);
-  private GraphAdjacencyListBetter.Node<Integer> node3 = new GraphAdjacencyListBetter.Node<>(12);
-  private GraphAdjacencyListBetter.Node<Integer> node4 = new GraphAdjacencyListBetter.Node<>(22);
-  private GraphAdjacencyListBetter.Node<Integer> node5 = new GraphAdjacencyListBetter.Node<>(19);
-  private GraphAdjacencyListBetter.Node<Integer> node6 = new GraphAdjacencyListBetter.Node<>(74);
-  private GraphAdjacencyListBetter.Node<Integer> node7 = new GraphAdjacencyListBetter.Node<>(11);
-  private GraphAdjacencyListBetter.Node<Integer> node8 = new GraphAdjacencyListBetter.Node<>(29);
-  private GraphAdjacencyListBetter.Node<Integer> node9 = new GraphAdjacencyListBetter.Node<>(88);
-  private GraphAdjacencyListBetter.Node<Integer> node10 = new GraphAdjacencyListBetter.Node<>(3);
-  private GraphAdjacencyListBetter.Node<Integer> node11 = new GraphAdjacencyListBetter.Node<>(4);
-  private GraphAdjacencyListBetter.Node<Integer> node12 = new GraphAdjacencyListBetter.Node<>(1);
-  private BinaryTree<Integer> tree = new BinaryTree<>();
+  private GraphAdjacencyListBetter<Integer> graph;
+  private GraphAdjacencyListBetter<Integer>.Node node1;
+  private GraphAdjacencyListBetter<Integer>.Node node2;
+  private GraphAdjacencyListBetter<Integer>.Node node3;
+  private GraphAdjacencyListBetter<Integer>.Node node4;
+  private GraphAdjacencyListBetter<Integer>.Node node5;
+  private GraphAdjacencyListBetter<Integer>.Node node6;
+  private GraphAdjacencyListBetter<Integer>.Node node7;
+  private GraphAdjacencyListBetter<Integer>.Node node8;
+  private GraphAdjacencyListBetter<Integer>.Node node9;
+  private GraphAdjacencyListBetter<Integer>.Node node10;
+  private GraphAdjacencyListBetter<Integer>.Node node11;
+  private GraphAdjacencyListBetter<Integer>.Node node12;
+  private BinaryTree<Integer> tree;
 
   @BeforeEach
   public void setUpGraphAndTree() {
-    graph.addNode(node1);
-    graph.addNode(node2);
-    graph.addNode(node3);
-    graph.addNode(node4);
-    graph.addNode(node5);
-    graph.addNode(node6);
-    graph.addNode(node7);
-    graph.addNode(node8);
-    graph.addNode(node9);
-    graph.addNode(node10);
-    graph.addNode(node11);
-    graph.addNode(node12);
+    graph = new GraphAdjacencyListBetter<>();
+    node1 = graph.addNode(15);
+    node2 = graph.addNode(75);
+    node3 = graph.addNode(12);
+    node4 = graph.addNode(22);
+    node5 = graph.addNode(19);
+    node6 = graph.addNode(74);
+    node7 = graph.addNode(11);
+    node8 = graph.addNode(29);
+    node9 = graph.addNode(88);
+    node10 = graph.addNode(3);
+    node11 = graph.addNode(4);
+    node12 = graph.addNode(1);
     graph.addEdge(node1, node2);
     graph.addEdge(node2, node3);
     graph.addEdge(node3, node4);
@@ -57,6 +59,7 @@ public class SearchingTests {
     graph.addEdge(node9, node10);
     graph.addEdge(node10, node11);
     graph.addEdge(node10, node12);
+    tree = new BinaryTree<>();
     tree.insert(0);
     tree.insert(1);
     tree.insert(2);
@@ -71,9 +74,9 @@ public class SearchingTests {
   @Test
   public void testTraversals() {
     Traversals t = new Traversals();
-    assertArrayEquals(new Integer[]{4, 2, 8, 5, 9, 10, 1, 6, 3, 7}, t.listInorder().toArray());
-    assertArrayEquals(new Integer[]{1, 2, 4, 5, 8, 9, 10, 3, 6, 7}, t.listPreorder().toArray());
-    assertArrayEquals(new Integer[]{4, 8, 10, 9, 5, 2, 6, 7, 3, 1}, t.listPostorder().toArray());
+    assertArrayEquals(new Integer[]{8, 4, 9, 2, 10, 5, 1, 6, 3, 7}, t.listInorder().toArray());
+    assertArrayEquals(new Integer[]{1, 2, 4, 8, 9, 5, 10, 3, 6, 7}, t.listPreorder().toArray());
+    assertArrayEquals(new Integer[]{8, 9, 4, 10, 5, 2, 6, 7, 3, 1}, t.listPostorder().toArray());
     assertArrayEquals(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, t.listLevelOrder().toArray());
   }
 
@@ -81,103 +84,103 @@ public class SearchingTests {
   public void testBFS() {
     BFS bfs = new BFS(graph, tree);
     // Test bfsGraphWithSeenField().
-    assertEquals(new Integer(15), bfs.bfsGraphWithSeenField(15).getData());
-    assertEquals(new Integer(75), bfs.bfsGraphWithSeenField(75).getData());
-    assertEquals(new Integer(12), bfs.bfsGraphWithSeenField(12).getData());
-    assertEquals(new Integer(22), bfs.bfsGraphWithSeenField(22).getData());
-    assertEquals(new Integer(19), bfs.bfsGraphWithSeenField(19).getData());
-    assertEquals(new Integer(74), bfs.bfsGraphWithSeenField(74).getData());
-    assertEquals(new Integer(11), bfs.bfsGraphWithSeenField(11).getData());
-    assertEquals(new Integer(29), bfs.bfsGraphWithSeenField(29).getData());
-    assertEquals(new Integer(88), bfs.bfsGraphWithSeenField(88).getData());
-    assertEquals(new Integer(3), bfs.bfsGraphWithSeenField(3).getData());
-    assertEquals(new Integer(4), bfs.bfsGraphWithSeenField(4).getData());
-    assertEquals(new Integer(1), bfs.bfsGraphWithSeenField(1).getData());
-    assertNull(bfs.bfsGraphWithSeenField(null));
-    assertNull(bfs.bfsGraphWithSeenField(17));
+    assertTrue(bfs.bfsGraphWithSeenField(15));
+    assertTrue(bfs.bfsGraphWithSeenField(75));
+    assertTrue(bfs.bfsGraphWithSeenField(12));
+    assertTrue(bfs.bfsGraphWithSeenField(22));
+    assertTrue(bfs.bfsGraphWithSeenField(19));
+    assertTrue(bfs.bfsGraphWithSeenField(74));
+    assertTrue(bfs.bfsGraphWithSeenField(11));
+    assertTrue(bfs.bfsGraphWithSeenField(29));
+    assertTrue(bfs.bfsGraphWithSeenField(88));
+    assertTrue(bfs.bfsGraphWithSeenField(3));
+    assertTrue(bfs.bfsGraphWithSeenField(4));
+    assertTrue(bfs.bfsGraphWithSeenField(1));
+    assertFalse(bfs.bfsGraphWithSeenField(null));
+    assertFalse(bfs.bfsGraphWithSeenField(17));
     // Test bfsGraphWithSeenSet().
-    assertEquals(new Integer(15), bfs.bfsGraphWithSeenSet(15).getData());
-    assertEquals(new Integer(75), bfs.bfsGraphWithSeenSet(75).getData());
-    assertEquals(new Integer(12), bfs.bfsGraphWithSeenSet(12).getData());
-    assertEquals(new Integer(22), bfs.bfsGraphWithSeenSet(22).getData());
-    assertEquals(new Integer(19), bfs.bfsGraphWithSeenSet(19).getData());
-    assertEquals(new Integer(74), bfs.bfsGraphWithSeenSet(74).getData());
-    assertEquals(new Integer(11), bfs.bfsGraphWithSeenSet(11).getData());
-    assertEquals(new Integer(29), bfs.bfsGraphWithSeenSet(29).getData());
-    assertEquals(new Integer(88), bfs.bfsGraphWithSeenSet(88).getData());
-    assertEquals(new Integer(3), bfs.bfsGraphWithSeenSet(3).getData());
-    assertEquals(new Integer(4), bfs.bfsGraphWithSeenSet(4).getData());
-    assertEquals(new Integer(1), bfs.bfsGraphWithSeenSet(1).getData());
-    assertNull(bfs.bfsGraphWithSeenSet(null));
-    assertNull(bfs.bfsGraphWithSeenSet(17));
+    assertTrue(bfs.bfsGraphWithSeenSet(15));
+    assertTrue(bfs.bfsGraphWithSeenSet(75));
+    assertTrue(bfs.bfsGraphWithSeenSet(12));
+    assertTrue(bfs.bfsGraphWithSeenSet(22));
+    assertTrue(bfs.bfsGraphWithSeenSet(19));
+    assertTrue(bfs.bfsGraphWithSeenSet(74));
+    assertTrue(bfs.bfsGraphWithSeenSet(11));
+    assertTrue(bfs.bfsGraphWithSeenSet(29));
+    assertTrue(bfs.bfsGraphWithSeenSet(88));
+    assertTrue(bfs.bfsGraphWithSeenSet(3));
+    assertTrue(bfs.bfsGraphWithSeenSet(4));
+    assertTrue(bfs.bfsGraphWithSeenSet(1));
+    assertFalse(bfs.bfsGraphWithSeenSet(null));
+    assertFalse(bfs.bfsGraphWithSeenSet(17));
     // Test bfsTree().
-    assertEquals(new Integer(1), bfs.bfsTree(1).getData());
-    assertEquals(new Integer(2), bfs.bfsTree(2).getData());
-    assertEquals(new Integer(3), bfs.bfsTree(3).getData());
-    assertEquals(new Integer(4), bfs.bfsTree(4).getData());
-    assertEquals(new Integer(5), bfs.bfsTree(5).getData());
-    assertEquals(new Integer(6), bfs.bfsTree(6).getData());
-    assertEquals(new Integer(7), bfs.bfsTree(7).getData());
-    assertEquals(new Integer(8), bfs.bfsTree(8).getData());
-    assertNull(bfs.bfsTree(null));
-    assertNull(bfs.bfsTree(17));
+    assertTrue(bfs.bfsTree(1));
+    assertTrue(bfs.bfsTree(2));
+    assertTrue(bfs.bfsTree(3));
+    assertTrue(bfs.bfsTree(4));
+    assertTrue(bfs.bfsTree(5));
+    assertTrue(bfs.bfsTree(6));
+    assertTrue(bfs.bfsTree(7));
+    assertTrue(bfs.bfsTree(8));
+    assertFalse(bfs.bfsTree(null));
+    assertFalse(bfs.bfsTree(17));
   }
 
   @Test
   public void testDFS() {
     DFS dfs = new DFS(graph, tree);
     // Test dfsGraphIterative().
-    assertEquals(new Integer(15), dfs.dfsGraphIterative(15).getData());
-    assertEquals(new Integer(75), dfs.dfsGraphIterative(75).getData());
-    assertEquals(new Integer(12), dfs.dfsGraphIterative(12).getData());
-    assertEquals(new Integer(22), dfs.dfsGraphIterative(22).getData());
-    assertEquals(new Integer(19), dfs.dfsGraphIterative(19).getData());
-    assertEquals(new Integer(74), dfs.dfsGraphIterative(74).getData());
-    assertEquals(new Integer(11), dfs.dfsGraphIterative(11).getData());
-    assertEquals(new Integer(29), dfs.dfsGraphIterative(29).getData());
-    assertEquals(new Integer(88), dfs.dfsGraphIterative(88).getData());
-    assertEquals(new Integer(3), dfs.dfsGraphIterative(3).getData());
-    assertEquals(new Integer(4), dfs.dfsGraphIterative(4).getData());
-    assertEquals(new Integer(1), dfs.dfsGraphIterative(1).getData());
-    assertNull(dfs.dfsGraphIterative(null));
-    assertNull(dfs.dfsGraphIterative(17));
+    assertTrue(dfs.dfsGraphIterative(15));
+    assertTrue(dfs.dfsGraphIterative(75));
+    assertTrue(dfs.dfsGraphIterative(12));
+    assertTrue(dfs.dfsGraphIterative(22));
+    assertTrue(dfs.dfsGraphIterative(19));
+    assertTrue(dfs.dfsGraphIterative(74));
+    assertTrue(dfs.dfsGraphIterative(11));
+    assertTrue(dfs.dfsGraphIterative(29));
+    assertTrue(dfs.dfsGraphIterative(88));
+    assertTrue(dfs.dfsGraphIterative(3));
+    assertTrue(dfs.dfsGraphIterative(4));
+    assertTrue(dfs.dfsGraphIterative(1));
+    assertFalse(dfs.dfsGraphIterative(null));
+    assertFalse(dfs.dfsGraphIterative(17));
     // Test dfsGraphRecursive().
-    assertEquals(new Integer(15), dfs.dfsGraphRecursive(15).getData());
-    assertEquals(new Integer(75), dfs.dfsGraphRecursive(75).getData());
-    assertEquals(new Integer(12), dfs.dfsGraphRecursive(12).getData());
-    assertEquals(new Integer(22), dfs.dfsGraphRecursive(22).getData());
-    assertEquals(new Integer(19), dfs.dfsGraphRecursive(19).getData());
-    assertEquals(new Integer(74), dfs.dfsGraphRecursive(74).getData());
-    assertEquals(new Integer(11), dfs.dfsGraphRecursive(11).getData());
-    assertEquals(new Integer(29), dfs.dfsGraphRecursive(29).getData());
-    assertEquals(new Integer(88), dfs.dfsGraphRecursive(88).getData());
-    assertEquals(new Integer(3), dfs.dfsGraphRecursive(3).getData());
-    assertEquals(new Integer(4), dfs.dfsGraphRecursive(4).getData());
-    assertEquals(new Integer(1), dfs.dfsGraphRecursive(1).getData());
-    assertNull(dfs.dfsGraphRecursive(null));
-    assertNull(dfs.dfsGraphRecursive(17));
+    assertTrue(dfs.dfsGraphRecursive(15));
+    assertTrue(dfs.dfsGraphRecursive(75));
+    assertTrue(dfs.dfsGraphRecursive(12));
+    assertTrue(dfs.dfsGraphRecursive(22));
+    assertTrue(dfs.dfsGraphRecursive(19));
+    assertTrue(dfs.dfsGraphRecursive(74));
+    assertTrue(dfs.dfsGraphRecursive(11));
+    assertTrue(dfs.dfsGraphRecursive(29));
+    assertTrue(dfs.dfsGraphRecursive(88));
+    assertTrue(dfs.dfsGraphRecursive(3));
+    assertTrue(dfs.dfsGraphRecursive(4));
+    assertTrue(dfs.dfsGraphRecursive(1));
+    assertFalse(dfs.dfsGraphRecursive(null));
+    assertFalse(dfs.dfsGraphRecursive(17));
     // Test dfsTreeIterative().
-    assertEquals(new Integer(1), dfs.dfsTreeIterative(1).getData());
-    assertEquals(new Integer(2), dfs.dfsTreeIterative(2).getData());
-    assertEquals(new Integer(3), dfs.dfsTreeIterative(3).getData());
-    assertEquals(new Integer(4), dfs.dfsTreeIterative(4).getData());
-    assertEquals(new Integer(5), dfs.dfsTreeIterative(5).getData());
-    assertEquals(new Integer(6), dfs.dfsTreeIterative(6).getData());
-    assertEquals(new Integer(7), dfs.dfsTreeIterative(7).getData());
-    assertEquals(new Integer(8), dfs.dfsTreeIterative(8).getData());
-    assertNull(dfs.dfsTreeIterative(null));
-    assertNull(dfs.dfsTreeIterative(17));
+    assertTrue(dfs.dfsTreeIterative(1));
+    assertTrue(dfs.dfsTreeIterative(2));
+    assertTrue(dfs.dfsTreeIterative(3));
+    assertTrue(dfs.dfsTreeIterative(4));
+    assertTrue(dfs.dfsTreeIterative(5));
+    assertTrue(dfs.dfsTreeIterative(6));
+    assertTrue(dfs.dfsTreeIterative(7));
+    assertTrue(dfs.dfsTreeIterative(8));
+    assertFalse(dfs.dfsTreeIterative(null));
+    assertFalse(dfs.dfsTreeIterative(17));
     // Test dfsTreeRecursive().
-    assertEquals(new Integer(1), dfs.dfsTreeRecursive(1).getData());
-    assertEquals(new Integer(2), dfs.dfsTreeRecursive(2).getData());
-    assertEquals(new Integer(3), dfs.dfsTreeRecursive(3).getData());
-    assertEquals(new Integer(4), dfs.dfsTreeRecursive(4).getData());
-    assertEquals(new Integer(5), dfs.dfsTreeRecursive(5).getData());
-    assertEquals(new Integer(6), dfs.dfsTreeRecursive(6).getData());
-    assertEquals(new Integer(7), dfs.dfsTreeRecursive(7).getData());
-    assertEquals(new Integer(8), dfs.dfsTreeRecursive(8).getData());
-    assertNull(dfs.dfsTreeRecursive(null));
-    assertNull(dfs.dfsTreeRecursive(17));
+    assertTrue(dfs.dfsTreeRecursive(1));
+    assertTrue(dfs.dfsTreeRecursive(2));
+    assertTrue(dfs.dfsTreeRecursive(3));
+    assertTrue(dfs.dfsTreeRecursive(4));
+    assertTrue(dfs.dfsTreeRecursive(5));
+    assertTrue(dfs.dfsTreeRecursive(6));
+    assertTrue(dfs.dfsTreeRecursive(7));
+    assertTrue(dfs.dfsTreeRecursive(8));
+    assertFalse(dfs.dfsTreeRecursive(null));
+    assertFalse(dfs.dfsTreeRecursive(17));
   }
 
   @Test

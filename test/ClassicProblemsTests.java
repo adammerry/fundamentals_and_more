@@ -271,22 +271,16 @@ public class ClassicProblemsTests {
   public void testDijkstra() {
     // Test graph with one node.
     GraphGeneric<Integer> g = new GraphGeneric<>(false);
-    GraphGeneric.Node<Integer> n1 = new GraphGeneric.Node<>(1);
-    g.addNode(n1);
-    Map<GraphGeneric.Node<Integer>, Integer> dijkstraMap = Dijkstra.runDijkstra(g, n1);
+    GraphGeneric<Integer>.Node n1 = g.addNode(1);
+    Map<GraphGeneric<Integer>.Node, Integer> dijkstraMap = Dijkstra.runDijkstra(g, n1);
     assertEquals(1,  dijkstraMap.size());
     assertEquals(new Integer(0),  dijkstraMap.get(n1));
     // Test undirected graph.
-    GraphGeneric.Node<Integer> n2 = new GraphGeneric.Node<>(2);
-    GraphGeneric.Node<Integer> n3 = new GraphGeneric.Node<>(3);
-    GraphGeneric.Node<Integer> n4 = new GraphGeneric.Node<>(4);
-    GraphGeneric.Node<Integer> n5 = new GraphGeneric.Node<>(5);
-    GraphGeneric.Node<Integer> n6 = new GraphGeneric.Node<>(6);
-    g.addNode(n2);
-    g.addNode(n3);
-    g.addNode(n4);
-    g.addNode(n5);
-    g.addNode(n6);
+    GraphGeneric<Integer>.Node n2 = g.addNode(2);
+    GraphGeneric<Integer>.Node n3 = g.addNode(3);
+    GraphGeneric<Integer>.Node n4 = g.addNode(4);
+    GraphGeneric<Integer>.Node n5 = g.addNode(5);
+    GraphGeneric<Integer>.Node n6 = g.addNode(6);
     g.addEdge(n1, n2, 10);
     g.addEdge(n1, n6, 3);
     g.addEdge(n2, n3, 5);
@@ -305,12 +299,12 @@ public class ClassicProblemsTests {
     assertEquals(new Integer(3), dijkstraMap.get(n6));
     // Test directed graph.
     g = new GraphGeneric<>(true);
-    g.addNode(n1);
-    g.addNode(n2);
-    g.addNode(n3);
-    g.addNode(n4);
-    g.addNode(n5);
-    g.addNode(n6);
+    g.addNode(1);
+    g.addNode(2);
+    g.addNode(3);
+    g.addNode(4);
+    g.addNode(5);
+    g.addNode(6);
     g.addEdge(n1, n2, 2);
     g.addEdge(n1, n3, 16);
     g.addEdge(n2, n4, 1);
@@ -339,20 +333,14 @@ public class ClassicProblemsTests {
   public void testPrim() {
     // Test graph with one node.
     GraphGeneric<Integer> g = new GraphGeneric<>(false);
-    GraphGeneric.Node<Integer> n1 = new GraphGeneric.Node<>(1);
-    g.addNode(n1);
+    GraphGeneric<Integer>.Node n1 = g.addNode(1);
     Set<Prim.Edge<Integer>> edges = Prim.runPrim(g);
     assertTrue(edges.isEmpty());
-    GraphGeneric.Node<Integer> n2 = new GraphGeneric.Node<>(2);
-    GraphGeneric.Node<Integer> n3 = new GraphGeneric.Node<>(3);
-    GraphGeneric.Node<Integer> n4 = new GraphGeneric.Node<>(4);
-    GraphGeneric.Node<Integer> n5 = new GraphGeneric.Node<>(5);
-    GraphGeneric.Node<Integer> n6 = new GraphGeneric.Node<>(6);
-    g.addNode(n2);
-    g.addNode(n3);
-    g.addNode(n4);
-    g.addNode(n5);
-    g.addNode(n6);
+    GraphGeneric<Integer>.Node n2 = g.addNode(2);
+    GraphGeneric<Integer>.Node n3 = g.addNode(3);
+    GraphGeneric<Integer>.Node n4 = g.addNode(4);
+    GraphGeneric<Integer>.Node n5 = g.addNode(5);
+    GraphGeneric<Integer>.Node n6 = g.addNode(6);
     g.addEdge(n1, n2, 10);
     g.addEdge(n1, n6, 3);
     g.addEdge(n2, n3, 5);
@@ -374,22 +362,16 @@ public class ClassicProblemsTests {
   public void testBellmanFord() {
     // Test graph with one node.
     GraphGeneric<Integer> g = new GraphGeneric<>(false);
-    GraphGeneric.Node<Integer> n1 = new GraphGeneric.Node<>(1);
-    g.addNode(n1);
-    Map<GraphGeneric.Node<Integer>, Integer> bellmanFordMap = BellmanFord.runBellmanFord(g, n1);
+    GraphGeneric<Integer>.Node n1 = g.addNode(1);
+    Map<GraphGeneric<Integer>.Node, Integer> bellmanFordMap = BellmanFord.runBellmanFord(g, n1);
     assertEquals(1,  bellmanFordMap.size());
     assertEquals(new Integer(0),  bellmanFordMap.get(n1));
     // Test undirected graph.
-    GraphGeneric.Node<Integer> n2 = new GraphGeneric.Node<>(2);
-    GraphGeneric.Node<Integer> n3 = new GraphGeneric.Node<>(3);
-    GraphGeneric.Node<Integer> n4 = new GraphGeneric.Node<>(4);
-    GraphGeneric.Node<Integer> n5 = new GraphGeneric.Node<>(5);
-    GraphGeneric.Node<Integer> n6 = new GraphGeneric.Node<>(6);
-    g.addNode(n2);
-    g.addNode(n3);
-    g.addNode(n4);
-    g.addNode(n5);
-    g.addNode(n6);
+    GraphGeneric<Integer>.Node n2 = g.addNode(2);
+    GraphGeneric<Integer>.Node n3 = g.addNode(3);
+    GraphGeneric<Integer>.Node n4 = g.addNode(4);
+    GraphGeneric<Integer>.Node n5 = g.addNode(5);
+    GraphGeneric<Integer>.Node n6 = g.addNode(6);
     g.addEdge(n1, n2, 10);
     g.addEdge(n1, n6, 3);
     g.addEdge(n2, n3, 5);
@@ -408,12 +390,12 @@ public class ClassicProblemsTests {
     assertEquals(new Integer(3), bellmanFordMap.get(n6));
     // Test directed graph.
     g = new GraphGeneric<>(true);
-    g.addNode(n1);
-    g.addNode(n2);
-    g.addNode(n3);
-    g.addNode(n4);
-    g.addNode(n5);
-    g.addNode(n6);
+    g.addNode(1);
+    g.addNode(2);
+    g.addNode(3);
+    g.addNode(4);
+    g.addNode(5);
+    g.addNode(6);
     g.addEdge(n1, n2, 2);
     g.addEdge(n1, n3, 16);
     g.addEdge(n2, n4, 1);
@@ -438,11 +420,11 @@ public class ClassicProblemsTests {
     assertEquals(new Integer(6), bellmanFordMap.get(n6));
     // Test graph with negative edge weights.
     g = new GraphGeneric<>(true);
-    g.addNode(n1);
-    g.addNode(n2);
-    g.addNode(n3);
-    g.addNode(n4);
-    g.addNode(n5);
+    g.addNode(1);
+    g.addNode(2);
+    g.addNode(3);
+    g.addNode(4);
+    g.addNode(5);
     g.addEdge(n1, n2, -1);
     g.addEdge(n1, n3, 4);
     g.addEdge(n2, n3, 3);
@@ -458,11 +440,11 @@ public class ClassicProblemsTests {
     assertEquals(new Integer(1), bellmanFordMap.get(n5));
     // Test graph with negative cycle.
     GraphGeneric<Integer> badGraph = new GraphGeneric<>(false);
-    badGraph.addNode(n1);
-    badGraph.addNode(n2);
-    badGraph.addNode(n3);
-    badGraph.addNode(n4);
-    badGraph.addNode(n5);
+    badGraph.addNode(1);
+    badGraph.addNode(2);
+    badGraph.addNode(3);
+    badGraph.addNode(4);
+    badGraph.addNode(5);
     badGraph.addEdge(n1, n2, -1);
     badGraph.addEdge(n1, n3, 4);
     badGraph.addEdge(n2, n3, 3);
