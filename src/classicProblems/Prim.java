@@ -15,40 +15,40 @@ public class Prim {
 
   // Prim's algorithm will return a set of Edge objects, representing the MST.
   public static class Edge<E> {
-    private GraphGeneric.Node<E> node1, node2;
+    private GraphGeneric<E>.Node node1, node2;
     private int weight;
 
-    Edge(GraphGeneric.Node<E> node1, GraphGeneric.Node<E> node2, int weight) {
+    Edge(GraphGeneric<E>.Node node1, GraphGeneric<E>.Node node2, int weight) {
       this.node1 = node1;
       this.node2 = node2;
       this.weight = weight;
     }
 
-    public GraphGeneric.Node<E> getNode1() { return node1; }
+    public GraphGeneric<E>.Node getNode1() { return node1; }
 
-    public GraphGeneric.Node<E> getNode2() { return node2; }
+    public GraphGeneric<E>.Node getNode2() { return node2; }
 
     public int getWeight() { return weight; }
   }
 
   public static <E> Set<Edge<E>> runPrim(GraphGeneric<E> graph) {
-    PriorityQueueHeap<GraphGeneric.Node<E>> pq = new PriorityQueueHeap<>(graph.nodeCount());
-    GraphGeneric.Node<E> start = null;
+    PriorityQueueHeap<GraphGeneric<E>.Node> pq = new PriorityQueueHeap<>(graph.nodeCount());
+    GraphGeneric<E>.Node start = null;
     // Add all nodes in the graph to the priority queue with a priority of "infinity".
-    for (GraphGeneric.Node<E> node : graph.getNodes()) {
+    for (GraphGeneric<E>.Node node : graph.getNodes()) {
       if (start == null) start = node; // Set any node as the start node.
       pq.insert(node, Integer.MAX_VALUE);
     }
     Set<Edge<E>> minSpanningTree = new HashSet<>();
     // Map used to keep track of potential MST edges.
-    Map<GraphGeneric.Node<E>, GraphGeneric.Node<E>> edgeMap = new HashMap<>();
+    Map<GraphGeneric<E>.Node, GraphGeneric<E>.Node> edgeMap = new HashMap<>();
     pq.changePriority(start, 0);
     while (!pq.isEmpty()) {
-      GraphGeneric.Node<E> node = pq.getHighestPriority().getItem();
+      GraphGeneric<E>.Node node = pq.getHighestPriority().getItem();
       int priority = pq.deleteHighestPriority().getPriority();
       if (node != start) minSpanningTree.add(new Edge<>(node, edgeMap.get(node), priority));
-      for (Map.Entry<GraphGeneric.Node<E>, Integer> next : graph.getNeighbors(node).entrySet()) {
-        GraphGeneric.Node<E> neighbor = next.getKey();
+      for (Map.Entry<GraphGeneric<E>.Node, Integer> next : graph.getNeighbors(node).entrySet()) {
+        GraphGeneric<E>.Node neighbor = next.getKey();
         int weight = next.getValue();
         if (pq.contains(neighbor) && pq.getPriority(neighbor) > weight) {
           pq.changePriority(neighbor, weight);

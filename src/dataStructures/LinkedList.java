@@ -85,7 +85,7 @@ public class LinkedList<E> implements Iterable<E> {
   public Iterator<E> iterator() { return new LinkedListIterator(this); }
   
   public class LinkedListIterator implements Iterator<E> {
-    LinkedList list;
+    LinkedList<E> list;
     ListNode nextNode;
     
     LinkedListIterator(LinkedList<E> list) {

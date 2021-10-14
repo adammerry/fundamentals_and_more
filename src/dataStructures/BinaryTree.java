@@ -8,23 +8,23 @@ import java.util.Stack;
 // composed of zero or more nodes, where each node has up to two child nodes. No other restrictions
 // are placed on the structure of the tree.
 public class BinaryTree<E> {
-  private Node<E> root, lastNodeParent, lastNode;
+  private Node root, lastNodeParent, lastNode;
 
-  public BinaryTree(Node<E> root) { this.root = lastNode = root; }
+  public BinaryTree(Node root) { this.root = lastNode = root; }
 
   public BinaryTree() {}
 
-  public Node<E> getRoot() { return root; }
+  public Node getRoot() { return root; }
 
-  public static class Node<E> {
+  public class Node {
     private E data;
-    private Node<E> leftChild, rightChild;
+    private Node leftChild, rightChild;
 
     public Node(E data) { this.data = data; }
 
-    public void setLeftChild(Node<E> child) { leftChild = child; }
+    public void setLeftChild(Node child) { leftChild = child; }
 
-    public void setRightChild(Node<E> child) { rightChild = child; }
+    public void setRightChild(Node child) { rightChild = child; }
 
     public boolean hasLeftChild() { return leftChild != null; }
 
@@ -32,54 +32,52 @@ public class BinaryTree<E> {
 
     public E getData() { return data; }
 
-    public Node<E> getLeftChild() { return leftChild; }
+    public Node getLeftChild() { return leftChild; }
 
-    public Node<E> getRightChild() { return rightChild; }
+    public Node getRightChild() { return rightChild; }
   }
 
-  // Find the node in the tree that contains the given data, using a breadth-first search. If no
-  // such node exists, return null.
-  public Node<E> bfs(E data) {
-    if (root == null || data == null) return null;
-    Queue<Node<E>> nodes = new LinkedList<>();
+  // Find the node in the tree that contains the given data, using a breadth-first search.
+  public boolean bfs(E data) {
+    if (root == null || data == null) return false;
+    Queue<Node> nodes = new LinkedList<>();
     nodes.offer(root);
     while (!nodes.isEmpty()) {
-      Node<E> next = nodes.poll();
-      if (next.getData().equals(data)) return next;
+      Node next = nodes.poll();
+      if (next.getData().equals(data)) return true;
       if (next.hasLeftChild()) nodes.offer(next.getLeftChild());
       if (next.hasRightChild()) nodes.offer(next.getRightChild());
     }
-    return null;
+    return false;
   }
 
-  // Find the node in the tree that contains the given data, using a depth-first search. If no
-  // such node exists, return null.
-  public Node<E> dfs(E data) {
-    if (root == null || data == null) return null;
-    Stack<Node<E>> nodes = new Stack<>();
+  // Find the node in the tree that contains the given data, using a depth-first search.
+  public boolean dfs(E data) {
+    if (root == null || data == null) return false;
+    Stack<Node> nodes = new Stack<>();
     nodes.push(root);
     while (!nodes.isEmpty()) {
-      Node<E> next = nodes.pop();
-      if (next.getData().equals(data)) return next;
+      Node next = nodes.pop();
+      if (next.getData().equals(data)) return true;
       if (next.hasRightChild()) nodes.push(next.getRightChild());
       if (next.hasLeftChild()) nodes.push(next.getLeftChild());
     }
-    return null;
+    return false;
   }
 
   // Level order insertion. Insert the given data into the next available spot in the tree,
   // searching from top to bottom, left to right.
   public void insert(E data) {
     if (data == null) throw new IllegalArgumentException("Data cannot be null");
-    Node<E> insertNode = lastNode = new Node<>(data);
+    Node insertNode = lastNode = new Node(data);
     if (root == null) {
       root = insertNode;
       return;
     }
-    Queue<Node<E>> nodes = new LinkedList<>();
+    Queue<Node> nodes = new LinkedList<>();
     nodes.offer(root);
     while (true) {
-      Node<E> next = nodes.poll();
+      Node next = nodes.poll();
       if (!next.hasLeftChild()) {
         next.setLeftChild(insertNode);
         lastNodeParent = next;
@@ -102,7 +100,7 @@ public class BinaryTree<E> {
   }
 
   // Return a tree that does not contain a node with the given data.
-  private Node<E> deleteHelper(Node<E> currNode, E data) {
+  private Node deleteHelper(Node currNode, E data) {
     if (currNode == null || data == null) return currNode;
     if (currNode.getData().equals(data)) { // currNode should be removed from the tree.
       if (currNode == lastNode) return null;
@@ -111,7 +109,7 @@ public class BinaryTree<E> {
         else lastNodeParent.setRightChild(null);
       }
       // Transfer the deleted node's children to the last node.
-      Node<E> currNodeLeft = currNode.getLeftChild(), currNodeRight = currNode.getRightChild();
+      Node currNodeLeft = currNode.getLeftChild(), currNodeRight = currNode.getRightChild();
       if (lastNode != currNodeLeft) lastNode.setLeftChild(currNodeLeft);
       if (lastNode != currNodeRight) lastNode.setRightChild(currNodeRight);
       return lastNode;
@@ -124,7 +122,7 @@ public class BinaryTree<E> {
   }
 
   private void updateLastNode() {
-    Node<E> currNodeParent = null, currNode = root;
+    Node currNodeParent = null, currNode = root;
     while (currNode.hasLeftChild() || currNode.hasRightChild()) {
       currNodeParent = currNode;
       currNode = (currNode.hasRightChild()) ? currNode.getRightChild() : currNode.getLeftChild();
@@ -136,10 +134,10 @@ public class BinaryTree<E> {
   // Print the value of each node in the tree in the order that they would be reached using a
   // breadth-first search.
   public void printTree() {
-    Queue<Node<E>> nodes = new LinkedList<>();
+    Queue<Node> nodes = new LinkedList<>();
     if (root != null) nodes.offer(root);
     while (!nodes.isEmpty()) {
-      Node<E> next = nodes.poll();
+      Node next = nodes.poll();
       System.out.print(next.getData() + " ");
       if (next.getLeftChild() != null) nodes.offer(next.getLeftChild());
       if (next.getRightChild() != null) nodes.offer(next.getRightChild());

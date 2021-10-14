@@ -13,15 +13,15 @@ public class Dijkstra {
 
   // Returns a result in the form of [node -> value], where the value for each node represents the
   // minimum distance from the source to that node.
-  public static <E> Map<GraphGeneric.Node<E>, Integer> runDijkstra(GraphGeneric<E> graph,
-                                                                   GraphGeneric.Node<E> source) {
-    Map<GraphGeneric.Node<E>, Integer> distances = new HashMap<>();
+  public static <E> Map<GraphGeneric<E>.Node, Integer> runDijkstra(GraphGeneric<E> graph,
+                                                                   GraphGeneric<E>.Node source) {
+    Map<GraphGeneric<E>.Node, Integer> distances = new HashMap<>();
     distances.put(source, 0);
-    PriorityQueueHeap<GraphGeneric.Node<E>> pq = new PriorityQueueHeap<>(graph.nodeCount());
-    for (GraphGeneric.Node<E> node : graph.getNodes()) pq.insert(node, Integer.MAX_VALUE);
+    PriorityQueueHeap<GraphGeneric<E>.Node> pq = new PriorityQueueHeap<>(graph.nodeCount());
+    for (GraphGeneric<E>.Node node : graph.getNodes()) pq.insert(node, Integer.MAX_VALUE);
     pq.changePriority(source, 0);
     while (!pq.isEmpty()) {
-      GraphGeneric.Node<E> nextMinNode = pq.getHighestPriority().getItem();
+      GraphGeneric<E>.Node nextMinNode = pq.getHighestPriority().getItem();
       distances.put(nextMinNode, pq.deleteHighestPriority().getPriority());
       updateNeighbors(graph, pq, nextMinNode, distances);
     }
@@ -29,10 +29,10 @@ public class Dijkstra {
   }
 
   private static <E> void updateNeighbors(GraphGeneric<E> graph,
-                                          PriorityQueueHeap<GraphGeneric.Node<E>> pq,
-                                          GraphGeneric.Node<E> node,
-                                          Map<GraphGeneric.Node<E>, Integer> distances) {
-    for (GraphGeneric.Node<E> neighbor : graph.getNeighbors(node).keySet()) {
+                                          PriorityQueueHeap<GraphGeneric<E>.Node> pq,
+                                          GraphGeneric<E>.Node node,
+                                          Map<GraphGeneric<E>.Node, Integer> distances) {
+    for (GraphGeneric<E>.Node neighbor : graph.getNeighbors(node).keySet()) {
       int newDistance = distances.get(node) + graph.checkEdgeWeight(node, neighbor);
       if (!distances.containsKey(neighbor) || newDistance < distances.get(neighbor)) {
         distances.put(neighbor, newDistance);

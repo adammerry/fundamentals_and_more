@@ -11,11 +11,11 @@ import java.util.Map;
 // - Adding a new node to the graph is O(1).
 // - Nodes may be represented by any type of object.
 public class GraphAdjacencyListBetter<E> {
-  private Map<Node<E>, List<Node<E>>> adjMap;
+  private Map<Node, List<Node>> adjMap;
 
   public GraphAdjacencyListBetter() { adjMap = new HashMap<>(); }
 
-  public static class Node<E> {
+  public class Node {
     private E data;
     private boolean seen; // Useful for searching algorithms such as BFS and DFS.
 
@@ -31,11 +31,15 @@ public class GraphAdjacencyListBetter<E> {
     public void setSeen(boolean seen) { this.seen = seen; }
   }
 
-  public Map<Node<E>, List<Node<E>>> getGraph() { return adjMap; }
+  public Map<Node, List<Node>> getGraph() { return adjMap; }
 
-  public void addNode(Node<E> node) { adjMap.put(node, new LinkedList<>()); }
+  public Node addNode(E data) {
+    Node node = new Node(data);
+    adjMap.put(node, new LinkedList<>());
+    return node;
+  }
 
-  public void addEdge(Node<E> node1, Node<E> node2) {
+  public void addEdge(Node node1, Node node2) {
     if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
       throw new IllegalArgumentException("Cannot add edge between nonexistent nodes");
     if (!adjMap.get(node1).contains(node2)) {
@@ -44,21 +48,21 @@ public class GraphAdjacencyListBetter<E> {
     }
   }
 
-  public void removeEdge(Node<E> node1, Node<E> node2) {
+  public void removeEdge(Node node1, Node node2) {
     if (!(adjMap.containsKey(node1) && adjMap.containsKey(node2)))
       throw new IllegalArgumentException("Cannot remove edge between nonexistent nodes");
     adjMap.get(node1).remove(node2);
     adjMap.get(node2).remove(node1);
   }
 
-  public void removeNode(Node<E> node) {
+  public void removeNode(Node node) {
     if (!adjMap.containsKey(node))
       throw new IllegalArgumentException("Cannot remove nonexistent node");
-    for (Node<E> neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
+    for (Node neighbor : adjMap.get(node)) adjMap.get(neighbor).remove(node);
     adjMap.remove(node);
   }
 
-  public boolean checkEdge(Node<E> node1, Node<E> node2) {
+  public boolean checkEdge(Node node1, Node node2) {
     return adjMap.containsKey(node1) && adjMap.get(node1).contains(node2);
   }
 }
