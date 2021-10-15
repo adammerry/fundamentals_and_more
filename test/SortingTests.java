@@ -19,7 +19,6 @@ import sorting.TopologicalSort;
 public class SortingTests {
   private int[] l1, l2, l3, l4, l5, l6, l7, l8, s1, s2, s3, s4, s5, s6, s7, s8;
   private GraphGeneric<Integer> g;
-  private List<GraphGeneric<Integer>.Node> sort;
   private GraphGeneric<Integer>.Node node1;
   private GraphGeneric<Integer>.Node node2;
   private GraphGeneric<Integer>.Node node3;
@@ -27,6 +26,7 @@ public class SortingTests {
   private GraphGeneric<Integer>.Node node5;
   private GraphGeneric<Integer>.Node node6;
   private GraphGeneric<Integer>.Node node7;
+  private List<GraphGeneric<Integer>.Node> sort;
 
   @BeforeEach
   public void setUpArrays() {
@@ -175,14 +175,15 @@ public class SortingTests {
   @Test
   public void testTopologicalSortQueue() {
     assertEquals(sort, TopologicalSort.topSortQueue(g));
-    sort.add(g.addNode(1));
+    node1 = g.addNode(1);
+    sort.add(node1);
     assertEquals(sort, TopologicalSort.topSortQueue(g));
-    sort.add(g.addNode(2));
-    sort.add(g.addNode(3));
-    sort.add(g.addNode(4));
-    sort.add(g.addNode(5));
-    sort.add(g.addNode(6));
-    sort.add(g.addNode(7));
+    node2 = g.addNode(2);
+    node3 = g.addNode(3);
+    node4 = g.addNode(4);
+    node5 = g.addNode(5);
+    node6 = g.addNode(6);
+    node7 = g.addNode(7);
     // To prevent the possibility of failing a test by producing a valid topological ordering
     // that is different than the one the test is checking for, create a graph that has only one
     // valid ordering.
@@ -213,15 +214,16 @@ public class SortingTests {
   @Test
   public void testTopologicalSortDFS() {
     assertEquals(sort, TopologicalSort.topSortDFS(g));
-    sort.add(g.addNode(1));
+    node1 = g.addNode(1);
+    sort.add(node1);
     assertEquals(sort, TopologicalSort.topSortDFS(g));
     node1.setSeen(false);
-    sort.add(g.addNode(2));
-    sort.add(g.addNode(3));
-    sort.add(g.addNode(4));
-    sort.add(g.addNode(5));
-    sort.add(g.addNode(6));
-    sort.add(g.addNode(7));
+    node2 = g.addNode(2);
+    node3 = g.addNode(3);
+    node4 = g.addNode(4);
+    node5 = g.addNode(5);
+    node6 = g.addNode(6);
+    node7 = g.addNode(7);
     // To prevent the possibility of failing a test by producing a valid topological ordering
     // that is different than the one the test is checking for, create a graph that has only one
     // valid ordering.
