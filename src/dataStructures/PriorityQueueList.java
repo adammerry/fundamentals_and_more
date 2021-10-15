@@ -6,20 +6,20 @@ import java.util.NoSuchElementException;
 
 // Implementation of a generic priority queue using a LinkedList as the underlying data structure.
 public class PriorityQueueList<E> {
-  private List<PriorityQueueElement<E>> elements;
+  private List<PriorityQueueElement> elements;
 
   public PriorityQueueList() { elements =  new LinkedList<>(); }
 
-  private class PriorityQueueElement<F> {
-    private F item;
+  private class PriorityQueueElement {
+    private E item;
     private int priority;
 
-    private PriorityQueueElement(F item, int priority) {
+    private PriorityQueueElement(E item, int priority) {
       this.item = item;
       this.priority = priority;
     }
 
-    private F getItem() { return item; }
+    private E getItem() { return item; }
 
     private int getPriority() { return priority; }
 
@@ -28,11 +28,11 @@ public class PriorityQueueList<E> {
 
   public void insert(E item, int priority) {
     int insertIdx = 0;
-    for (PriorityQueueElement<E> element : elements) {
+    for (PriorityQueueElement element : elements) {
       if (priority < element.getPriority()) break;
       insertIdx++;
     }
-    elements.add(insertIdx, new PriorityQueueElement<>(item, priority));
+    elements.add(insertIdx, new PriorityQueueElement(item, priority));
   }
 
   public E getHighestPriority() {
@@ -76,7 +76,7 @@ public class PriorityQueueList<E> {
   }
 
   private void swap(int i, int j) {
-    PriorityQueueElement<E> temp = elements.get(i);
+    PriorityQueueElement temp = elements.get(i);
     elements.set(i, elements.get(j));
     elements.set(j, temp);
   }
