@@ -19,7 +19,8 @@ public class HashTableOpen {
   }
 
   private class Record {
-    private Object key, value;
+    private final Object key;
+    private Object value;
 
     private Record(Object key, Object value) {
       this.key = key;

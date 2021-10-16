@@ -9,8 +9,9 @@ import java.util.ArrayList; // Use Java builtin ArrayList instead of my custom A
 // would be implemented using an Array in other languages, or in Java without generics.
 public class PriorityQueueArray<E> {
   private static final int DEFAULT_CAPACITY = 10;
-  private int size, capacity;
-  private ArrayList<PriorityQueueElement> elements;
+  private final int capacity;
+  private int size;
+  private final ArrayList<PriorityQueueElement> elements;
 
   public PriorityQueueArray(int customCapacity) {
     capacity = (customCapacity > 0) ? customCapacity : DEFAULT_CAPACITY;
@@ -20,7 +21,7 @@ public class PriorityQueueArray<E> {
   }
 
   private class PriorityQueueElement {
-    private E item;
+    private final E item;
     private int priority;
 
     private PriorityQueueElement(E item, int priority) {

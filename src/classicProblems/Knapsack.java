@@ -7,7 +7,7 @@ public class Knapsack {
 
   // ------------------------------------------------------------------------------------------- //
 
-  public static int bruteForceSolution(int weightLimit, int weights[], int[] values) {
+  public static int bruteForceSolution(int weightLimit, int[] weights, int[] values) {
     return bruteForceSolutionHelper(weightLimit, weights, values, 0);
   }
 
@@ -24,7 +24,7 @@ public class Knapsack {
 
   // ------------------------------------------------------------------------------------------- //
 
-  public static int dynamicProgrammingSolution(int weightLimit, int weights[], int[] values) {
+  public static int dynamicProgrammingSolution(int weightLimit, int[] weights, int[] values) {
     // Create an array containing the optimal values for all weight limits and for all items, up to
     // the given weight limit and final item. Include a row for a weight limit of 0, and a column
     // for 0 items.

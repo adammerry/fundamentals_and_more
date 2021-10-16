@@ -61,7 +61,7 @@ public class ArrayList<E> implements Iterable<E> {
 
   private class ArrayListIterator<F> implements Iterator<F> {
     int nextIdx = 0;
-    private F[] elements;
+    private final F[] elements;
 
     ArrayListIterator(F[] arr) { elements = arr; }
 

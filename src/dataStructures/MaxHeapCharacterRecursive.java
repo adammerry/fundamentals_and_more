@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 // recursive style.
 public class MaxHeapCharacterRecursive {
   private static int MAX_SIZE = 100;
-  private Character[] heap;
+  private final Character[] heap;
   private int nextIdx;
 
   public MaxHeapCharacterRecursive() {

@@ -13,7 +13,7 @@ import java.util.Queue;
 // - No red node has a red child.
 // - For any node, every path from that node to a leaf touches the same number of black nodes.
 public class RedBlackTree<E extends Comparable<? super E>> {
-  private TreeNode root = new NullNode<>();
+  private TreeNode root = new NullNode();
   private int size;
 
   private enum Color {
@@ -49,8 +49,8 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       this.data = data;
       this.color = Color.RED;
       this.isDoubleBlack = false;
-      this.leftChild = new NullNode<>();
-      this.rightChild = new NullNode<>();
+      this.leftChild = new NullNode();
+      this.rightChild = new NullNode();
     }
 
     TreeNode insertHelper(DataNode insertDataNode, DataNode parent) {
@@ -79,7 +79,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   // Class representing nodes in the Red-Black tree that do not store data. These nodes are used
   // as children of data-storing nodes to indicate the lack of a data-storing child. All null nodes
   // are black, and are capable of becoming double-black nodes during the deletion process.
-  private class NullNode<F extends Comparable<? super E>> extends TreeNode {
+  private class NullNode extends TreeNode {
 
     private NullNode() {
       color = Color.BLACK;
@@ -219,7 +219,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     // Find the node to be deleted.
     DataNode deleteNode = search(deleteData);
     if (deleteNode != null) {
-      // If node to delete has two data-storing children, replace it with it's inorder successor.
+      // If node to delete has two data-storing children, replace it with its inorder successor.
       if (deleteNode.getLeftChild().isDataNode() && deleteNode.getRightChild().isDataNode()) {
         DataNode successor = findLeftMostNode((DataNode) deleteNode.getRightChild());
         deleteNode.setData(successor.getData());
@@ -287,10 +287,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       sibling.setColor(Color.RED);
       // The double-black node is now parent. If parent is root, we can short-circuit, since this
       // situation corresponds to case 1. Otherwise, we recurse on parent.
-      if (parent != root) {
-        if (parent.getParent().getLeftChild() == parent) handleDoubleBlack(parent, true);
-        else handleDoubleBlack(parent, false);
-      }
+      if (parent != root) handleDoubleBlack(parent, parent.getParent().getLeftChild() == parent);
     }
     if (caseNum == 4) {
       parent.setColor(Color.BLACK);

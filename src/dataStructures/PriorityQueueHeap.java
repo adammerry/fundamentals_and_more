@@ -9,10 +9,11 @@ import java.util.NoSuchElementException;
 // executed in sub-linear worst-case time.
 public class PriorityQueueHeap<E> {
   private static final int DEFAULT_CAPACITY = 10;
-  private ArrayList<PriorityQueueElement> heap;
+  private final ArrayList<PriorityQueueElement> heap;
   // HashMap used for locating indices of queue elements in O(1) time.
-  private HashMap<E, Integer> idxMap;
-  private int size, capacity;
+  private final HashMap<E, Integer> idxMap;
+  private final int capacity;
+  private int size;
 
   public PriorityQueueHeap(int customCapacity) {
     capacity = (customCapacity > 0) ? customCapacity : DEFAULT_CAPACITY;

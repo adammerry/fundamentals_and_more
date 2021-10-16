@@ -8,8 +8,8 @@ import java.util.Set;
 // can be treated as weighted or unweighted, and directed or undirected.
 public class GraphGeneric<E> {
   // [Node -> [Neighbor -> Weight]]
-  private Map<Node, Map<Node, Integer>> adjMap;
-  private boolean directed;
+  private final Map<Node, Map<Node, Integer>> adjMap;
+  private final boolean directed;
 
   public GraphGeneric(boolean directed) {
     adjMap = new HashMap<>();
@@ -17,7 +17,7 @@ public class GraphGeneric<E> {
   }
 
   public class Node {
-    private E data;
+    private final E data;
     private boolean seen; // Useful for searching algorithms such as BFS and DFS.
 
     public Node(E data) {
@@ -68,9 +68,7 @@ public class GraphGeneric<E> {
 
   public int nodeCount() { return adjMap.size(); }
 
-  public Map<Node, Integer> getNeighbors(Node node) {
-    return adjMap.getOrDefault(node, null);
-  }
+  public Map<Node, Integer> getNeighbors(Node node) { return adjMap.getOrDefault(node, null); }
 
   public Set<Node> getNodes() { return adjMap.keySet(); }
 }

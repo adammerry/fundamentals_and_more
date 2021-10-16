@@ -13,7 +13,7 @@ import java.util.Stack;
 // programming solution to the Traveling Salesman problem on an undirected graph. (The dynamic
 // programming solution produces only the minimum cost, not the entire path.)
 public class TravelingSalesman {
-  private int[][] graph;
+  private final int[][] graph;
 
   public TravelingSalesman(int[][] adjMatrix) {
     if (adjMatrix.length < 4) throw new IllegalArgumentException("Graph is not interesting");
@@ -139,8 +139,7 @@ public class TravelingSalesman {
     }
   }
 
-  // Return a new set containing all elements of the given set, with the exception of the element
-  // to be excluded.
+  // Return a new set containing all elements of the given set, except the element to be excluded.
   private static Set<Integer> copyAllExcept(Set<Integer> oldSet, int excluded) {
     Set<Integer> newSet = new HashSet<>();
     for (int elem : oldSet) if (elem != excluded) newSet.add(elem);

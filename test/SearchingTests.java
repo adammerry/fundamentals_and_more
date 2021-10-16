@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,35 +15,16 @@ import searching.Traversals;
 
 public class SearchingTests {
   private GraphAdjacencyListBetter<Integer> graph;
-  private GraphAdjacencyListBetter<Integer>.Node node1;
-  private GraphAdjacencyListBetter<Integer>.Node node2;
-  private GraphAdjacencyListBetter<Integer>.Node node3;
-  private GraphAdjacencyListBetter<Integer>.Node node4;
-  private GraphAdjacencyListBetter<Integer>.Node node5;
-  private GraphAdjacencyListBetter<Integer>.Node node6;
-  private GraphAdjacencyListBetter<Integer>.Node node7;
-  private GraphAdjacencyListBetter<Integer>.Node node8;
-  private GraphAdjacencyListBetter<Integer>.Node node9;
-  private GraphAdjacencyListBetter<Integer>.Node node10;
-  private GraphAdjacencyListBetter<Integer>.Node node11;
-  private GraphAdjacencyListBetter<Integer>.Node node12;
   private BinaryTree<Integer> tree;
 
   @BeforeEach
   public void setUpGraphAndTree() {
     graph = new GraphAdjacencyListBetter<>();
-    node1 = graph.addNode(15);
-    node2 = graph.addNode(75);
-    node3 = graph.addNode(12);
-    node4 = graph.addNode(22);
-    node5 = graph.addNode(19);
-    node6 = graph.addNode(74);
-    node7 = graph.addNode(11);
-    node8 = graph.addNode(29);
-    node9 = graph.addNode(88);
-    node10 = graph.addNode(3);
-    node11 = graph.addNode(4);
-    node12 = graph.addNode(1);
+    GraphAdjacencyListBetter<Integer>.Node node1 = graph.addNode(15), node2 = graph.addNode(75),
+            node3 = graph.addNode(12), node4 = graph.addNode(22), node5 = graph.addNode(19),
+            node6 = graph.addNode(74), node7 = graph.addNode(11), node8 = graph.addNode(29),
+            node9 = graph.addNode(88), node10 = graph.addNode(3), node11 = graph.addNode(4),
+            node12 = graph.addNode(1);
     graph.addEdge(node1, node2);
     graph.addEdge(node2, node3);
     graph.addEdge(node3, node4);
@@ -82,7 +63,7 @@ public class SearchingTests {
 
   @Test
   public void testBFS() {
-    BFS bfs = new BFS(graph, tree);
+    BFS<Integer> bfs = new BFS<>(graph, tree);
     // Test bfsGraphWithSeenField().
     assertTrue(bfs.bfsGraphWithSeenField(15));
     assertTrue(bfs.bfsGraphWithSeenField(75));
@@ -128,7 +109,7 @@ public class SearchingTests {
 
   @Test
   public void testDFS() {
-    DFS dfs = new DFS(graph, tree);
+    DFS<Integer> dfs = new DFS<>(graph, tree);
     // Test dfsGraphIterative().
     assertTrue(dfs.dfsGraphIterative(15));
     assertTrue(dfs.dfsGraphIterative(75));

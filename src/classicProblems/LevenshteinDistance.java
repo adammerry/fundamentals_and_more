@@ -59,8 +59,7 @@ public class LevenshteinDistance {
     if (s1 == null || s2 == null) throw new IllegalArgumentException("Null argument found");
     char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
     // Initialize DP array.
-    int[] dists1 = new int[c2.length + 1], dists2 = new int[c2.length + 1];
-    int[] currArray = dists1, prevArray = dists2;
+    int[] currArray = new int[c2.length + 1], prevArray = new int[c2.length + 1];
     for (int j = 0; j <= c2.length; j++) currArray[j] = j;
     for (int i = 1; i <= c1.length; i++) {
       // Swap which array is currently being used to store values.

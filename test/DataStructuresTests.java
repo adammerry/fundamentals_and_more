@@ -2,8 +2,9 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -17,8 +18,8 @@ import dataStructures.GraphAdjacencyListBest;
 import dataStructures.GraphAdjacencyListBetter;
 import dataStructures.GraphAdjacencyMatrix;
 import dataStructures.GraphGeneric;
-import dataStructures.HashTableOpen;
 import dataStructures.HashTableClosed;
+import dataStructures.HashTableOpen;
 import dataStructures.LinkedList;
 import dataStructures.MaxHeapCharacterRecursive;
 import dataStructures.MinHeapIntegerIterative;
@@ -112,17 +113,17 @@ public class DataStructuresTests {
     b.insert(3);
     assertEquals(new Integer(6), b.search(6).getData());
     b.delete(3);
-    assertEquals(null, b.search(3));
+    assertNull(b.search(3));
     b.delete(4);
-    assertEquals(null, b.search(4));
+    assertNull(b.search(4));
     b.delete(0);
-    assertEquals(null, b.search(0));
+    assertNull(b.search(0));
     b.delete(7);
-    assertEquals(null, b.search(7));
+    assertNull(b.search(7));
     b.delete(8);
-    assertEquals(null, b.search(8));
+    assertNull(b.search(8));
     b.delete(6);
-    assertEquals(null, b.search(6));
+    assertNull(b.search(6));
     b.delete(9);
     assertThrows(IllegalArgumentException.class, () -> b.insert(null));
     assertThrows(IllegalArgumentException.class, () -> b.delete(null));
@@ -352,7 +353,7 @@ public class DataStructuresTests {
   }
 
   @Test
-  public void testRedBlacktree() {
+  public void testRedBlackTree() {
     RedBlackTree<Integer> rbt = new RedBlackTree<>();
     assertThrows(NoSuchElementException.class, rbt::getMax);
     assertThrows(NoSuchElementException.class, rbt::getMin);
@@ -735,14 +736,14 @@ public class DataStructuresTests {
     assertTrue(h.containsKey(15));
     assertTrue(h.containsKey("     "));
     assertTrue(h.containsKey(99));
-    assertEquals(null, h.put(42.1, "why"));
+    assertNull(h.put(42.1, "why"));
     assertEquals("why", h.delete(42.1));
     assertEquals(17, h.delete(15));
     assertEquals('w', h.delete("no"));
     assertEquals(true, h.delete('C'));
     assertEquals(999, h.delete(99));
     assertEquals(false, h.delete(22));
-    assertEquals(null, h.put(642, -612));
+    assertNull(h.put(642, -612));
   }
 
   @Test

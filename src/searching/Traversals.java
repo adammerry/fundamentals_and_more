@@ -9,7 +9,7 @@ import dataStructures.BinaryTree;
 // Implementations of an Inorder, a Preorder, a Postorder, and a Level-order traversal of a binary
 // tree of Integers.
 public class Traversals {
-  private BinaryTree<Integer> tree;
+  private final BinaryTree<Integer> tree;
 
   public Traversals() {
     tree = new BinaryTree<>();

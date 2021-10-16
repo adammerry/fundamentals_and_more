@@ -54,7 +54,5 @@ public class GraphAdjacencyListBad {
     adjList[node].clear();
   }
 
-  public boolean checkEdge(int node1, int node2) {
-      return adjList[node1].contains(node2);
-    }
+  public boolean checkEdge(int node1, int node2) { return adjList[node1].contains(node2); }
  }

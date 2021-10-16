@@ -10,14 +10,12 @@ import java.util.Stack;
 public class BinaryTree<E> {
   private Node root, lastNodeParent, lastNode;
 
-  public BinaryTree(Node root) { this.root = lastNode = root; }
-
   public BinaryTree() {}
 
   public Node getRoot() { return root; }
 
   public class Node {
-    private E data;
+    private final E data;
     private Node leftChild, rightChild;
 
     public Node(E data) { this.data = data; }

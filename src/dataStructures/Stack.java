@@ -7,8 +7,8 @@ public class Stack<E> {
   private StackNode top;
 
   private class StackNode {
-    private E data;
-    private StackNode next;
+    private final E data;
+    private final StackNode next;
 
     private StackNode(E data, StackNode next) {
       this.data = data;

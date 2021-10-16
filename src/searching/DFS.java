@@ -12,8 +12,8 @@ import java.util.Stack;
 // Implementations of depth-first search on a graph and a tree. The graph version is
 // slightly more complex, as it must handle cycles as well as disconnected graphs.
 public class DFS<E> {
-  private GraphAdjacencyListBetter<E> graph;
-  private BinaryTree<E> tree;
+  private final GraphAdjacencyListBetter<E> graph;
+  private final BinaryTree<E> tree;
 
   public DFS(GraphAdjacencyListBetter<E> graph, BinaryTree<E> tree) {
     this.graph = graph;

@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 // iterative style.
 public class MinHeapIntegerIterative {
   private static int MAX_SIZE;
-  private Integer[] heap;
+  private final Integer[] heap;
   private int nextIdx;
 
   public MinHeapIntegerIterative() {

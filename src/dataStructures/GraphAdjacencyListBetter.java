@@ -11,12 +11,12 @@ import java.util.Map;
 // - Adding a new node to the graph is O(1).
 // - Nodes may be represented by any type of object.
 public class GraphAdjacencyListBetter<E> {
-  private Map<Node, List<Node>> adjMap;
+  private final Map<Node, List<Node>> adjMap;
 
   public GraphAdjacencyListBetter() { adjMap = new HashMap<>(); }
 
   public class Node {
-    private E data;
+    private final E data;
     private boolean seen; // Useful for searching algorithms such as BFS and DFS.
 
     public Node(E data) {

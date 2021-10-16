@@ -36,7 +36,7 @@ public class NQueens {
     }
   }
 
-  // Determines whether or not a queen can be placed at the given row and column, based on the
+  // Determines whether a queen can be placed at the given row and column, based on the
   // locations of all existing queens.
   private static boolean validPlacement(int n, int row, int col, char[][] board) {
     // Check if any queens have already been placed in this column.
@@ -75,7 +75,7 @@ public class NQueens {
     }
   }
 
-  // Determines whether or not a queen can be placed at the given row and column, based on the
+  // Determines whether a queen can be placed at the given row and column, based on the
   // locations of all existing queens.
   private static boolean validPlacementSpaceEfficient(int row, int col, int[] cols) {
     // Check if any queens have already been placed in this column, or in either diagonal. If the

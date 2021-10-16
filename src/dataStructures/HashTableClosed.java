@@ -12,7 +12,8 @@ public class HashTableClosed {
   private int count = 0, stepSize = calculateStepSize();
 
   private class Record {
-    private Object key, value;
+    private final Object key;
+    private Object value;
     boolean isTombstone;
 
     private Record(Object key, Object value) {

@@ -17,8 +17,8 @@ import java.util.Set;
 // number of iterations needed to find the given node, since it avoids keeping the desired node
 // in the queue while the rest of the nodes in the previous level are examined.
 public class BFS<E> {
-  private GraphAdjacencyListBetter<E> graph;
-  private BinaryTree<E> tree;
+  private final GraphAdjacencyListBetter<E> graph;
+  private final BinaryTree<E> tree;
 
   public BFS(GraphAdjacencyListBetter<E> graph, BinaryTree<E> tree) {
     this.graph = graph;
@@ -26,7 +26,7 @@ public class BFS<E> {
   }
 
   // BFS on a graph, where nodes are assumed to offer a "seen" boolean field that can be set to
-  // reflect whether or not a particular node has been visited in the BFS.
+  // reflect whether a particular node has been visited in the BFS.
   public boolean bfsGraphWithSeenField(E searchVal) {
     if (searchVal != null) {
       Map<GraphAdjacencyListBetter<E>.Node,
@@ -65,7 +65,7 @@ public class BFS<E> {
 
 
   // BFS on a graph, where nodes are *not* assumed to offer a "seen" boolean field that can be set
-  // to reflect whether or not a particular node has been visited in the BFS. Therefore, an
+  // to reflect whether a particular node has been visited in the BFS. Therefore, an
   // explicit Set must be used to maintain this information.
   public boolean bfsGraphWithSeenSet(E searchVal) {
     if (searchVal != null) {

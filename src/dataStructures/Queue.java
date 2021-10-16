@@ -7,8 +7,9 @@ public class Queue<E> {
   private QueueNode head, tail;
 
   private class QueueNode {
-    private E data;
+    private final E data;
     private QueueNode next;
+
     private QueueNode(E data) { this.data = data; }
   }
 

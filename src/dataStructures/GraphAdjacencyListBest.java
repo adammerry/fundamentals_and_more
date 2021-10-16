@@ -11,12 +11,12 @@ import java.util.Set;
 // - Checking if an edge exists between two nodes
 // - Adding an edge between two nodes
 public class GraphAdjacencyListBest<E> {
-  private Map<Node, Set<Node>> adjMap;
+  private final Map<Node, Set<Node>> adjMap;
 
   public GraphAdjacencyListBest() { adjMap = new HashMap<>(); }
 
   public class Node {
-    private E data;
+    private final E data;
     private boolean seen; // Useful for searching algorithms such as BFS and DFS.
 
     public Node(E data) {

@@ -7,13 +7,13 @@ public class BitMethods {
   // Returns a String representing the binary form of the given decimal number.
   public static String convertToBinary(int num) {
     if (num == 0) return "0";
-    String binary = "";
+    StringBuilder binary = new StringBuilder();
     while (num > 0) {
       int bit = num % 2;
-      binary = ((bit == 0) ? "0" : "1") + binary;
+      binary.append((bit == 0) ? "0" : "1");
       num >>= 1;
     }
-    return binary;
+    return binary.reverse().toString();
   }
 
   // Converts a String representation of a positive number in any base from 2 to 16, to a decimal
@@ -63,5 +63,7 @@ public class BitMethods {
   public static boolean oneBitSet(int num) { return (num != 0) && ((num & (num - 1)) == 0); }
 
   // Returns the lowest set bit in the given positive integer.
-  public static int lowestBit(int num) { return num & ~(num - 1); }
+  // Note that since Java stores negative integers in two's complement notation, "~(num - 1)" can
+  // be substituted by "-num".
+  public static int lowestBit(int num) { return num & -num; }
 }

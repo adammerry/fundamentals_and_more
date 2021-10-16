@@ -11,7 +11,7 @@ public class Trie {
   public Trie() { root = new TrieNode(); }
 
   private class TrieNode {
-    private TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+    private final TrieNode[] children = new TrieNode[ALPHABET_SIZE];
     private boolean wordEnd;
     private int childCount;
 

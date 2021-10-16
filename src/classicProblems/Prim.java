@@ -15,8 +15,8 @@ public class Prim {
 
   // Prim's algorithm will return a set of Edge objects, representing the MST.
   public static class Edge<E> {
-    private GraphGeneric<E>.Node node1, node2;
-    private int weight;
+    private final GraphGeneric<E>.Node node1, node2;
+    private final int weight;
 
     Edge(GraphGeneric<E>.Node node1, GraphGeneric<E>.Node node2, int weight) {
       this.node1 = node1;

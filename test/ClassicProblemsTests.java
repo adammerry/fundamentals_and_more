@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -10,7 +11,6 @@ import java.util.Set;
 import java.util.Stack;
 
 import classicProblems.BellmanFord;
-import dataStructures.GraphGeneric;
 import classicProblems.Dijkstra;
 import classicProblems.Knapsack;
 import classicProblems.LevenshteinDistance;
@@ -18,23 +18,14 @@ import classicProblems.NQueens;
 import classicProblems.Prim;
 import classicProblems.TowersOfHanoi;
 import classicProblems.TravelingSalesman;
+import dataStructures.GraphGeneric;
 
 public class ClassicProblemsTests {
-  private int[][] g1 = new int[4][4];
-  private int[][] g2 = new int[5][5];
-  private List<Integer> g1Solution;
-  private List<Integer> g2Solution;
+  private final int[][] g1 = new int[4][4], g2 = new int[5][5];
+  private final List<Integer> g1Solution, g2Solution;
 
-  private int[] weights1;
-  private int[] values1;
-  private int[] weights2;
-  private int[] values2;
-  private int weightLim1;
-  private int weightLim2;
-  private int weightLim3;
-  private int weightLim4;
-  private int weightLim5;
-  private int weightLim6;
+  private final int[] weights1, values1, weights2, values2;
+  private final int weightLim1, weightLim2, weightLim3, weightLim4, weightLim5, weightLim6;
 
   public ClassicProblemsTests() {
     g1[0][1] = 10;
@@ -106,7 +97,7 @@ public class ClassicProblemsTests {
   }
 
   @Test
-  public void testTraveingSalesmanDynamicProgrammingSolution() {
+  public void testTravelingSalesmanDynamicProgrammingSolution() {
     TravelingSalesman ts1 = new TravelingSalesman(g1);
     Integer dpSolution1 = ts1.dynamicProgrammingSolution();
     assertEquals(new Integer(80), dpSolution1);
@@ -121,22 +112,17 @@ public class ClassicProblemsTests {
     assertThrows(IllegalArgumentException.class, () -> new TravelingSalesman(new int[4][5]));
   }
 
-  // Since a solution to TSP is a cycle of vertices, it is valid both forward and
-  // backward on an undirected graph. Therefore, we must check both cases to ensure that one of
-  // them is the path returned.
+  // Since a solution to TSP is a cycle of vertices, it is valid both forward and backward on an
+  // undirected graph. Therefore, we must check both cases to ensure that one of them is the path
+  // returned.
   private boolean checkSolutionBothDirections(List<Integer> solution1, List<Integer> solution2) {
     boolean solutionCorrect = true;
-    for (int i = 0; i < solution1.size(); i++)
+    for (int i = 0; i < solution1.size() && solutionCorrect; i++)
       if (!solution1.get(i).equals(solution2.get(i))) solutionCorrect = false;
-    if (!solutionCorrect) {
-      solutionCorrect = true;
-      for (int i = 0; i < solution1.size(); i++) {
-        if (!solution1.get(solution1.size() - 1 - i).equals(solution2.get(i))) {
-          solutionCorrect = false;
-        }
-      }
-    }
-    return solutionCorrect;
+    if (solutionCorrect) return true;
+    for (int i = 0; i < solution1.size(); i++)
+      if (!solution1.get(solution1.size() - 1 - i).equals(solution2.get(i))) return false;
+    return true;
   }
 
   @Test
