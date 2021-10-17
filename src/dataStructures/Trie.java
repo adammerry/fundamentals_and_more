@@ -53,7 +53,7 @@ public class Trie {
   }
 
   public boolean search(String word) {
-    if (word == null) return false;
+    if (word == null) throw new IllegalArgumentException("Argument cannot be null");
     int childIdx;
     TrieNode currNode = root;
     for (int i = 0; i < word.length(); i++) {
@@ -65,7 +65,7 @@ public class Trie {
   }
 
   public void delete(String word) {
-    if (word == null) return;
+    if (word == null) throw new IllegalArgumentException("Argument cannot be null");
     root = deleteHelper(root, word, 0);
   }
 

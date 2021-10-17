@@ -8,7 +8,7 @@ import java.util.Queue;
 public class BinarySearchTree<E extends Comparable<? super E>> {
   private Node root;
 
-  public class Node {
+  private class Node {
     private E data;
     private Node leftChild, rightChild;
 
@@ -50,17 +50,16 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
     return node;
   }
 
-  // Find and return the node in the tree with data equal to the given data. If no such node
-  // exists, return null.
-  public Node search(E searchData) {
-    if (searchData == null) return null;
+  // Find the node in the tree with data equal to the given data.
+  public boolean search(E searchData) {
+    if (searchData == null) throw new IllegalArgumentException("Data cannot be null");
     Node currNode = root;
     while (currNode != null) {
-      if (currNode.getData().equals(searchData)) return currNode;
+      if (currNode.getData().equals(searchData)) return true;
       if (currNode.getData().compareTo(searchData) > 0) currNode = currNode.getLeftChild();
       else currNode = currNode.getRightChild();
     }
-    return null;
+    return false;
   }
 
   // Delete the node in the tree that has data equal to the given data, if such a node exists.

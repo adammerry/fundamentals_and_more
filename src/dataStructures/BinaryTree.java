@@ -37,9 +37,9 @@ public class BinaryTree<E> {
 
   // Find the node in the tree that contains the given data, using a breadth-first search.
   public boolean bfs(E data) {
-    if (root == null || data == null) return false;
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
     Queue<Node> nodes = new LinkedList<>();
-    nodes.offer(root);
+    if (root != null) nodes.offer(root);
     while (!nodes.isEmpty()) {
       Node next = nodes.poll();
       if (next.getData().equals(data)) return true;
@@ -51,9 +51,9 @@ public class BinaryTree<E> {
 
   // Find the node in the tree that contains the given data, using a depth-first search.
   public boolean dfs(E data) {
-    if (root == null || data == null) return false;
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
     Stack<Node> nodes = new Stack<>();
-    nodes.push(root);
+    if (root != null) nodes.push(root);
     while (!nodes.isEmpty()) {
       Node next = nodes.pop();
       if (next.getData().equals(data)) return true;

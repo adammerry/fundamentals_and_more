@@ -36,6 +36,8 @@ public class GraphAdjacencyListBad {
   }
 
   public void removeEdge(int node1, int node2) {
+    if (node1 < 0 || node2 < 0 || node1 >= adjList.length || node2 >= adjList.length)
+      throw new IllegalArgumentException("Invalid node number given");
     int idxOf2 = adjList[node1].indexOf(node2), idxOf1 = adjList[node2].indexOf(node1);
     if (idxOf2 != -1) {
       adjList[node1].remove(idxOf2);
@@ -44,6 +46,8 @@ public class GraphAdjacencyListBad {
   }
 
   public void removeNode(int node) {
+    if (node < 0 || node >= adjList.length)
+      throw new IllegalArgumentException("Invalid node number given");
     // Remove the given node from all neighbor lists. Do not remove the given node's list from
     // the adjacency list, since that would cause re-numbering issues among nodes.
     List<Integer> neighbors = adjList[node];

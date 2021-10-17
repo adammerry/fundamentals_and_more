@@ -33,6 +33,7 @@ public class GraphGeneric<E> {
   }
 
   public Node addNode(E data) {
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
     Node node = new Node(data);
     adjMap.put(node, new HashMap<>());
     return node;

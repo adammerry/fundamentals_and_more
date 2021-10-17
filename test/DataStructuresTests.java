@@ -92,8 +92,8 @@ public class DataStructuresTests {
     assertTrue(b.bfs(4));
     assertTrue(b.bfs(5));
     assertTrue(b.bfs(6));
-    assertFalse(b.bfs(null));
-    assertFalse(b.dfs(null));
+    assertThrows(IllegalArgumentException.class, () -> b.bfs(null));
+    assertThrows(IllegalArgumentException.class, () -> b.dfs(null));
     assertThrows(IllegalArgumentException.class, () -> b.insert(null));
     assertThrows(IllegalArgumentException.class, () -> b.delete(null));
   }
@@ -101,6 +101,7 @@ public class DataStructuresTests {
   @Test
   public void testBinarySearchTree() {
     BinarySearchTree<Integer> b = new BinarySearchTree<>();
+    assertFalse(b.search(9));
     b.delete(100);
     b.insert(4);
     b.insert(7);
@@ -111,23 +112,23 @@ public class DataStructuresTests {
     b.insert(6);
     b.insert(1);
     b.insert(3);
-    assertEquals(new Integer(6), b.search(6).getData());
+    assertTrue(b.search(6));
     b.delete(3);
-    assertNull(b.search(3));
+    assertFalse(b.search(3));
     b.delete(4);
-    assertNull(b.search(4));
+    assertFalse(b.search(4));
     b.delete(0);
-    assertNull(b.search(0));
+    assertFalse(b.search(0));
     b.delete(7);
-    assertNull(b.search(7));
+    assertFalse(b.search(7));
     b.delete(8);
-    assertNull(b.search(8));
+    assertFalse(b.search(8));
     b.delete(6);
-    assertNull(b.search(6));
+    assertFalse(b.search(6));
     b.delete(9);
     assertThrows(IllegalArgumentException.class, () -> b.insert(null));
     assertThrows(IllegalArgumentException.class, () -> b.delete(null));
-    b.search(null);
+    assertThrows(IllegalArgumentException.class, () -> b.search(null));
   }
 
   @Test
@@ -348,8 +349,8 @@ public class DataStructuresTests {
     t.delete("");
     assertFalse(t.search(""));
     assertThrows(IllegalArgumentException.class, () -> t.insert(null));
-    t.search(null);
-    t.delete(null);
+    assertThrows(IllegalArgumentException.class, () -> t.search(null));
+    assertThrows(IllegalArgumentException.class, () -> t.delete(null));
   }
 
   @Test
@@ -358,42 +359,42 @@ public class DataStructuresTests {
     assertThrows(NoSuchElementException.class, rbt::getMax);
     assertThrows(NoSuchElementException.class, rbt::getMin);
     rbt.insert(50);
-    assertEquals(new Integer(50), rbt.search(50).getData());
+    assertTrue(rbt.search(50));
     assertArrayEquals(new Integer[] {50}, rbt.levelOrderTraversal());
     rbt.insert(40);
-    assertEquals(new Integer(40), rbt.search(40).getData());
+    assertTrue(rbt.search(40));
     assertArrayEquals(new Integer[] {50, 40}, rbt.levelOrderTraversal());
     rbt.insert(30);
-    assertEquals(new Integer(30), rbt.search(30).getData());
+    assertTrue(rbt.search(30));
     assertArrayEquals(new Integer[] {40, 30, 50}, rbt.levelOrderTraversal());
     rbt.insert(70);
-    assertEquals(new Integer(70), rbt.search(70).getData());
+    assertTrue(rbt.search(70));
     assertArrayEquals(new Integer[] {40, 30, 50, 70}, rbt.levelOrderTraversal());
     rbt.insert(65);
-    assertEquals(new Integer(65), rbt.search(65).getData());
+    assertTrue(rbt.search(65));
     assertArrayEquals(new Integer[] {40, 30, 65, 50, 70}, rbt.levelOrderTraversal());
     rbt.insert(35);
-    assertEquals(new Integer(35), rbt.search(35).getData());
+    assertTrue(rbt.search(35));
     assertArrayEquals(new Integer[] {40, 30, 65, 35, 50, 70}, rbt.levelOrderTraversal());
     rbt.insert(37);
-    assertEquals(new Integer(37), rbt.search(37).getData());
+    assertTrue(rbt.search(37));
     assertArrayEquals(new Integer[] {40, 35, 65, 30, 37, 50, 70}, rbt.levelOrderTraversal());
     rbt.insert(20);
-    assertEquals(new Integer(20), rbt.search(20).getData());
+    assertTrue(rbt.search(20));
     assertArrayEquals(new Integer[] {40, 35, 65, 30, 37, 50, 70, 20}, rbt.levelOrderTraversal());
     rbt.insert(23);
-    assertEquals(new Integer(23), rbt.search(23).getData());
+    assertTrue(rbt.search(23));
     assertArrayEquals(new Integer[] {40, 35, 65, 23, 37, 50, 70, 20, 30},
             rbt.levelOrderTraversal());
     // Test that inserting a duplicate value does not alter the tree.
     rbt.insert(23);
-    assertEquals(new Integer(23), rbt.search(23).getData());
+    assertTrue(rbt.search(23));
     assertArrayEquals(new Integer[] {40, 35, 65, 23, 37, 50, 70, 20, 30},
             rbt.levelOrderTraversal());
     assertThrows(IllegalArgumentException.class, () -> rbt.insert(null));
-    assertNull(rbt.search(100));
-    assertNull(rbt.search(null));
-    rbt.delete(null);
+    assertFalse(rbt.search(100));
+    assertThrows(IllegalArgumentException.class, () -> rbt.search(null));
+    assertThrows(IllegalArgumentException.class, () -> rbt.search(null));
     rbt.delete(100);
     rbt.delete(30);
     assertArrayEquals(new Integer[] {40, 35, 65, 23, 37, 50, 70, 20}, rbt.levelOrderTraversal());
@@ -439,10 +440,14 @@ public class DataStructuresTests {
     g.addNode();
     assertTrue(g.checkEdge(0, 1));
     g.removeEdge(0, 1);
+    assertThrows(IllegalArgumentException.class, () -> g.removeEdge(2, 7));
+    assertThrows(IllegalArgumentException.class, () -> g.removeEdge(-3, 4));
     assertFalse(g.checkEdge(0, 1));
     g.addEdge(2, 4);
     assertTrue(g.checkEdge(2, 4));
     g.removeNode(2);
+    assertThrows(IllegalArgumentException.class, () -> g.removeNode(7));
+    assertThrows(IllegalArgumentException.class, () -> g.removeNode(-3));
     assertFalse(g.checkEdge(2, 4));
   }
 
@@ -455,6 +460,7 @@ public class DataStructuresTests {
     GraphAdjacencyListBest<String>.Node node3 = g.addNode("ok");
     GraphAdjacencyListBest<String>.Node node4 = g.addNode("bye");
     GraphAdjacencyListBest<String>.Node node5 = gg.addNode("node in different graph");
+    assertThrows(IllegalArgumentException.class, () -> g.addNode(null));
     assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1, node5));
     assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1, node5));
     assertThrows(IllegalArgumentException.class, () -> g.removeNode(node5));
@@ -478,6 +484,7 @@ public class DataStructuresTests {
     GraphAdjacencyListBetter<String>.Node node3 = g.addNode("ok");
     GraphAdjacencyListBetter<String>.Node node4 = g.addNode("bye");
     GraphAdjacencyListBetter<String>.Node node5 = gg.addNode("node in different graph");
+    assertThrows(IllegalArgumentException.class, () -> g.addNode(null));
     assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1, node5));
     assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1, node5));
     assertThrows(IllegalArgumentException.class, () -> g.removeNode(node5));
@@ -523,6 +530,7 @@ public class DataStructuresTests {
     GraphGeneric<String>.Node node3g = g.addNode("ok");
     GraphGeneric<String>.Node node4g = g.addNode("bye");
     GraphGeneric<String>.Node node1gg = gg.addNode("node in different graph");
+    assertThrows(IllegalArgumentException.class, () -> g.addNode(null));
     assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1g, node1gg));
     assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1g, node1gg));
     assertThrows(IllegalArgumentException.class, () -> g.removeNode(node1gg));

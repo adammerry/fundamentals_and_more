@@ -34,6 +34,7 @@ public class GraphAdjacencyListBest<E> {
   public Map<Node, Set<Node>> getGraph() { return adjMap; }
 
   public Node addNode(E data) {
+    if (data == null) throw new IllegalArgumentException("Data cannot be null");
     Node node = new Node(data);
     adjMap.put(node, new HashSet<>());
     return node;

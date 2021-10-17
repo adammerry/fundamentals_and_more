@@ -41,7 +41,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   // Class representing nodes in the Red-Black tree that store data.
-  public class DataNode extends TreeNode {
+  private class DataNode extends TreeNode {
     private E data;
     private TreeNode leftChild, rightChild;
 
@@ -199,25 +199,23 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
   // Find and return the node in the tree with data equal to the given data. If no such node
   // exists, return null.
-  public DataNode search(E searchData) {
-    if (searchData != null) {
-      TreeNode currNode = root;
-      while (currNode.isDataNode()) {
-        DataNode currDataNode = (DataNode) currNode;
-        if (currDataNode.getData().equals(searchData)) return currDataNode;
-        if (currDataNode.getData().compareTo(searchData) > 0)
+  public boolean search(E searchData) {
+    if (searchData  == null) throw new IllegalArgumentException("Data cannot be null");
+    TreeNode currNode = root;
+    while (currNode.isDataNode()) {
+      DataNode currDataNode = (DataNode) currNode;
+      if (currDataNode.getData().equals(searchData)) return true;
+      if (currDataNode.getData().compareTo(searchData) > 0)
           currNode = currDataNode.getLeftChild();
-        else
-          currNode = currDataNode.getRightChild();
+        else currNode = currDataNode.getRightChild();
       }
-    }
-    return null;
+    return false;
   }
 
   public void delete(E deleteData) {
-    if (deleteData == null) return;
+    if (deleteData == null) throw new IllegalArgumentException("Data cannot be null");
     // Find the node to be deleted.
-    DataNode deleteNode = search(deleteData);
+    DataNode deleteNode = findNode(deleteData);
     if (deleteNode != null) {
       // If node to delete has two data-storing children, replace it with its inorder successor.
       if (deleteNode.getLeftChild().isDataNode() && deleteNode.getRightChild().isDataNode()) {
@@ -258,6 +256,19 @@ public class RedBlackTree<E extends Comparable<? super E>> {
       }
       size--;
     }
+  }
+
+  // Private method to find a Node. Similar to search, but returns the actual Node.
+  private DataNode findNode(E searchData) {
+    TreeNode currNode = root;
+    while (currNode.isDataNode()) {
+      DataNode currDataNode = (DataNode) currNode;
+      if (currDataNode.getData().equals(searchData)) return currDataNode;
+      if (currDataNode.getData().compareTo(searchData) > 0)
+        currNode = currDataNode.getLeftChild();
+      else currNode = currDataNode.getRightChild();
+    }
+    return null;
   }
 
   private void handleDoubleBlack(TreeNode doubleBlackNode, boolean isLeftChild) {
