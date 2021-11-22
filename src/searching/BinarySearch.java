@@ -1,8 +1,16 @@
 package searching;
 
-// Implementation of binary search on a sorted list of ints.
+/**
+ * Implementation of binary search on a sorted array of numbers.
+ */
 public class BinarySearch {
 
+  /**
+   * Runs a binary search on a sorted array of numbers.
+   * @param ints an array of numbers that is assumed to be sorted
+   * @param target the number to search for
+   * @return the index that contains the target number, or -1 if the target is not present
+   */
   public static int binarySearch(int[] ints, int target) {
     int l = 0, r = ints.length - 1;
     while (l <= r) {

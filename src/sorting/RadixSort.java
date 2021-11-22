@@ -1,9 +1,15 @@
 package sorting;
 
-// Implementation of radix sort algorithm to sort an array of ints. This implementation does not
-// support sorting arrays with negative numbers.
+/**
+ * Implementation of radix sort algorithm to sort an array of ints. This implementation does not
+ * support sorting arrays with negative numbers.
+ */
 public class RadixSort {
 
+  /**
+   * Sorts the given array of ints using radix sort.
+   * @param ints the array to sort
+   */
   public static void sort(int[] ints) {
     if (ints == null) throw new IllegalArgumentException("Argument cannot be null");
     if (ints.length < 2) return;
@@ -16,6 +22,12 @@ public class RadixSort {
     for (int i = 1; largest / i > 0; i *= 10) countingSortByDigit(ints, i);
   }
 
+  /**
+   * Performs counting sort based on a specified digit in each number in the array.
+   * @param ints the array to sort
+   * @param divisor a multiple of 10 that corresponds to the particular digit of each number that
+   *                will be used for this iteration of counting sort
+   */
   private static void countingSortByDigit(int[] ints, int divisor) {
     int base = 10;
     int[] counts = new int[base], output = new int[ints.length];

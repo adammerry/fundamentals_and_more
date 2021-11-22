@@ -9,18 +9,27 @@ import java.util.Queue;
 
 import dataStructures.GraphGeneric;
 
-// Implementations of algorithms that produce a topological sort of nodes in a directed, acyclic
-// graph (DAG). A topological sort is an ordering of all nodes in a DAG such that for each edge
-// U->V, node U comes before node V in the ordering.
+/**
+ * Implementations of algorithms that produce a topological sort of nodes in a directed, acyclic
+ * graph (DAG). A topological sort is an ordering of all nodes in a DAG such that for each edge
+ * U->V, node U comes before node V in the ordering.
+ */
 public class TopologicalSort {
 
-  // A queue-based topological sorting algorithm. This algorithm is perhaps the most common
-  // method of implementing a topological sort. The general strategy is to repeatedly pick a node U
-  // with 0 incoming edges, add U to the sorted list, and then decrease the number of incoming edges
-  // for all nodes V for which there are edges U->V. If at any time before the full output list
-  // has been constructed, there are no remaining nodes with 0 incoming edges, then it can be
-  // concluded that the given graph contains a cycle, and therefore a topological sort is not
-  // possible.
+
+
+  /**
+   * A queue-based topological sorting algorithm. This algorithm is perhaps the most common
+   * method of implementing a topological sort. The general strategy is to repeatedly pick a node U
+   * with 0 incoming edges, add U to the sorted list, and then decrease the number of incoming edges
+   * for all nodes V for which there are edges U->V. If at any time before the full output list
+   * has been constructed, there are no remaining nodes with 0 incoming edges, then it can be
+   * concluded that the given graph contains a cycle, and therefore a topological sort is not
+   * possible.
+   * @param graph the graph on which the topological sort will be performed
+   * @param <E> the type of data contained in the graph
+   * @return a topological sort of the given graph, or null if no topological sort is possible
+   */
   public static <E> List<GraphGeneric<E>.Node> topSortQueue(GraphGeneric<E> graph) {
     // Step 1: Construct the necessary maps:
     // - [node -> list of nodes to which this node has outgoing edges]
@@ -55,10 +64,15 @@ public class TopologicalSort {
     return sort.size() == graph.getNodes().size() ? sort : null;
   }
 
-  // A DFS-based topological sorting algorithm. This algorithm operates by performing a post-order
-  // depth-first search from each node. Once all nodes have been added to the output list,
-  // reversing the list will produce a topological sort. This algorithm has the advantage that it
-  // is shorter and simpler to code, but also the disadvantage that it cannot detect cycles.
+  /**
+   * A DFS-based topological sorting algorithm. This algorithm operates by performing a postorder
+   * depth-first search from each node. Once all nodes have been added to the output list,
+   * reversing the list will produce a topological sort. This algorithm has the advantage that it
+   * is shorter and simpler to code, but also the disadvantage that it cannot detect cycles.
+   * @param graph the (acyclic) graph on which the topological sort will be performed
+   * @param <E> the type of data contained in the graph
+   * @return a topological sort of the given graph
+   */
   public static <E> List<GraphGeneric<E>.Node> topSortDFS(GraphGeneric<E> graph) {
     List<GraphGeneric<E>.Node> sort = new LinkedList<>();
     for (GraphGeneric<E>.Node n : graph.getNodes()) if (!n.seen()) dfsHelper(graph, n, sort);
@@ -66,6 +80,13 @@ public class TopologicalSort {
     return sort;
   }
 
+  /**
+   * Helper method for topSortDFS. Runs a postorder DFS from the given node.
+   * @param graph the graph on which the topological sort is being performed
+   * @param n the node currently being examined in the DFS
+   * @param sort the current list of topologically sorted nodes
+   * @param <E> the type of data contained in the graph
+   */
   private static <E> void dfsHelper(GraphGeneric<E> graph, GraphGeneric<E>.Node n,
                                     List<GraphGeneric<E>.Node> sort) {
     n.setSeen(true);

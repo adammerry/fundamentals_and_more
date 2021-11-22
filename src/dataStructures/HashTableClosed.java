@@ -2,9 +2,11 @@ package dataStructures;
 
 import java.util.Arrays;
 
-// Implementation of a hash table where keys and values can be any type of object, the hash
-// function is a simple modulo operation, and the collision resolution policy employs closed
-// hashing with linear probing by steps.
+/**
+ * Implementation of a hash table where keys and values can be any type of object, the hash
+ * function is a simple modulo operation, and the collision resolution policy employs closed
+ * hashing with linear probing by steps.
+ */
 public class HashTableClosed {
   private static final double LOAD_FACTOR_MAX = 0.75, LOAD_FACTOR_MIN = 0.25;
   private static final int INITIAL_CAPACITY = 10;
@@ -32,13 +34,23 @@ public class HashTableClosed {
     private void setTombstone(boolean isTombstone) { this.isTombstone = isTombstone; }
   }
 
+  /**
+   * Calculates the step size for linear probing by steps. The step size must be relatively prime
+   * with respect to the length of the hash table, so that the probe sequence can reach every slot
+   * in the table.
+   * @return the step size
+   */
   private int calculateStepSize() {
-    // The step size must be relatively prime with respect to the length of the hash table, so
-    // that the probe sequence can reach every slot in the table.
     for (int i = 2; i < table.length; i++) if (gcd(i, table.length) == 1) return i;
     return 1;
   }
 
+  /**
+   * Calculates the greatest common denominator of the two given numbers.
+   * @param a a number
+   * @param b a number
+   * @return the greatest common denominator
+   */
   private int gcd(int a, int b) {
     if (a == 0 || b == 0) return 0;
     if (a == 1 || b == 1) return 1; // Not a required base case, but we can short-circuit here.
@@ -46,6 +58,13 @@ public class HashTableClosed {
     return (a > b) ? gcd(a - b, b) : gcd(a, b - a);
   }
 
+  /**
+   * Inserts a new key/value pair into the hash table.
+   * @param key the key to insert
+   * @param value the value to insert
+   * @return the value previously associated with the given key, or null if the key was not
+   * present in the hash table
+   */
   public Object put(Object key, Object value) {
     if (key == null || value == null)
       throw new IllegalArgumentException("Neither key nor value can be null");
@@ -80,6 +99,10 @@ public class HashTableClosed {
     return null;
   }
 
+  /**
+   * Resizes the capacity of the hash table by the given factor.
+   * @param resizeFactor the factor by which the capacity of the hash table should be resized
+   */
   private void rehash(double resizeFactor) {
     Record[] tableCopy = Arrays.copyOf(table, table.length);
     table = new Record[Math.max(INITIAL_CAPACITY, (int)(table.length * resizeFactor))];
@@ -88,6 +111,12 @@ public class HashTableClosed {
     for (Record r : tableCopy) if (!(r == null || r.isTombstone())) put(r.getKey(), r.getValue());
   }
 
+  /**
+   * Gets the value in the hash table associated with the given key.
+   * @param key the key
+   * @return the value associated with the given key, or null if the key is not present in the hash
+   * table
+   */
   public Object get(Object key) {
     if (key == null) throw new IllegalArgumentException("Key cannot be null");
     int slot = Math.abs(key.hashCode()) % table.length;
@@ -99,8 +128,12 @@ public class HashTableClosed {
     return null;
   }
 
-  // Replace the given record with a tombstone and return the record's value if it exists.
-  // Otherwise, return null.
+  /**
+   * Deletes the record (key and value) associated with the given key from the hash table.
+   * @param key the key
+   * @return the value previously associated with the given key, or null if the key is not present
+   * in the hash table
+   */
   public Object delete(Object key) {
     if (key == null) throw new IllegalArgumentException("Key cannot be null");
     int slot, homeSlot;
@@ -122,6 +155,11 @@ public class HashTableClosed {
     return null;
   }
 
+  /**
+   * Determines whether the hash table contains the given key.
+   * @param key the key
+   * @return true if the key is present in the hash table, false otherwise
+   */
   public boolean containsKey(Object key) {
     if (key == null) throw new IllegalArgumentException("Key cannot be null");
     int slot, homeSlot;

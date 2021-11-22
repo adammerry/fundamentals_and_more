@@ -123,12 +123,12 @@ public class SplayTree<E extends Comparable<? super E>> {
   // breadth-first search.
   public void printTree() {
     Queue<Node> nodes = new LinkedList<>();
-    if (root != null) nodes.add(root);
+    if (root != null) nodes.offer(root);
     while (!nodes.isEmpty()) {
       Node next = nodes.poll();
       System.out.print(next.getData() + " ");
-      if (next.getLeftChild() != null) nodes.add(next.getLeftChild());
-      if (next.getRightChild() != null) nodes.add(next.getRightChild());
+      if (next.getLeftChild() != null) nodes.offer(next.getLeftChild());
+      if (next.getRightChild() != null) nodes.offer(next.getRightChild());
     }
   }
 }

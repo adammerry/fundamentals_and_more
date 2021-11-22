@@ -668,13 +668,13 @@ public class DataStructuresTests {
     assertThrows(IllegalStateException.class, () -> pq.insert("ok", 35));
     pq.changePriority("no", -41);
     pq.changePriority("bye", 83);
-    assertEquals("no", pq.getHighestPriority().getItem());
-    assertEquals("no", pq.deleteHighestPriority().getItem());
-    assertEquals("yes", pq.deleteHighestPriority().getItem());
-    assertEquals("goodbye", pq.deleteHighestPriority().getItem());
-    assertEquals("hi", pq.deleteHighestPriority().getItem());
-    assertEquals("hello", pq.deleteHighestPriority().getItem());
-    assertEquals("bye", pq.deleteHighestPriority().getItem());
+    assertEquals("no", pq.getHighestPriority());
+    assertEquals("no", pq.deleteHighestPriority());
+    assertEquals("yes", pq.deleteHighestPriority());
+    assertEquals("goodbye", pq.deleteHighestPriority());
+    assertEquals("hi", pq.deleteHighestPriority());
+    assertEquals("hello", pq.deleteHighestPriority());
+    assertEquals("bye", pq.deleteHighestPriority());
     assertTrue(pq.isEmpty());
     assertThrows(NoSuchElementException.class, pq::getHighestPriority);
     assertThrows(NoSuchElementException.class, pq::deleteHighestPriority);
@@ -790,7 +790,7 @@ public class DataStructuresTests {
     assertThrows(IndexOutOfBoundsException.class, () -> l.get(200));
     assertThrows(IndexOutOfBoundsException.class, () -> l.remove(-1));
     assertThrows(IndexOutOfBoundsException.class, () -> l.remove(45));
-    assertThrows(NoSuchElementException.class, () -> l.remove("the"));
+    assertFalse(l.remove("the"));
     assertTrue(l.isEmpty());
     l.add("hello");
     assertFalse(l.isEmpty());
@@ -814,10 +814,10 @@ public class DataStructuresTests {
     assertEquals("hello", l.getFirst());
     assertThrows(IndexOutOfBoundsException.class, () -> l.get(4));
     assertThrows(IndexOutOfBoundsException.class, () -> l.remove(4));
-    assertThrows(NoSuchElementException.class, () -> l.remove("ok"));
+    assertFalse(l.remove("ok"));
     l.add("ok");
-    assertEquals("hello", l.remove("hello"));
-    assertEquals("bye", l.remove("bye"));
+    assertTrue(l.remove("hello"));
+    assertTrue(l.remove("bye"));
     assertEquals("ok", l.remove(2));
     assertEquals("hi", l.remove(1));
     assertEquals("goodbye", l.remove(0));
@@ -927,5 +927,14 @@ public class DataStructuresTests {
     assertEquals("hiok", s1.toString());
     assertEquals("helloa long string that will cause resizing", s2.toString());
     assertEquals("goodbye" + s, s3.toString());
+    s1.append("abcdefgh");
+    s1.append('i');
+    s1.append('j');
+    s1.append('k');
+    s1.append('l');
+    s1.append('m');
+    s1.append('n');
+    s1.append('o');
+    assertEquals("hiokabcdefghijklmno", s1.toString());
   }
 }

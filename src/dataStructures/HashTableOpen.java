@@ -3,15 +3,20 @@ package dataStructures;
 import java.util.ArrayList;
 import java.util.List;
 
-// Implementation of a hash table where keys and values can be any type of object, the hash
-// function is a simple modulo operation, and the collision resolution policy employs open
-// hashing (storing records in a list).
+/**
+ * Implementation of a hash table where keys and values can be any type of object, the hash
+ * function is a simple modulo operation, and the collision resolution policy employs open
+ * hashing (storing records in a list).
+ */
 public class HashTableOpen {
   private static final double LOAD_FACTOR_MAX = 0.75, LOAD_FACTOR_MIN = 0.25;
   private static final int INITIAL_CAPACITY = 10;
   private ArrayList<ArrayList<Record>> table;
   private int count;
 
+  /**
+   * Constructor for HashTableOpen.
+   */
   public HashTableOpen() {
     table = new ArrayList<>(INITIAL_CAPACITY);
     for (int i = 0; i < INITIAL_CAPACITY; i++) table.add(new ArrayList<>());
@@ -34,8 +39,13 @@ public class HashTableOpen {
     private void setValue(Object value) { this.value = value; }
   }
 
-  // Return the previous value of the specified key in this hash table, or null if the key did
-  // not exist.
+  /**
+   * Inserts a new key/value pair into the hash table.
+   * @param key the key to insert
+   * @param value the value to insert
+   * @return the value previously associated with the given key, or null if the key was not
+   * present in the hash table
+   */
   public Object put(Object key, Object value) {
     if (key == null || value == null)
       throw new IllegalArgumentException("Neither key nor value can be null");
@@ -54,6 +64,10 @@ public class HashTableOpen {
     return null;
   }
 
+  /**
+   * Resizes the capacity of the hash table by the given factor.
+   * @param resizeFactor the factor by which the capacity of the hash table should be resized
+   */
   private void rehash(double resizeFactor) {
     ArrayList<ArrayList<Record>> oldTable = table;
     int newSize = Math.max(INITIAL_CAPACITY, (int)(table.size() * resizeFactor));
@@ -62,6 +76,12 @@ public class HashTableOpen {
     for (List<Record> l : oldTable) for (Record r : l) put(r.getKey(), r.getValue());
   }
 
+  /**
+   * Gets the value in the hash table associated with the given key.
+   * @param key the key
+   * @return the value associated with the given key, or null if the key is not present in the hash
+   * table
+   */
   public Object get(Object key) {
     if (key == null) throw new IllegalArgumentException("Key cannot be null");
     for (Record r : table.get(Math.abs(key.hashCode()) % table.size()))
@@ -69,7 +89,12 @@ public class HashTableOpen {
     return null;
   }
 
-  // Return the value of the record with the deleted key, or null if no such record exists.
+  /**
+   * Deletes the record (key and value) associated with the given key from the hash table.
+   * @param key the key
+   * @return the value previously associated with the given key, or null if the key is not present
+   * in the hash table
+   */
   public Object delete(Object key) {
     if (key == null) throw new IllegalArgumentException("Key cannot be null");
     ArrayList<Record> l = table.get(Math.abs(key.hashCode()) % table.size());
@@ -85,6 +110,11 @@ public class HashTableOpen {
     return deleteValue;
   }
 
+  /**
+   * Determines whether the hash table contains the given key.
+   * @param key the key
+   * @return true if the key is present in the hash table, false otherwise
+   */
   public boolean containsKey(Object key) {
     if (key == null) throw new IllegalArgumentException("Key cannot be null");
     for (Record r : table.get(Math.abs(key.hashCode()) % table.size()))

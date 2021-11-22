@@ -4,7 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-// Implementation of a generic priority queue using a LinkedList as the underlying data structure.
+/**
+ * Implementation of a generic priority queue using a LinkedList as the underlying data structure.
+ * @param <E> the type of data contained in the priority queue
+ */
 public class PriorityQueueList<E> {
   private final List<PriorityQueueElement> elements;
 
@@ -26,6 +29,11 @@ public class PriorityQueueList<E> {
     private void setPriority(int priority) { this.priority = priority; }
   }
 
+  /**
+   * Inserts an item into the priority queue.
+   * @param item the item to insert
+   * @param priority the priority of the item
+   */
   public void insert(E item, int priority) {
     int insertIdx = 0;
     for (PriorityQueueElement element : elements) {
@@ -35,16 +43,29 @@ public class PriorityQueueList<E> {
     elements.add(insertIdx, new PriorityQueueElement(item, priority));
   }
 
+  /**
+   * Gets, but does not remove, the item with the highest priority in the queue.
+   * @return the item with the highest priority
+   */
   public E getHighestPriority() {
     if (elements.isEmpty()) throw new NoSuchElementException("Priority Queue empty");
     return elements.get(0).getItem();
   }
 
+  /**
+   * Gets and removes the item with the highest priority in the queue.
+   * @return the item with the highest priority
+   */
   public E deleteHighestPriority() {
     if (elements.isEmpty()) throw new NoSuchElementException("Priority Queue empty");
     return elements.remove(0).getItem();
   }
 
+  /**
+   * Changes the priority of the given item.
+   * @param item an item in the priority queue
+   * @param newPriority the new priority of the item
+   */
   public void changePriority(E item, int newPriority) {
     int idx = 0;
     boolean newPriorityGreater = false;
@@ -75,9 +96,14 @@ public class PriorityQueueList<E> {
     else throw new NoSuchElementException("Item not found in Priority Queue");
   }
 
-  private void swap(int i, int j) {
-    PriorityQueueElement temp = elements.get(i);
-    elements.set(i, elements.get(j));
-    elements.set(j, temp);
+  /**
+   * Swaps the elements at the given indices of the underlying array.
+   * @param idx1 the index of an element to swap
+   * @param idx2 the index of an element to swap
+   */
+  private void swap(int idx1, int idx2) {
+    PriorityQueueElement temp = elements.get(idx1);
+    elements.set(idx1, elements.get(idx2));
+    elements.set(idx2, temp);
   }
 }

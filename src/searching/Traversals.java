@@ -6,8 +6,10 @@ import java.util.Queue;
 
 import dataStructures.BinaryTree;
 
-// Implementations of an Inorder, a Preorder, a Postorder, and a Level-order traversal of a binary
-// tree of Integers.
+/**
+ * Implementations of an Inorder, a Preorder, a Postorder, and a Level-order traversal of a binary
+ * tree of Integers.
+ */
 public class Traversals {
   private final BinaryTree<Integer> tree;
 
@@ -34,12 +36,21 @@ public class Traversals {
     // 8  9 10
   }
 
+  /**
+   * Produces a list of the Integers in the tree by running an inorder traversal.
+   * @return an inorder list of the Integers in the tree
+   */
   public List<Integer> listInorder() {
     List<Integer> inorderList = new LinkedList<>();
     inorderHelper(inorderList, tree.getRoot());
     return inorderList;
   }
 
+  /**
+   * Helper method for listInorder.
+   * @param list the list to populate
+   * @param node the node of the tree currently being examined
+   */
   private void inorderHelper(List<Integer> list, BinaryTree<Integer>.Node node) {
     if (node != null) {
       inorderHelper(list, node.getLeftChild());
@@ -48,12 +59,21 @@ public class Traversals {
     }
   }
 
+  /**
+   * Produces a list of the Integers in the tree by running a preorder traversal.
+   * @return a preorder list of the Integers in the tree
+   */
   public List<Integer> listPreorder() {
     List<Integer> preorderList = new LinkedList<>();
     preorderHelper(preorderList, tree.getRoot());
     return preorderList;
   }
 
+  /**
+   * Helper method for listPreorder.
+   * @param list the list to populate
+   * @param node the node of the tree currently being examined
+   */
   private void preorderHelper(List<Integer> list, BinaryTree<Integer>.Node node) {
     if (node != null) {
       list.add(node.getData());
@@ -62,12 +82,21 @@ public class Traversals {
     }
   }
 
+  /**
+   * Produces a list of the Integers in the tree by running a postorder traversal.
+   * @return a postorder list of the Integers in the tree
+   */
   public List<Integer> listPostorder() {
     List<Integer> postorderList = new LinkedList<>();
     postorderHelper(postorderList, tree.getRoot());
     return postorderList;
   }
 
+  /**
+   * Helper method for listPostorder.
+   * @param list the list to populate
+   * @param node the node of the tree currently being examined
+   */
   private void postorderHelper(List<Integer> list, BinaryTree<Integer>.Node node) {
     if (node != null) {
       postorderHelper(list, node.getLeftChild());
@@ -76,6 +105,10 @@ public class Traversals {
     }
   }
 
+  /**
+   * Produces a list of Integers in the tree be running a level-order traversal.
+   * @return a level-order list of the Integers in the tree
+   */
   public List<Integer> listLevelOrder() {
     List<Integer> levelOrderList = new LinkedList<>();
     Queue<BinaryTree<Integer>.Node> queue = new LinkedList<>();

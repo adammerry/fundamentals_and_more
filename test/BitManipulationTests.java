@@ -137,5 +137,10 @@ public class BitManipulationTests {
     assertEquals(4, BitMethods.lowestBit(4));
     assertEquals(1, BitMethods.lowestBit(5));
     assertEquals(4, BitMethods.lowestBit(28));
+    assertEquals(1, BitMethods.lowestBit(-1));
+    assertEquals(2, BitMethods.lowestBit(-2));
+    assertEquals(4, BitMethods.lowestBit(-4));
+    assertEquals(1, BitMethods.lowestBit(-5));
+    assertEquals(4, BitMethods.lowestBit(-28));
   }
 }

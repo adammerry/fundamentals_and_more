@@ -4,14 +4,16 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-// Implementation of a generic Red-Black tree that offers the following operations:
-// insert, search, delete, getMin, and getMax. This implementation does not support duplicate
-// node values.
-// A Red-Black tree is a self-balancing binary search tree that obeys the following properties:
-// - Each node is given a color; either red or black.
-// - The root of the tree is always black.
-// - No red node has a red child.
-// - For any node, every path from that node to a leaf touches the same number of black nodes.
+/**
+ * Implementation of a generic Red-Black tree. This implementation does not support duplicate node
+ * values. A Red-Black tree is a self-balancing binary search tree that obeys the following
+ * properties:
+ * - Each node is given a color; either red or black.
+ * - The root of the tree is always black.
+ * - No red node has a red child.
+ * - For any node, every path from that node to a leaf touches the same number of black nodes.
+ * @param <E> the type of data contained in the red-black tree
+ */
 public class RedBlackTree<E extends Comparable<? super E>> {
   private TreeNode root = new NullNode();
   private int size;
@@ -21,7 +23,9 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     BLACK
   }
 
-  // Abstract class representing both types of nodes that make up the Red-Black tree.
+  /**
+   * Abstract class representing both types of nodes that make up the Red-Black tree.
+   */
   private abstract class TreeNode {
     DataNode parent;
     Color color;
@@ -40,7 +44,9 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     Color getColor() { return color; }
   }
 
-  // Class representing nodes in the Red-Black tree that store data.
+  /**
+   * Class representing nodes in the Red-Black tree that store data.
+   */
   private class DataNode extends TreeNode {
     private E data;
     private TreeNode leftChild, rightChild;
@@ -69,16 +75,18 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
     private void setRightChild(TreeNode child) { rightChild = child; }
 
-    public E getData() { return data; }
+    private E getData() { return data; }
 
     private TreeNode getLeftChild() { return leftChild; }
 
     private TreeNode getRightChild() { return rightChild; }
   }
 
-  // Class representing nodes in the Red-Black tree that do not store data. These nodes are used
-  // as children of data-storing nodes to indicate the lack of a data-storing child. All null nodes
-  // are black, and are capable of becoming double-black nodes during the deletion process.
+  /**
+   * Class representing nodes in the Red-Black tree that do not store data. These nodes are used
+   * as children of data-storing nodes to indicate the lack of a data-storing child. All null nodes
+   * are black, and are capable of becoming double-black nodes during the deletion process.
+   */
   private class NullNode extends TreeNode {
 
     private NullNode() {
@@ -94,6 +102,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     boolean isDataNode() { return false; }
   }
 
+  /**
+   * Inserts the given data into the red-black tree.
+   * @param insertData the data to insert
+   */
   public void insert(E insertData) {
     if (insertData == null) throw new IllegalArgumentException("Data cannot be null");
     DataNode insertDataNode = new DataNode(insertData);
@@ -106,6 +118,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (insertDataNode.getParent() != null || insertDataNode == root) size++;
   }
 
+  /**
+   * Fixes any red-black tree properties that were violated by inserting the given node.
+   * @param insertDataNode the recently inserted node
+   */
   private void fixInsert(DataNode insertDataNode) {
     DataNode current = insertDataNode, parent = insertDataNode.getParent();
     while (parent != null && parent.getColor() == Color.RED) {
@@ -161,6 +177,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     root.setColor(Color.BLACK);
   }
 
+  /**
+   * Left-rotates the subtree rooted at the given node.
+   * @param n the root node of the subtree being rotated
+   */
   private void leftRotate(DataNode n) {
     TreeNode maybePivot = n.getRightChild();
     if (!maybePivot.isDataNode())
@@ -179,6 +199,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (root == n) root = pivot;
   }
 
+  /**
+   * Right-rotates the subtree rooted at the given node.
+   * @param n the root node of the subtree being rotated
+   */
   private void rightRotate(DataNode n) {
     TreeNode maybePivot = n.getLeftChild();
     if (!maybePivot.isDataNode())
@@ -197,8 +221,11 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     if (root == n) root = pivot;
   }
 
-  // Find and return the node in the tree with data equal to the given data. If no such node
-  // exists, return null.
+  /**
+   * Determines whether the given data exists in the tree.
+   * @param searchData the data to search for
+   * @return true if the data is present in the tree, false otherwise
+   */
   public boolean search(E searchData) {
     if (searchData  == null) throw new IllegalArgumentException("Data cannot be null");
     TreeNode currNode = root;
@@ -212,6 +239,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     return false;
   }
 
+  /**
+   * Finds and deletes the given data from the tree, if it exists.
+   * @param deleteData the data to delete
+   */
   public void delete(E deleteData) {
     if (deleteData == null) throw new IllegalArgumentException("Data cannot be null");
     // Find the node to be deleted.
@@ -258,7 +289,12 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     }
   }
 
-  // Private method to find a Node. Similar to search, but returns the actual Node.
+  /**
+   * Finds the node with the given data in the tree. Similar to search, but returns the actual
+   * node.
+   * @param searchData the data to search for
+   * @return the node with data equal to the given data
+   */
   private DataNode findNode(E searchData) {
     TreeNode currNode = root;
     while (currNode.isDataNode()) {
@@ -271,6 +307,12 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     return null;
   }
 
+  /**
+   * Handles the case in the deletion process where the node-to-delete is black, and does not have
+   * any red children.
+   * @param doubleBlackNode the black child of the black node-to-delete
+   * @param isLeftChild true if the child is a left child, false if it is a right child
+   */
   private void handleDoubleBlack(TreeNode doubleBlackNode, boolean isLeftChild) {
     // Case 1: Double-black node is root.
     // Case 2: Sibling is red.
@@ -325,6 +367,12 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     }
   }
 
+  /**
+   * Checks which double-black situation exists for the given double-black node.
+   * @param doubleBlackNode the double-black node
+   * @param isLeftChild true if the double-black node is a left child, false if it is a right child
+   * @return the number that corresponds to whichever double-black case exists
+   */
   private int checkCaseNum(TreeNode doubleBlackNode, boolean isLeftChild) {
     if (doubleBlackNode == root) return 1; // Case 1.
     DataNode parent = doubleBlackNode.getParent();
@@ -341,12 +389,21 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     return ((isLeftChild && rightSibChildBlack) || ((!isLeftChild) && leftSibChildBlack)) ? 5 : 6;
   }
 
+  /**
+   * Finds the left-most node of the subtree rooted at the given node.
+   * @param n the root of the current subtree
+   * @return the left-most node of the current subtree
+   */
   private DataNode findLeftMostNode(DataNode n) {
     DataNode successor = n;
     while (n.getLeftChild().isDataNode()) successor = (DataNode) n.getLeftChild();
     return successor;
   }
 
+  /**
+   * Gets the minimum data value stored in the tree.
+   * @return the minimum data value
+   */
   public E getMin() {
     TreeNode currNode = root;
     while (currNode.isDataNode()) {
@@ -357,6 +414,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     throw new NoSuchElementException("Tree empty");
   }
 
+  /**
+   * Gets the maximum data value stored in the tree.
+   * @return the maximum data value
+   */
   public E getMax() {
     TreeNode currNode = root;
     while (currNode.isDataNode()) {
@@ -367,8 +428,10 @@ public class RedBlackTree<E extends Comparable<? super E>> {
     throw new NoSuchElementException("Tree empty");
   }
 
-  // Return an array containing a level-order traversal of all nodes, where the data at each node
-  // is cast to an Integer.
+  /**
+   * Performs a level-order traversal of the tree, and casts the data at each node to an Integer.
+   * @return an array of Integers containing a level-order traversal of the tree
+   */
   public Integer[] levelOrderTraversal() {
     Integer[] nodeData = new Integer[size];
     int counter = 0;

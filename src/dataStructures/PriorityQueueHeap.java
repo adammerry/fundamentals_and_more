@@ -4,9 +4,12 @@ import java.util.ArrayList;  // Use Java builtin ArrayList instead of my custom 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-// Implementation of a generic priority queue using a min-heap as the underlying data structure.
-// This is probably the best way to implement a priority queue, since all operations can be
-// executed in sub-linear worst-case time.
+/**
+ * Implementation of a generic priority queue using a min-heap as the underlying data structure.
+ * This is probably the best way to implement a priority queue, since all operations can be
+ * executed in sub-linear worst-case time.
+ * @param <E> the type of data contained in the priority queue
+ */
 public class PriorityQueueHeap<E> {
   private static final int DEFAULT_CAPACITY = 10;
   private final ArrayList<PriorityQueueElement> heap;
@@ -15,6 +18,15 @@ public class PriorityQueueHeap<E> {
   private final int capacity;
   private int size;
 
+  /**
+   * Constructor for PriorityQueueHeap. Creates a priority queue with default capacity (10).
+   */
+  public PriorityQueueHeap() { this(DEFAULT_CAPACITY); }
+
+  /**
+   * Constructor for PriorityQueueHeap. Creates a priority queue with custom capacity.
+   * @param customCapacity the capacity of the priority queue
+   */
   public PriorityQueueHeap(int customCapacity) {
     capacity = (customCapacity > 0) ? customCapacity : DEFAULT_CAPACITY;
     heap = new ArrayList<>(capacity);
@@ -23,8 +35,8 @@ public class PriorityQueueHeap<E> {
     idxMap = new HashMap<>();
   }
 
-  public class PriorityQueueElement {
-    private E item;
+  private class PriorityQueueElement {
+    private final E item;
     private int priority;
 
     private PriorityQueueElement(E item, int priority) {
@@ -37,6 +49,11 @@ public class PriorityQueueHeap<E> {
     public int getPriority() { return priority; }
   }
 
+  /**
+   * Inserts an item into the priority queue.
+   * @param item the item to insert
+   * @param priority the priority of the item
+   */
   public void insert(E item, int priority) {
     if (size == capacity) throw new IllegalStateException("Priority Queue is at capacity");
     PriorityQueueElement elem = new PriorityQueueElement(item, priority);
@@ -46,12 +63,20 @@ public class PriorityQueueHeap<E> {
     size++;
   }
 
-  public PriorityQueueElement getHighestPriority() {
+  /**
+   * Gets, but does not remove, the item with the highest priority in the queue.
+   * @return the item with the highest priority
+   */
+  public E getHighestPriority() {
     if (size == 0) throw new NoSuchElementException("Priority Queue empty");
-    return heap.get(0);
+    return heap.get(0).getItem();
   }
 
-  public PriorityQueueElement deleteHighestPriority() {
+  /**
+   * Gets and removes the item with the highest priority in the queue.
+   * @return the item with the highest priority
+   */
+  public E deleteHighestPriority() {
     if (size == 0) throw new NoSuchElementException("Priority Queue empty");
     PriorityQueueElement highestPriority = heap.get(0);
     idxMap.remove(highestPriority.getItem());
@@ -61,9 +86,14 @@ public class PriorityQueueHeap<E> {
       idxMap.put(heap.get(0).getItem(), 0);
       siftDown(0);
     }
-    return highestPriority;
+    return highestPriority.getItem();
   }
 
+  /**
+   * Changes the priority of the given item.
+   * @param item an item in the priority queue
+   * @param newPriority the new priority of the item
+   */
   public void changePriority(E item, int newPriority) {
     int idx = idxMap.getOrDefault(item, -1);
     if (idx >= 0) {
@@ -75,15 +105,34 @@ public class PriorityQueueHeap<E> {
     else throw new NoSuchElementException("Item not found in Priority Queue");
   }
 
+  /**
+   * Determines whether the priority queue is empty.
+   * @return true if the priority queue is empty, otherwise false
+   */
   public boolean isEmpty() { return size == 0; }
 
+  /**
+   * Determines whether the priority queue contains the given item.
+   * @param item an item that may be contained in the priority queue
+   * @return true if the priority queue contains the given item, false otherwise
+   */
   public boolean contains(E item) { return idxMap.containsKey(item); }
 
+  /**
+   * Gets the priority of the given item.
+   * @param item an item in the priority queue
+   * @return the priority of the given item
+   */
   public Integer getPriority(E item) {
     if (idxMap.containsKey(item)) return heap.get(idxMap.get(item)).getPriority();
     throw new NoSuchElementException("Item not found in Priority Queue");
   }
 
+  /**
+   * Sifts the given element up the heap that is used to implement the priority queue, until all
+   * heap properties are satisfied.
+   * @param childIdx the index of the element to sift up
+   */
   private void siftUp(int childIdx) {
     if (childIdx > 0) {
       int parentIdx = getParentIdx(childIdx);
@@ -94,6 +143,11 @@ public class PriorityQueueHeap<E> {
     }
   }
 
+  /**
+   * Sifts the given element down the heap that is used to implement the priority queue, until all
+   * heap properties are satisfied.
+   * @param parentIdx the index of the element to sift down
+   */
   private void siftDown(int parentIdx) {
     int leftChildIdx = getLeftChildIdx(parentIdx);
     int rightChildIdx = leftChildIdx + 1;
@@ -108,6 +162,11 @@ public class PriorityQueueHeap<E> {
     }
   }
 
+  /**
+   * Swaps the elements at the given indices of the underlying array.
+   * @param idx1 the index of an element to swap
+   * @param idx2 the index of an element to swap
+   */
   private void swap(int idx1, int idx2) {
     if (idx1 != idx2) {
       PriorityQueueElement temp = heap.get(idx1);
@@ -118,7 +177,17 @@ public class PriorityQueueHeap<E> {
     }
   }
 
+  /**
+   * Gets the parent index of the given child index in the underlying array.
+   * @param childIdx the child index
+   * @return the corresponding parent index
+   */
   private int getParentIdx(int childIdx) { return (childIdx - 1) / 2; }
 
+  /**
+   * Gets the left child index of the given parent index in the underlying array.
+   * @param parentIdx the parent index
+   * @return the corresponding left child index
+   */
   private int getLeftChildIdx(int parentIdx) { return (2 * parentIdx) + 1; }
 }
