@@ -178,20 +178,20 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   /**
-   * Left-rotates the subtree rooted at the given node.
-   * @param n the root node of the subtree being rotated
+   * Left-rotates the Subtree rooted at the given node.
+   * @param n the root node of the Subtree being rotated
    */
   private void leftRotate(DataNode n) {
     TreeNode maybePivot = n.getRightChild();
     if (!maybePivot.isDataNode())
       throw new IllegalStateException("Left rotation can't be performed without right child");
     DataNode pivot = (DataNode) maybePivot, parent = n.getParent();
-    TreeNode innerSubTree = pivot.getLeftChild();
+    TreeNode innerSubtree = pivot.getLeftChild();
     pivot.setLeftChild(n);
     pivot.setParent(parent);
-    n.setRightChild(innerSubTree);
+    n.setRightChild(innerSubtree);
     n.setParent(pivot);
-    innerSubTree.setParent(n);
+    innerSubtree.setParent(n);
     if (parent != null) {
       if (n == parent.getLeftChild()) parent.setLeftChild(pivot);
       else parent.setRightChild(pivot);
@@ -200,20 +200,20 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   /**
-   * Right-rotates the subtree rooted at the given node.
-   * @param n the root node of the subtree being rotated
+   * Right-rotates the Subtree rooted at the given node.
+   * @param n the root node of the Subtree being rotated
    */
   private void rightRotate(DataNode n) {
     TreeNode maybePivot = n.getLeftChild();
     if (!maybePivot.isDataNode())
       throw new IllegalStateException("Right rotation can't be performed without left child");
     DataNode pivot = (DataNode) maybePivot, parent = n.getParent();
-    TreeNode innerSubTree = pivot.getRightChild();
+    TreeNode innerSubtree = pivot.getRightChild();
     pivot.setRightChild(n);
     pivot.setParent(parent);
-    n.setLeftChild(innerSubTree);
+    n.setLeftChild(innerSubtree);
     n.setParent(pivot);
-    innerSubTree.setParent(n);
+    innerSubtree.setParent(n);
     if (parent != null) {
       if (parent.getLeftChild() == n) parent.setLeftChild(pivot);
       else parent.setRightChild(pivot);
@@ -390,9 +390,9 @@ public class RedBlackTree<E extends Comparable<? super E>> {
   }
 
   /**
-   * Finds the left-most node of the subtree rooted at the given node.
-   * @param n the root of the current subtree
-   * @return the left-most node of the current subtree
+   * Finds the left-most node of the Subtree rooted at the given node.
+   * @param n the root of the current Subtree
+   * @return the left-most node of the current Subtree
    */
   private DataNode findLeftMostNode(DataNode n) {
     DataNode successor = n;

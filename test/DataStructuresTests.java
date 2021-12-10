@@ -5,32 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dataStructures.*;
+import dataStructures.StringBuilder; // Must explicitly import this class to resolve ambiguity.
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import dataStructures.ArrayList;
-import dataStructures.BinarySearchTree;
-import dataStructures.BinaryTree;
-import dataStructures.GraphAdjacencyListBad;
-import dataStructures.GraphAdjacencyListBest;
-import dataStructures.GraphAdjacencyListBetter;
-import dataStructures.GraphAdjacencyMatrix;
-import dataStructures.GraphGeneric;
-import dataStructures.HashTableClosed;
-import dataStructures.HashTableOpen;
-import dataStructures.LinkedList;
-import dataStructures.MaxHeapCharacterRecursive;
-import dataStructures.MinHeapIntegerIterative;
-import dataStructures.PriorityQueueArray;
-import dataStructures.PriorityQueueHeap;
-import dataStructures.PriorityQueueList;
-import dataStructures.Queue;
-import dataStructures.RedBlackTree;
-import dataStructures.Stack;
-import dataStructures.StringBuilder;
-import dataStructures.Trie;
 
 public class DataStructuresTests {
 
@@ -126,6 +106,7 @@ public class DataStructuresTests {
     b.delete(6);
     assertFalse(b.search(6));
     b.delete(9);
+    assertFalse(b.search(9));
     assertThrows(IllegalArgumentException.class, () -> b.insert(null));
     assertThrows(IllegalArgumentException.class, () -> b.delete(null));
     assertThrows(IllegalArgumentException.class, () -> b.search(null));
@@ -936,5 +917,57 @@ public class DataStructuresTests {
     s1.append('n');
     s1.append('o');
     assertEquals("hiokabcdefghijklmno", s1.toString());
+  }
+
+  @Test
+  public void testSplayTree() {
+    SplayTree b = new SplayTree();
+    assertFalse(b.search(9));
+    assertNull(b.getRootVal());
+    b.delete(100);
+    b.insert(4);
+    assertEquals(4, b.getRootVal());
+    b.insert(7);
+    assertEquals(7, b.getRootVal());
+    b.insert(2);
+    assertEquals(2, b.getRootVal());
+    b.insert(8);
+    b.insert(5);
+    b.insert(0);
+    b.insert(6);
+    b.insert(1);
+    b.insert(3);
+    assertEquals(3, b.getRootVal());
+    assertTrue(b.search(3));
+    assertEquals(3, b.getRootVal());
+    b.delete(3);
+    assertEquals(2, b.getRootVal());
+    assertFalse(b.search(3));
+    assertEquals(4, b.getRootVal());
+    b.delete(4);
+    assertEquals(2, b.getRootVal());
+    assertFalse(b.search(4));
+    assertEquals(5, b.getRootVal());
+    b.delete(0);
+    assertEquals(1, b.getRootVal());
+    assertFalse(b.search(0));
+    assertEquals(1, b.getRootVal());
+    b.delete(7);
+    assertEquals(6, b.getRootVal());
+    assertFalse(b.search(7));
+    assertEquals(8, b.getRootVal());
+    b.search(5);
+    assertEquals(5, b.getRootVal());
+    b.delete(8);
+    assertEquals(5, b.getRootVal());
+    assertFalse(b.search(8));
+    assertEquals(6, b.getRootVal());
+    b.delete(6);
+    assertFalse(b.search(6));
+    b.delete(9);
+    assertEquals(5, b.getRootVal());
+    assertThrows(IllegalArgumentException.class, () -> b.insert(null));
+    assertThrows(IllegalArgumentException.class, () -> b.delete(null));
+    assertThrows(IllegalArgumentException.class, () -> b.search(null));
   }
 }

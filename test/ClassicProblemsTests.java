@@ -10,14 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import classicProblems.BellmanFord;
-import classicProblems.Dijkstra;
-import classicProblems.Knapsack;
-import classicProblems.LevenshteinDistance;
-import classicProblems.NQueens;
-import classicProblems.Prim;
-import classicProblems.TowersOfHanoi;
-import classicProblems.TravelingSalesman;
+import classicProblems.*;
 import dataStructures.GraphGeneric;
 
 public class ClassicProblemsTests {

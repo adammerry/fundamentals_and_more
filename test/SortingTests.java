@@ -10,13 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dataStructures.GraphGeneric;
-import sorting.CountingSort;
-import sorting.HeapSort;
-import sorting.InsertionSort;
-import sorting.MergeSort;
-import sorting.QuickSort;
-import sorting.RadixSort;
-import sorting.TopologicalSort;
+import sorting.*;
 
 public class SortingTests {
   private int[] l1, l2, l3, l4, l5, l6, l7, l8, s1, s2, s3, s4, s5, s6, s7, s8;

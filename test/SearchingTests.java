@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import dataStructures.BinaryTree;
 import dataStructures.GraphAdjacencyListBetter;
-import searching.BFS;
-import searching.BinarySearch;
-import searching.DFS;
-import searching.Traversals;
+import searching.*;
 
 public class SearchingTests {
   private GraphAdjacencyListBetter<Integer> graph;
