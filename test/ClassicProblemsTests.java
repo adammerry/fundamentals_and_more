@@ -1,7 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -13,12 +9,16 @@ import java.util.Stack;
 import classicProblems.*;
 import dataStructures.GraphGeneric;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ClassicProblemsTests {
   private final int[][] g1 = new int[4][4], g2 = new int[5][5];
   private final List<Integer> g1Solution, g2Solution;
 
   private final int[] weights1, values1, weights2, values2;
   private final int weightLim1, weightLim2, weightLim3, weightLim4, weightLim5, weightLim6;
+
+  private final char[][] inputBoard, outputBoard;
 
   public ClassicProblemsTests() {
     g1[0][1] = 10;
@@ -77,6 +77,26 @@ public class ClassicProblemsTests {
     weightLim4 = 10;
     weightLim5 = 20;
     weightLim6 = 30;
+
+    inputBoard = new char[][] {{'5','3','.','.','7','.','.','.','.'},
+            {'6','.','.','1','9','5','.','.','.'},
+            {'.','9','8','.','.','.','.','6','.'},
+            {'8','.','.','.','6','.','.','.','3'},
+            {'4','.','.','8','.','3','.','.','1'},
+            {'7','.','.','.','2','.','.','.','6'},
+            {'.','6','.','.','.','.','2','8','.'},
+            {'.','.','.','4','1','9','.','.','5'},
+            {'.','.','.','.','8','.','.','7','9'}};
+
+    outputBoard = new char[][] {{'5','3','4','6','7','8','9','1','2'},
+            {'6','7','2','1','9','5','3','4','8'},
+            {'1','9','8','3','4','2','5','6','7'},
+            {'8','5','9','7','6','1','4','2','3'},
+            {'4','2','6','8','5','3','7','9','1'},
+            {'7','1','3','9','2','4','8','5','6'},
+            {'9','6','1','5','3','7','2','8','4'},
+            {'2','8','7','4','1','9','6','3','5'},
+            {'3','4','5','2','8','6','1','7','9'}};
   }
 
   @Test
@@ -433,5 +453,14 @@ public class ClassicProblemsTests {
     badGraph.addEdge(n5, n4, -3);
     badGraph.addEdge(n4, source, 1);
     assertThrows(IllegalArgumentException.class, () -> BellmanFord.runBellmanFord(badGraph, source));
+  }
+
+  @Test
+  public void testSudoku() {
+    // Test valid Sudoku board.
+    Sudoku.solveSudoku(inputBoard);
+    assertArrayEquals(inputBoard, outputBoard);
+    // Test invalid Sudoku board.
+    assertThrows(IllegalArgumentException.class, () -> Sudoku.solveSudoku(new char[1][1]));
   }
 }
