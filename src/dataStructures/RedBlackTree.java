@@ -35,13 +35,13 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
     abstract boolean isDataNode();
 
-    void setColor(Color color) { this.color = color; }
-
-    void setParent(DataNode parent) { this.parent = parent; }
-
     DataNode getParent() { return parent; }
 
     Color getColor() { return color; }
+
+    void setColor(Color color) { this.color = color; }
+
+    void setParent(DataNode parent) { this.parent = parent; }
   }
 
   /**
@@ -69,17 +69,17 @@ public class RedBlackTree<E extends Comparable<? super E>> {
 
     boolean isDataNode() { return true; }
 
-    private void setData(E data) { this.data = data; }
-
-    private void setLeftChild(TreeNode child) { leftChild = child; }
-
-    private void setRightChild(TreeNode child) { rightChild = child; }
-
     private E getData() { return data; }
 
     private TreeNode getLeftChild() { return leftChild; }
 
     private TreeNode getRightChild() { return rightChild; }
+
+    private void setData(E data) { this.data = data; }
+
+    private void setLeftChild(TreeNode child) { leftChild = child; }
+
+    private void setRightChild(TreeNode child) { rightChild = child; }
   }
 
   /**
@@ -227,7 +227,7 @@ public class RedBlackTree<E extends Comparable<? super E>> {
    * @return true if the data is present in the tree, false otherwise
    */
   public boolean search(E searchData) {
-    if (searchData  == null) throw new IllegalArgumentException("Data cannot be null");
+    if (searchData == null) throw new IllegalArgumentException("Data cannot be null");
     TreeNode currNode = root;
     while (currNode.isDataNode()) {
       DataNode currDataNode = (DataNode) currNode;
