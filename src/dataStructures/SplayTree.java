@@ -158,12 +158,17 @@ public class SplayTree<E extends Comparable<? super E>> {
         node.setData(node.getLeftChild().getLargestVal());
         Node leftChild = deleteLargest(node.getLeftChild());
         node.setLeftChild(leftChild);
-        if (leftChild != null && leftChild.getParent() != node) leftChild.setParent(node);
+        if (leftChild != null) leftChild.setParent(node);
         return node;
       }
+      node.getLeftChild().setParent(node.getParent());
       return node.getLeftChild();
     }
-    return node.hasRightChild() ? node.getRightChild() : null;
+    if (node.hasRightChild()) {
+      node.getRightChild().setParent(node.getParent());
+      return node.getRightChild();
+    }
+    return null;
   }
 
   /**
