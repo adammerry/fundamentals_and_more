@@ -970,4 +970,130 @@ public class DataStructuresTests {
     assertThrows(IllegalArgumentException.class, () -> b.delete(null));
     assertThrows(IllegalArgumentException.class, () -> b.search(null));
   }
+
+  @Test
+  public void testAVLTree() {
+    AVLTree<Integer> avlt = new AVLTree<>();
+    assertThrows(NoSuchElementException.class, avlt::getMax);
+    assertThrows(NoSuchElementException.class, avlt::getMin);
+    // Test left-left imbalance after insertion (and rotation that involves root).
+    avlt.insert(40);
+    assertTrue(avlt.search(40));
+    assertArrayEquals(new Integer[] {40}, avlt.levelOrderTraversal());
+    avlt.insert(30);
+    assertTrue(avlt.search(30));
+    assertArrayEquals(new Integer[] {40, 30}, avlt.levelOrderTraversal());
+    avlt.insert(20);
+    assertTrue(avlt.search(20));
+    assertArrayEquals(new Integer[] {30, 20, 40}, avlt.levelOrderTraversal());
+    // Test left-right imbalance after insertion.
+    avlt.insert(35);
+    assertTrue(avlt.search(35));
+    assertArrayEquals(new Integer[] {30, 20, 40, 35}, avlt.levelOrderTraversal());
+    avlt.insert(37);
+    assertTrue(avlt.search(37));
+    assertArrayEquals(new Integer[] {30, 20, 37, 35, 40}, avlt.levelOrderTraversal());
+    // Test right-left imbalance after insertion.
+    avlt.insert(25);
+    assertTrue(avlt.search(25));
+    assertArrayEquals(new Integer[] {30, 20, 37, 25, 35, 40}, avlt.levelOrderTraversal());
+    avlt.insert(23);
+    assertTrue(avlt.search(23));
+    assertArrayEquals(new Integer[] {30, 23, 37, 20, 25, 35, 40}, avlt.levelOrderTraversal());
+    // Test right-right imbalance after insertion.
+    avlt.insert(45);
+    assertTrue(avlt.search(45));
+    assertArrayEquals(new Integer[] {30, 23, 37, 20, 25, 35, 40, 45}, avlt.levelOrderTraversal());
+    avlt.insert(50);
+    assertTrue(avlt.search(50));
+    assertArrayEquals(new Integer[] {30, 23, 37, 20, 25, 35, 45, 40, 50}, avlt.levelOrderTraversal());
+    // Test insertion where great-grandparent of inserted node becomes imbalanced on right side.
+    avlt.insert(55);
+    assertTrue(avlt.search(55));
+    assertArrayEquals(new Integer[] {30, 23, 45, 20, 25, 37, 50, 35, 40, 55}, avlt.levelOrderTraversal());
+    // Test insertion where great-grandparent of inserted node becomes imbalanced on left side.
+    avlt.insert(17);
+    assertTrue(avlt.search(17));
+    assertArrayEquals(new Integer[] {30, 23, 45, 20, 25, 37, 50, 17, 35, 40, 55}, avlt.levelOrderTraversal());
+    avlt.insert(21);
+    assertTrue(avlt.search(21));
+    assertArrayEquals(new Integer[] {30, 23, 45, 20, 25, 37, 50, 17, 21, 35, 40, 55}, avlt.levelOrderTraversal());
+    avlt.insert(18);
+    assertTrue(avlt.search(18));
+    assertArrayEquals(new Integer[] {30, 20, 45, 17, 23, 37, 50, 18, 21, 25, 35, 40, 55}, avlt.levelOrderTraversal());
+    // Test that inserting a duplicate value does not alter the tree.
+    avlt.insert(55);
+    assertTrue(avlt.search(55));
+    assertArrayEquals(new Integer[] {30, 20, 45, 17, 23, 37, 50, 18, 21, 25, 35, 40, 55}, avlt.levelOrderTraversal());
+    // Test search failure.
+    assertFalse(avlt.search(41));
+    // Test deletion of leaf node that does not cause any imbalance.
+    avlt.delete(55);
+    assertFalse(avlt.search(55));
+    assertArrayEquals(new Integer[] {30, 20, 45, 17, 23, 37, 50, 18, 21, 25, 35, 40}, avlt.levelOrderTraversal());
+    // Test deletion of internal node that does not cause any imbalance.
+    avlt.delete(23);
+    assertFalse(avlt.search(23));
+    assertArrayEquals(new Integer[] {30, 20, 45, 17, 21, 37, 50, 18, 25, 35, 40}, avlt.levelOrderTraversal());
+    // Test deletion of root.
+    avlt.delete(30);
+    assertFalse(avlt.search(30));
+    assertArrayEquals(new Integer[] {25, 20, 45, 17, 21, 37, 50, 18, 35, 40}, avlt.levelOrderTraversal());
+    // Test deletion that causes simultaneous left-left and left-right imbalances.
+    avlt.delete(50);
+    assertFalse(avlt.search(50));
+    assertArrayEquals(new Integer[] {25, 20, 37, 17, 21, 35, 45, 18, 40}, avlt.levelOrderTraversal());
+    // Test deletion that causes right-left imbalance.
+    avlt.delete(35);
+    assertFalse(avlt.search(35));
+    assertArrayEquals(new Integer[] {25, 20, 40, 17, 21, 37, 45, 18}, avlt.levelOrderTraversal());
+    // Test deletion that causes left-right imbalance.
+    avlt.delete(21);
+    assertFalse(avlt.search(21));
+    assertArrayEquals(new Integer[] {25, 18, 40, 17, 20, 37, 45}, avlt.levelOrderTraversal());
+    // Test deletion that causes simultaneous right-right and right-left imbalances.
+    avlt.delete(18);
+    assertFalse(avlt.search(18));
+    assertArrayEquals(new Integer[] {25, 17, 40, 20, 37, 45}, avlt.levelOrderTraversal());
+    avlt.delete(17);
+    assertFalse(avlt.search(17));
+    assertArrayEquals(new Integer[] {25, 20, 40, 37, 45}, avlt.levelOrderTraversal());
+    avlt.delete(20);
+    assertFalse(avlt.search(20));
+    assertArrayEquals(new Integer[] {40, 25, 45, 37}, avlt.levelOrderTraversal());
+    // Test deletion that causes left-left imbalance.
+    avlt.delete(45);
+    assertFalse(avlt.search(45));
+    assertArrayEquals(new Integer[] {37, 25, 40}, avlt.levelOrderTraversal());
+    // Test deletion that causes right-right imbalance.
+    avlt.insert(55);
+    avlt.delete(25);
+    assertFalse(avlt.search(25));
+    assertArrayEquals(new Integer[] {40, 37, 55}, avlt.levelOrderTraversal());
+    // Test attempting to delete non-existent node.
+    avlt.delete(50);
+    assertFalse(avlt.search(50));
+    assertArrayEquals(new Integer[] {40, 37, 55}, avlt.levelOrderTraversal());
+    // Test deletion that requires multiple rounds of rebalancing.
+    avlt.insert(35);
+    avlt.insert(39);
+    avlt.insert(50);
+    avlt.insert(60);
+    avlt.insert(30);
+    avlt.insert(47);
+    avlt.insert(53);
+    avlt.insert(57);
+    avlt.insert(62);
+    avlt.insert(45);
+    avlt.insert(49);
+    avlt.insert(51);
+    avlt.insert(54);
+    avlt.insert(56);
+    avlt.insert(58);
+    avlt.insert(61);
+    avlt.insert(65);
+    avlt.delete(39);
+    assertFalse(avlt.search(39));
+    assertArrayEquals(new Integer[] {55, 40, 60, 35, 50, 57, 62, 30, 37, 47, 53, 56, 58, 61, 65, 45, 49, 51, 54}, avlt.levelOrderTraversal());
+  }
 }
