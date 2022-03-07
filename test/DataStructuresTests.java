@@ -515,10 +515,13 @@ public class DataStructuresTests {
     assertThrows(IllegalArgumentException.class, () -> g.addEdge(node1g, node1gg));
     assertThrows(IllegalArgumentException.class, () -> g.removeEdge(node1g, node1gg));
     assertThrows(IllegalArgumentException.class, () -> g.removeNode(node1gg));
+    assertEquals(0, g.getEdges().size());
     g.addEdge(node1g, node3g);
+    assertEquals(1, g.getEdges().size());
     assertEquals(1, g.checkEdgeWeight(node1g, node3g));
     assertEquals(1, g.checkEdgeWeight(node3g, node1g));
     g.removeEdge(node1g, node3g);
+    assertEquals(0, g.getEdges().size());
     assertEquals(-1, g.checkEdgeWeight(node1g, node3g));
     assertEquals(-1, g.checkEdgeWeight(node2g, node4g));
     g.addEdge(node2g, node4g);
@@ -532,16 +535,20 @@ public class DataStructuresTests {
     GraphGeneric<String>.Node node2g2 = g2.addNode("hi");
     GraphGeneric<String>.Node node3g2 = g2.addNode("ok");
     GraphGeneric<String>.Node node4g2 = g2.addNode("bye");
+    assertEquals(0, g.getEdges().size());
     g2.addEdge(node1g2, node3g2);
+    assertEquals(1, g2.getEdges().size());
     assertEquals(1, g2.checkEdgeWeight(node1g2, node3g2));
     assertEquals(-1, g2.checkEdgeWeight(node3g2, node1g2));
     g2.removeEdge(node1g2, node3g2);
+    assertEquals(0, g2.getEdges().size());
     assertEquals(-1, g2.checkEdgeWeight(node1g2, node3g2));
     assertEquals(-1, g2.checkEdgeWeight(node2g2, node4g2));
     g2.addEdge(node2g2, node4g2);
     assertEquals(1, g2.checkEdgeWeight(node2g2, node4g2));
     assertEquals(-1, g2.checkEdgeWeight(node4g2, node2g2));
     g2.addEdge(node4g2, node2g2);
+    assertEquals(2, g2.getEdges().size());
     assertEquals(1, g2.checkEdgeWeight(node4g2, node2g2));
     g2.removeNode(node4g2);
     assertEquals(-1, g2.checkEdgeWeight(node2g2, node4g2));
@@ -552,10 +559,13 @@ public class DataStructuresTests {
     GraphGeneric<String>.Node node2g3 = g3.addNode("hi");
     GraphGeneric<String>.Node node3g3 = g3.addNode("ok");
     GraphGeneric<String>.Node node4g3 = g3.addNode("bye");
+    assertEquals(0, g3.getEdges().size());
     g3.addEdge(node1g3, node3g3, 4);
+    assertEquals(1, g3.getEdges().size());
     assertEquals(4, g3.checkEdgeWeight(node1g3, node3g3));
     assertEquals(4, g3.checkEdgeWeight(node3g3, node1g3));
     g3.removeEdge(node1g3, node3g3);
+    assertEquals(0, g3.getEdges().size());
     assertEquals(-1, g3.checkEdgeWeight(node1g3, node3g3));
     assertEquals(-1, g3.checkEdgeWeight(node2g3, node4g3));
     g3.addEdge(node2g3, node4g3, 7);
@@ -569,16 +579,20 @@ public class DataStructuresTests {
     GraphGeneric<String>.Node node2g4 = g4.addNode("hi");
     GraphGeneric<String>.Node node3g4 = g4.addNode("ok");
     GraphGeneric<String>.Node node4g4 = g4.addNode("bye");
+    assertEquals(0, g4.getEdges().size());
     g4.addEdge(node1g4, node3g4, 8);
+    assertEquals(1, g4.getEdges().size());
     assertEquals(8, g4.checkEdgeWeight(node1g4, node3g4));
     assertEquals(-1, g4.checkEdgeWeight(node3g4, node1g4));
     g4.removeEdge(node1g4, node3g4);
+    assertEquals(0, g4.getEdges().size());
     assertEquals(-1, g4.checkEdgeWeight(node1g4, node3g4));
     assertEquals(-1, g4.checkEdgeWeight(node2g4, node4g4));
     g4.addEdge(node2g4, node4g4, 15);
     assertEquals(15, g4.checkEdgeWeight(node2g4, node4g4));
     assertEquals(-1, g4.checkEdgeWeight(node4g4, node2g4));
     g4.addEdge(node4g4, node2g4, 29);
+    assertEquals(2, g4.getEdges().size());
     assertEquals(29, g4.checkEdgeWeight(node4g4, node2g4));
     g4.removeNode(node4g4);
     assertEquals(-1, g4.checkEdgeWeight(node2g4, node4g4));
@@ -980,12 +994,18 @@ public class DataStructuresTests {
     avlt.insert(40);
     assertTrue(avlt.search(40));
     assertArrayEquals(new Integer[] {40}, avlt.levelOrderTraversal());
+    assertEquals(40, avlt.getMin());
+    assertEquals(40, avlt.getMax());
     avlt.insert(30);
     assertTrue(avlt.search(30));
     assertArrayEquals(new Integer[] {40, 30}, avlt.levelOrderTraversal());
+    assertEquals(30, avlt.getMin());
+    assertEquals(40, avlt.getMax());
     avlt.insert(20);
     assertTrue(avlt.search(20));
     assertArrayEquals(new Integer[] {30, 20, 40}, avlt.levelOrderTraversal());
+    assertEquals(20, avlt.getMin());
+    assertEquals(40, avlt.getMax());
     // Test left-right imbalance after insertion.
     avlt.insert(35);
     assertTrue(avlt.search(35));
@@ -1000,21 +1020,27 @@ public class DataStructuresTests {
     avlt.insert(23);
     assertTrue(avlt.search(23));
     assertArrayEquals(new Integer[] {30, 23, 37, 20, 25, 35, 40}, avlt.levelOrderTraversal());
+    assertEquals(20, avlt.getMin());
+    assertEquals(40, avlt.getMax());
     // Test right-right imbalance after insertion.
     avlt.insert(45);
     assertTrue(avlt.search(45));
     assertArrayEquals(new Integer[] {30, 23, 37, 20, 25, 35, 40, 45}, avlt.levelOrderTraversal());
+    assertEquals(45, avlt.getMax());
     avlt.insert(50);
     assertTrue(avlt.search(50));
     assertArrayEquals(new Integer[] {30, 23, 37, 20, 25, 35, 45, 40, 50}, avlt.levelOrderTraversal());
+    assertEquals(50, avlt.getMax());
     // Test insertion where great-grandparent of inserted node becomes imbalanced on right side.
     avlt.insert(55);
     assertTrue(avlt.search(55));
     assertArrayEquals(new Integer[] {30, 23, 45, 20, 25, 37, 50, 35, 40, 55}, avlt.levelOrderTraversal());
+    assertEquals(55, avlt.getMax());
     // Test insertion where great-grandparent of inserted node becomes imbalanced on left side.
     avlt.insert(17);
     assertTrue(avlt.search(17));
     assertArrayEquals(new Integer[] {30, 23, 45, 20, 25, 37, 50, 17, 35, 40, 55}, avlt.levelOrderTraversal());
+    assertEquals(17, avlt.getMin());
     avlt.insert(21);
     assertTrue(avlt.search(21));
     assertArrayEquals(new Integer[] {30, 23, 45, 20, 25, 37, 50, 17, 21, 35, 40, 55}, avlt.levelOrderTraversal());
@@ -1031,6 +1057,7 @@ public class DataStructuresTests {
     avlt.delete(55);
     assertFalse(avlt.search(55));
     assertArrayEquals(new Integer[] {30, 20, 45, 17, 23, 37, 50, 18, 21, 25, 35, 40}, avlt.levelOrderTraversal());
+    assertEquals(50, avlt.getMax());
     // Test deletion of internal node that does not cause any imbalance.
     avlt.delete(23);
     assertFalse(avlt.search(23));
@@ -1043,6 +1070,7 @@ public class DataStructuresTests {
     avlt.delete(50);
     assertFalse(avlt.search(50));
     assertArrayEquals(new Integer[] {25, 20, 37, 17, 21, 35, 45, 18, 40}, avlt.levelOrderTraversal());
+    assertEquals(45, avlt.getMax());
     // Test deletion that causes right-left imbalance.
     avlt.delete(35);
     assertFalse(avlt.search(35));
@@ -1058,6 +1086,7 @@ public class DataStructuresTests {
     avlt.delete(17);
     assertFalse(avlt.search(17));
     assertArrayEquals(new Integer[] {25, 20, 40, 37, 45}, avlt.levelOrderTraversal());
+    assertEquals(20, avlt.getMin());
     avlt.delete(20);
     assertFalse(avlt.search(20));
     assertArrayEquals(new Integer[] {40, 25, 45, 37}, avlt.levelOrderTraversal());

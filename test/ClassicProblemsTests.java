@@ -463,4 +463,33 @@ public class ClassicProblemsTests {
     // Test invalid Sudoku board.
     assertThrows(IllegalArgumentException.class, () -> Sudoku.solveSudoku(new char[1][1]));
   }
+
+  @Test
+  public void testKruskal() {
+    // Test graph with one node.
+    GraphGeneric<Integer> g = new GraphGeneric<>(false);
+    GraphGeneric<Integer>.Node n1 = g.addNode(1);
+    Set<GraphGeneric<Integer>.Edge> edges = Kruskal.runKruskal(g);
+    assertTrue(edges.isEmpty());
+    GraphGeneric<Integer>.Node n2 = g.addNode(2);
+    GraphGeneric<Integer>.Node n3 = g.addNode(3);
+    GraphGeneric<Integer>.Node n4 = g.addNode(4);
+    GraphGeneric<Integer>.Node n5 = g.addNode(5);
+    GraphGeneric<Integer>.Node n6 = g.addNode(6);
+    g.addEdge(n1, n2, 10);
+    g.addEdge(n1, n6, 3);
+    g.addEdge(n2, n3, 5);
+    g.addEdge(n2, n4, 1);
+    g.addEdge(n2, n5, 4);
+    g.addEdge(n2, n6, 8);
+    g.addEdge(n3, n4, 2);
+    g.addEdge(n3, n5, 7);
+    g.addEdge(n4, n6, 7);
+    g.addEdge(n5, n6, 2);
+    edges = Kruskal.runKruskal(g);
+    assertEquals(5, edges.size());
+    int sum = 0;
+    for (GraphGeneric<Integer>.Edge e : edges) sum += e.getWeight();
+    assertEquals(12, sum);
+  }
 }
